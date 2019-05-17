@@ -277,7 +277,7 @@
         <description>Fifth bit:  00001000</description>
       </entry>
       <entry value="4" name="MAV_MODE_FLAG_DECODE_POSITION_AUTO">
-        <description>Sixt bit:   00000100</description>
+        <description>Sixth bit:   00000100</description>
       </entry>
       <entry value="2" name="MAV_MODE_FLAG_DECODE_POSITION_TEST">
         <description>Seventh bit: 00000010</description>
@@ -752,6 +752,21 @@
         <description>The node is no longer available online.</description>
       </entry>
     </enum>
+    <enum name="STORAGE_STATUS">
+      <description>Flags to indicate the status of camera storage.</description>
+      <entry value="0" name="STORAGE_STATUS_EMPTY">
+        <description>Storage is missing (no microSD card loaded for example.)</description>
+      </entry>
+      <entry value="1" name="STORAGE_STATUS_UNFORMATTED">
+        <description>Storage present but unformatted.</description>
+      </entry>
+      <entry value="2" name="STORAGE_STATUS_READY">
+        <description>Storage present and ready.</description>
+      </entry>
+      <entry value="3" name="STORAGE_STATUS_NOT_SUPPORTED">
+        <description>Camera does not supply storage status information. Capacity information in STORAGE_INFORMATION fields will be ignored.</description>
+      </entry>
+    </enum>
     <!-- The MAV_CMD enum entries describe either: -->
     <!--  * the data payload of mission items (as used in the MISSION_ITEM and MISSION_ITEM_INT messages) -->
     <!--  * the data payload of mavlink commands (as used in the COMMAND_INT and COMMAND_LONG messages) -->
@@ -773,7 +788,7 @@
         <param index="1">Empty</param>
         <param index="2">Empty</param>
         <param index="3" label="Radius" units="m">Radius around waypoint. If positive loiter clockwise, else counter-clockwise</param>
-        <param index="4" label="Yaw">Desired yaw angle.</param>
+        <param index="4" label="Yaw">Desired yaw angle. NaN for unchanged.</param>
         <param index="5">Latitude</param>
         <param index="6">Longitude</param>
         <param index="7">Altitude</param>
@@ -783,7 +798,7 @@
         <param index="1" label="Turns" minValue="0">Number of turns.</param>
         <param index="2">Empty</param>
         <param index="3" label="Radius" units="m">Radius around waypoint. If positive loiter clockwise, else counter-clockwise</param>
-        <param index="4">Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle</param>
+        <param index="4">Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN for unchanged.</param>
         <param index="5">Latitude</param>
         <param index="6">Longitude</param>
         <param index="7">Altitude</param>
@@ -793,7 +808,7 @@
         <param index="1" label="Time" units="s" minValue="0">Loiter time.</param>
         <param index="2">Empty</param>
         <param index="3" label="Radius" units="m">Radius around waypoint. If positive loiter clockwise, else counter-clockwise.</param>
-        <param index="4">Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle</param>
+        <param index="4">Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle.  NaN for unchanged.</param>
         <param index="5">Latitude</param>
         <param index="6">Longitude</param>
         <param index="7">Altitude</param>
@@ -1372,8 +1387,8 @@
       <!-- 211 and 212 used in dialects -->
       <entry value="213" name="MAV_CMD_NAV_SET_YAW_SPEED" hasLocation="false" isDestination="false">
         <description>Sets a desired vehicle turn angle and speed change.</description>
-        <param index="1" label="Yaw" units="cdeg">Yaw angle to adjust steering by.</param>
-        <param index="2" label="Speed" minValue="0" maxValue="1">speed - normalized to 0 .. 1</param>
+        <param index="1" label="Yaw" units="deg">Yaw angle to adjust steering by.</param>
+        <param index="2" label="Speed" units="m/s">Speed.</param>
         <param index="3" label="Angle" minValue="0" maxValue="1" increment="1">Final angle. (0=absolute, 1=relative)</param>
         <param index="4">Empty</param>
         <param index="5">Empty</param>
@@ -3225,7 +3240,7 @@
       <description>The general system state. If the system is following the MAVLink standard, the system state is mainly defined by three orthogonal states/modes: The system mode, which is either LOCKED (motors shut down and locked), MANUAL (system under RC control), GUIDED (system with autonomous position control, position setpoint controlled manually) or AUTO (system guided by path/waypoint planner). The NAV_MODE defined the current flight state: LIFTOFF (often an open-loop maneuver), LANDING, WAYPOINTS or VECTOR. This represents the internal navigation state machine. The system status shows whether the system is currently active or not and if an emergency occurred. During the CRITICAL and EMERGENCY states the MAV is still considered to be active, but should start emergency procedures autonomously. After a failure occurred it should first move from active to critical to allow manual intervention and then move to emergency after a certain timeout.</description>
       <field type="uint32_t" name="onboard_control_sensors_present" enum="MAV_SYS_STATUS_SENSOR" display="bitmask" print_format="0x%04x">Bitmap showing which onboard controllers and sensors are present. Value of 0: not present. Value of 1: present.</field>
       <field type="uint32_t" name="onboard_control_sensors_enabled" enum="MAV_SYS_STATUS_SENSOR" display="bitmask" print_format="0x%04x">Bitmap showing which onboard controllers and sensors are enabled:  Value of 0: not enabled. Value of 1: enabled.</field>
-      <field type="uint32_t" name="onboard_control_sensors_health" enum="MAV_SYS_STATUS_SENSOR" display="bitmask" print_format="0x%04x">Bitmap showing which onboard controllers and sensors are operational or have an error:  Value of 0: not enabled. Value of 1: enabled.</field>
+      <field type="uint32_t" name="onboard_control_sensors_health" enum="MAV_SYS_STATUS_SENSOR" display="bitmask" print_format="0x%04x">Bitmap showing which onboard controllers and sensors have an error (or are operational). Value of 0: error. Value of 1: healthy.</field>
       <field type="uint16_t" name="load" units="d%">Maximum usage in percent of the mainloop time. Values: [0-1000] - should always be below 1000</field>
       <field type="uint16_t" name="voltage_battery" units="mV">Battery voltage</field>
       <field type="int16_t" name="current_battery" units="cA">Battery current, -1: autopilot does not measure the current</field>
@@ -4809,14 +4824,14 @@
       <field type="float" name="focusLevel">Current focus level (0.0 to 100.0, NaN if not known)</field>
     </message>
     <message id="261" name="STORAGE_INFORMATION">
-      <description>Information about a storage medium.</description>
+      <description>Information about a storage medium. This message is sent in response to a request and whenever the status of the storage changes (STORAGE_STATUS).</description>
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
       <field type="uint8_t" name="storage_id">Storage ID (1 for first, 2 for second, etc.)</field>
       <field type="uint8_t" name="storage_count">Number of storage devices</field>
-      <field type="uint8_t" name="status">Status of storage (0 not available, 1 unformatted, 2 formatted)</field>
-      <field type="float" name="total_capacity" units="MiB">Total capacity.</field>
-      <field type="float" name="used_capacity" units="MiB">Used capacity.</field>
-      <field type="float" name="available_capacity" units="MiB">Available storage capacity.</field>
+      <field type="uint8_t" name="status" enum="STORAGE_STATUS">Status of storage</field>
+      <field type="float" name="total_capacity" units="MiB">Total capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="float" name="used_capacity" units="MiB">Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="float" name="available_capacity" units="MiB">Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
       <field type="float" name="read_speed" units="MiB/s">Read speed.</field>
       <field type="float" name="write_speed" units="MiB/s">Write speed.</field>
     </message>
