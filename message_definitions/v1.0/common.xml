@@ -894,7 +894,7 @@
         <param index="7">Altitude</param>
       </entry>
       <entry value="32" name="MAV_CMD_DO_FOLLOW" hasLocation="false" isDestination="false">
-        <description>Being following a target</description>
+        <description>Begin following a target</description>
         <param index="1" label="System ID" minValue="0" maxValue="255" increment="1">System ID (of the FOLLOW_TARGET beacon). Send 0 to disable follow-me and return to the default position hold mode.</param>
         <param index="2">RESERVED</param>
         <param index="3">RESERVED</param>
@@ -1571,7 +1571,7 @@
         <param index="2">Reserved (all remaining params)</param>
       </entry>
       <entry value="520" name="MAV_CMD_REQUEST_AUTOPILOT_CAPABILITIES" hasLocation="false" isDestination="false">
-        <description>Request autopilot capabilities</description>
+        <description>Request autopilot capabilities. The receiver should ACK the command and then emit its capabilities in an AUTOPILOT_VERSION message</description>
         <param index="1" label="Version">1: Request autopilot version</param>
         <param index="2">Reserved (all remaining params)</param>
       </entry>
@@ -1644,11 +1644,6 @@
         <description>Jump to the matching tag in the mission list. Repeat this action for the specified number of times. A mission should contain a single matching tag for each jump. If this is not the case then a jump to a missing tag should complete the mission, and a jump where there are multiple matching tags should always select the one with the lowest mission sequence number.</description>
         <param index="1" label="Tag" minValue="0" increment="1">Target tag to jump to.</param>
         <param index="2" label="Repeat" minValue="0" increment="1">Repeat count.</param>
-      </entry>
-      <entry value="700" name="MAV_CMD_REQUEST_COMPONENT_INFORMATION" hasLocation="false" isDestination="false">
-        <description>Request component information (COMPONENT_INFORMATION).</description>
-        <param index="1" label="Capabilities" minValue="0" maxValue="1" increment="1">0: No action 1: Request component information</param>
-        <param index="2">Reserved (all remaining params)</param>
       </entry>
       <entry value="2000" name="MAV_CMD_IMAGE_START_CAPTURE" hasLocation="false" isDestination="false">
         <description>Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.</description>
@@ -3230,6 +3225,9 @@
         <description>Release parachute.</description>
       </entry>
     </enum>
+    <enum name="COMPONENT_CAP_FLAGS">
+      <description>Component capability flags (Bitmap)</description>
+    </enum>
   </enums>
   <messages>
     <message id="0" name="HEARTBEAT">
@@ -3286,6 +3284,22 @@
     <message id="7" name="AUTH_KEY">
       <description>Emit an encrypted signature / key identifying this system. PLEASE NOTE: This protocol has been kept simple, so transmitting the key requires an encrypted channel for true safety.</description>
       <field type="char[32]" name="key">key</field>
+    </message>
+    <message id="8" name="LINK_NODE_STATUS">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Status generated in each node in the communication chain and injected into MAVLink stream.</description>
+      <field type="uint64_t" name="timestamp" units="ms">Timestamp (time since system boot).</field>
+      <field type="uint8_t" name="tx_buf" units="%">Remaining free transmit buffer space</field>
+      <field type="uint8_t" name="rx_buf" units="%">Remaining free receive buffer space</field>
+      <field type="uint32_t" name="tx_rate" units="bytes/s">Transmit rate</field>
+      <field type="uint32_t" name="rx_rate" units="bytes/s">Receive rate</field>
+      <field type="uint16_t" name="rx_parse_err" units="bytes">Number of bytes that could not be parsed correctly.</field>
+      <field type="uint16_t" name="tx_overflows" units="bytes">Transmit buffer overflows. This number wraps around as it reaches UINT16_MAX</field>
+      <field type="uint16_t" name="rx_overflows" units="bytes">Receive buffer overflows. This number wraps around as it reaches UINT16_MAX</field>
+      <field type="uint32_t" name="messages_sent">Messages sent</field>
+      <field type="uint32_t" name="messages_received">Messages received (estimated from counting seq)</field>
+      <field type="uint32_t" name="messages_lost">Messages lost (estimated from counting seq)</field>
     </message>
     <message id="11" name="SET_MODE">
       <deprecated since="2015-12" replaced_by="MAV_CMD_DO_SET_MODE">Use COMMAND_LONG with MAV_CMD_DO_SET_MODE instead</deprecated>
@@ -3612,6 +3626,16 @@
       <field type="uint8_t" name="target_component">Component ID</field>
       <field type="uint16_t" name="seq">Sequence</field>
       <extensions/>
+      <field type="uint8_t" name="mission_type" enum="MAV_MISSION_TYPE">Mission type.</field>
+    </message>
+    <message id="52" name="MISSION_CHANGED">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>A broadcast message to notify any ground station or SDK if a mission, geofence or safe points have changed on the vehicle.</description>
+      <field type="int16_t" name="start_index">Start index for partial mission change (-1 for all items).</field>
+      <field type="int16_t" name="end_index">End index of a partial mission change. -1 is a synonym for the last mission item (i.e. selects all items from start_index). Ignore field if start_index=-1.</field>
+      <field type="uint8_t" name="origin_sysid">System ID of the author of the new mission.</field>
+      <field type="uint8_t" name="origin_compid" enum="MAV_COMPONENT">Compnent ID of the author of the new mission.</field>
       <field type="uint8_t" name="mission_type" enum="MAV_MISSION_TYPE">Mission type.</field>
     </message>
     <message id="54" name="SAFETY_SET_ALLOWED_AREA">
@@ -4514,7 +4538,7 @@
       <field type="uint8_t" name="charge_state" enum="MAV_BATTERY_CHARGE_STATE">State for extent of discharge, provided by autopilot for warning or external reactions</field>
     </message>
     <message id="148" name="AUTOPILOT_VERSION">
-      <description>Version and capability of autopilot software</description>
+      <description>Version and capability of autopilot software. This should be emitted in response to a MAV_CMD_REQUEST_AUTOPILOT_CAPABILITIES command.</description>
       <field type="uint64_t" name="capabilities" enum="MAV_PROTOCOL_CAPABILITY" display="bitmask">Bitmap of capabilities</field>
       <field type="uint32_t" name="flight_sw_version">Firmware version number</field>
       <field type="uint32_t" name="middleware_sw_version">Middleware version number</field>
@@ -4546,6 +4570,14 @@
       <field type="float[4]" name="q">Quaternion of landing target orientation (w, x, y, z order, zero-rotation is 1, 0, 0, 0)</field>
       <field type="uint8_t" name="type" enum="LANDING_TARGET_TYPE">Type of landing target</field>
       <field type="uint8_t" name="position_valid">Boolean indicating whether the position fields (x, y, z, q, type) contain valid target position information (valid: 1, invalid: 0). Default is 0 (invalid).</field>
+    </message>
+    <!-- imported from ardupilotmega.xml (2019) -->
+    <message id="162" name="FENCE_STATUS">
+      <description>Status of geo-fencing. Sent in extended status stream when fencing enabled.</description>
+      <field type="uint8_t" name="breach_status">Breach status (0 if currently inside fence, 1 if outside).</field>
+      <field type="uint16_t" name="breach_count">Number of fence breaches.</field>
+      <field type="uint8_t" name="breach_type" enum="FENCE_BREACH">Last breach type.</field>
+      <field type="uint32_t" name="breach_time" units="ms">Time (since boot) of last breach.</field>
     </message>
     <!-- MESSAGE IDs 180 - 229: Space for custom messages in individual projectname_messages.xml files -->
     <message id="230" name="ESTIMATOR_STATUS">
@@ -5011,10 +5043,13 @@
       <description>Obstacle distances in front of the sensor, starting from the left in increment degrees to the right</description>
       <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.</field>
       <field type="uint8_t" name="sensor_type" enum="MAV_DISTANCE_SENSOR">Class id of the distance sensor type.</field>
-      <field type="uint16_t[72]" name="distances" units="cm">Distance of obstacles around the UAV with index 0 corresponding to local North. A value of 0 means that the obstacle is right in front of the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.</field>
-      <field type="uint8_t" name="increment" units="deg">Angular width in degrees of each array element.</field>
+      <field type="uint16_t[72]" name="distances" units="cm">Distance of obstacles around the UAV with index 0 corresponding to local forward + angle_offset. A value of 0 means that the obstacle is right in front of the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.</field>
+      <field type="uint8_t" name="increment" units="deg">Angular width in degrees of each array element. (Ignored if increment_f greater than 0).</field>
       <field type="uint16_t" name="min_distance" units="cm">Minimum distance the sensor can measure.</field>
       <field type="uint16_t" name="max_distance" units="cm">Maximum distance the sensor can measure.</field>
+      <extensions/>
+      <field type="float" name="increment_f" units="deg">Angular width in degrees of each array element as a float. If greater than 0 then this value is used instead of the uint8_t increment field.</field>
+      <field type="float" name="angle_offset" units="deg">Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward. Positive values are offsets to the right.</field>
     </message>
     <message id="331" name="ODOMETRY">
       <description>Odometry message to communicate odometry information with an external interface. Fits ROS REP 147 standard for aerial vehicles (http://www.ros.org/reps/rep-0147.html).</description>
@@ -5053,6 +5088,7 @@
       <field type="float[5]" name="acc_z" units="m/s/s">Z-acceleration of waypoint, set to NaN if not being used</field>
       <field type="float[5]" name="pos_yaw" units="rad">Yaw angle, set to NaN if not being used</field>
       <field type="float[5]" name="vel_yaw" units="rad/s">Yaw rate, set to NaN if not being used</field>
+      <field type="uint16_t[5]" name="command" enum="MAV_CMD">Scheduled action for each waypoint, UINT16_MAX if not being used.</field>
     </message>
     <message id="333" name="TRAJECTORY_REPRESENTATION_BEZIER">
       <wip/>
@@ -5076,6 +5112,17 @@
       <field type="uint16_t" name="mnc">Mobile network code. If unknown, set to: UINT16_MAX</field>
       <field type="uint16_t" name="lac">Location area code. If unknown, set to: 0</field>
       <field type="uint32_t" name="cid">Cell ID. If unknown, set to: UINT32_MAX</field>
+    </message>
+    <message id="335" name="ISBD_LINK_STATUS">
+      <description>Status of the Iridium SBD link.</description>
+      <field type="uint64_t" name="timestamp" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.</field>
+      <field type="uint64_t" name="last_heartbeat" units="us">Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.</field>
+      <field type="uint16_t" name="failed_sessions">Number of failed SBD sessions.</field>
+      <field type="uint16_t" name="successful_sessions">Number of successful SBD sessions.</field>
+      <field type="uint8_t" name="signal_quality">Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.</field>
+      <field type="uint8_t" name="ring_pending">1: Ring call pending, 0: No call pending.</field>
+      <field type="uint8_t" name="tx_session_pending">1: Transmission session pending, 0: No transmission session pending.</field>
+      <field type="uint8_t" name="rx_session_pending">1: Receiving session pending, 0: No receiving session pending.</field>
     </message>
     <message id="340" name="UTM_GLOBAL_POSITION">
       <wip/>
@@ -5153,6 +5200,12 @@
       <field type="uint16_t" default="0" name="cell_offset">The cell number of the first index in the 'voltages' array field. Using this field allows you to specify cell voltages for batteries with more than 16 cells.</field>
       <field type="uint16_t[16]" name="voltages" units="mV">Individual cell voltages. Batteries with more 16 cells can use the cell_offset field to specify the cell offset for the array specified in the current message . Index values above the valid cell count for this battery should have the UINT16_MAX value.</field>
     </message>
+    <message id="375" name="ACTUATOR_OUTPUT_STATUS">
+      <description>The raw values of the actuator outputs.</description>
+      <field type="uint64_t" name="time_usec" units="us">Timestamp (since system boot).</field>
+      <field type="uint32_t" name="active" display="bitmask">Active outputs</field>
+      <field type="float[32]" name="actuator">Servo / motor output array values. Zero values indicate unused channels.</field>
+    </message>
     <message id="380" name="TIME_ESTIMATE_TO_TARGET">
       <wip/>
       <!-- This message is work-in-progress it can therefore change, and should NOT be used in stable production environments -->
@@ -5164,7 +5217,9 @@
       <field type="int32_t" name="commanded_action" units="s">Estimated time for completing the current commanded action (i.e. Go To, Takeoff, Land, etc.). -1 means no action active and/or no estimate available.</field>
     </message>
     <message id="700" name="COMPONENT_INFORMATION">
-      <description>Information about a component</description>
+      <wip/>
+      <!-- This message is work-in-progress it can therefore change, and should NOT be used in stable production environments -->
+      <description>Information about a component. For camera components use CAMERA_INFORMATION, and for autopilots use AUTOPILOT_VERSION.</description>
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
       <field type="uint8_t[32]" name="vendor_name">Name of the component vendor</field>
       <field type="uint8_t[32]" name="model_name">Name of the component model</field>
