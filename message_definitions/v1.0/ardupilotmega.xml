@@ -940,6 +940,7 @@
       <entry value="19" name="PLANE_MODE_QLOITER"/>
       <entry value="20" name="PLANE_MODE_QLAND"/>
       <entry value="21" name="PLANE_MODE_QRTL"/>
+      <entry value="22" name="PLANE_MODE_QAUTOTUNE"/>
     </enum>
     <enum name="COPTER_MODE">
       <description>A mapping of copter flight modes for custom_mode field of heartbeat.</description>
@@ -1109,13 +1110,6 @@
       <field type="uint8_t" name="target_system">System ID.</field>
       <field type="uint8_t" name="target_component">Component ID.</field>
       <field type="uint8_t" name="idx">Point index (first point is 1, 0 is for return point).</field>
-    </message>
-    <message id="162" name="FENCE_STATUS">
-      <description>Status of geo-fencing. Sent in extended status stream when fencing enabled.</description>
-      <field type="uint8_t" name="breach_status">Breach status (0 if currently inside fence, 1 if outside).</field>
-      <field type="uint16_t" name="breach_count">Number of fence breaches.</field>
-      <field type="uint8_t" name="breach_type" enum="FENCE_BREACH">Last breach type.</field>
-      <field type="uint32_t" name="breach_time" units="ms">Time (since boot) of last breach.</field>
     </message>
     <message id="163" name="AHRS">
       <description>Status of DCM attitude estimator.</description>
