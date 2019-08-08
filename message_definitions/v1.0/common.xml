@@ -1872,6 +1872,11 @@
         <param index="1" label="Tag" minValue="0" increment="1">Target tag to jump to.</param>
         <param index="2" label="Repeat" minValue="0" increment="1">Repeat count.</param>
       </entry>
+      <entry value="700" name="MAV_CMD_REQUEST_COMPONENT_INFORMATION" hasLocation="false" isDestination="false">
+      <description>Request component information (COMPONENT_INFORMATION).</description>
+        <param index="1" label="Capabilities" minValue="0" maxValue="1" increment="1">0: No action 1: Request component information</param>
+        <param index="2">Reserved (all remaining params)</param>
+      </entry>
       <entry value="2000" name="MAV_CMD_IMAGE_START_CAPTURE" hasLocation="false" isDestination="false">
         <description>Start image capture sequence. Sends CAMERA_IMAGE_CAPTURED after each capture. Use NaN for reserved values.</description>
         <param index="1">Reserved (Set to 0)</param>
