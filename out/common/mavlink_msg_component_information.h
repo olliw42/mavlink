@@ -1,7 +1,7 @@
 #pragma once
 // MESSAGE COMPONENT_INFORMATION PACKING
 
-#define MAVLINK_MSG_ID_COMPONENT_INFORMATION 700
+#define MAVLINK_MSG_ID_COMPONENT_INFORMATION 395
 
 MAVPACKED(
 typedef struct __mavlink_component_information_t {
@@ -12,16 +12,16 @@ typedef struct __mavlink_component_information_t {
     uint16_t component_definition_version; /*<  Component definition version (iteration)*/
     uint8_t vendor_name[32]; /*<  Name of the component vendor*/
     uint8_t model_name[32]; /*<  Name of the component model*/
-    char component_definition_uri[140]; /*<  Component definition URI (if any, otherwise only basic functions will be available).*/
+    char component_definition_uri[140]; /*<  Component definition URI (if any, otherwise only basic functions will be available). The XML format is not yet specified and work in progress. */
 }) mavlink_component_information_t;
 
 #define MAVLINK_MSG_ID_COMPONENT_INFORMATION_LEN 222
 #define MAVLINK_MSG_ID_COMPONENT_INFORMATION_MIN_LEN 222
-#define MAVLINK_MSG_ID_700_LEN 222
-#define MAVLINK_MSG_ID_700_MIN_LEN 222
+#define MAVLINK_MSG_ID_395_LEN 222
+#define MAVLINK_MSG_ID_395_MIN_LEN 222
 
 #define MAVLINK_MSG_ID_COMPONENT_INFORMATION_CRC 231
-#define MAVLINK_MSG_ID_700_CRC 231
+#define MAVLINK_MSG_ID_395_CRC 231
 
 #define MAVLINK_MSG_COMPONENT_INFORMATION_FIELD_VENDOR_NAME_LEN 32
 #define MAVLINK_MSG_COMPONENT_INFORMATION_FIELD_MODEL_NAME_LEN 32
@@ -29,7 +29,7 @@ typedef struct __mavlink_component_information_t {
 
 #if MAVLINK_COMMAND_24BIT
 #define MAVLINK_MESSAGE_INFO_COMPONENT_INFORMATION { \
-    700, \
+    395, \
     "COMPONENT_INFORMATION", \
     8, \
     {  { "time_boot_ms", NULL, MAVLINK_TYPE_UINT32_T, 0, 0, offsetof(mavlink_component_information_t, time_boot_ms) }, \
@@ -72,7 +72,7 @@ typedef struct __mavlink_component_information_t {
  * @param hardware_version  Version of the component hardware (v << 24 & 0xff = Dev, v << 16 & 0xff = Patch, v << 8 & 0xff = Minor, v & 0xff = Major)
  * @param capability_flags  Bitmap of component capability flags.
  * @param component_definition_version  Component definition version (iteration)
- * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available).
+ * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available). The XML format is not yet specified and work in progress. 
  * @return length of the complete message in bytes in the transmit buffer
  */
 static inline uint16_t mavlink_msg_component_information_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
@@ -125,7 +125,7 @@ static inline uint16_t mavlink_msg_component_information_pack_txbuf(char* mav_tx
  * @param hardware_version  Version of the component hardware (v << 24 & 0xff = Dev, v << 16 & 0xff = Patch, v << 8 & 0xff = Minor, v & 0xff = Major)
  * @param capability_flags  Bitmap of component capability flags.
  * @param component_definition_version  Component definition version (iteration)
- * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available).
+ * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available). The XML format is not yet specified and work in progress. 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_component_information_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
@@ -172,7 +172,7 @@ static inline uint16_t mavlink_msg_component_information_pack(uint8_t system_id,
  * @param hardware_version  Version of the component hardware (v << 24 & 0xff = Dev, v << 16 & 0xff = Patch, v << 8 & 0xff = Minor, v & 0xff = Major)
  * @param capability_flags  Bitmap of component capability flags.
  * @param component_definition_version  Component definition version (iteration)
- * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available).
+ * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available). The XML format is not yet specified and work in progress. 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_component_information_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
@@ -247,7 +247,7 @@ static inline uint16_t mavlink_msg_component_information_encode_chan(uint8_t sys
  * @param hardware_version  Version of the component hardware (v << 24 & 0xff = Dev, v << 16 & 0xff = Patch, v << 8 & 0xff = Minor, v & 0xff = Major)
  * @param capability_flags  Bitmap of component capability flags.
  * @param component_definition_version  Component definition version (iteration)
- * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available).
+ * @param component_definition_uri  Component definition URI (if any, otherwise only basic functions will be available). The XML format is not yet specified and work in progress. 
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -406,7 +406,7 @@ static inline uint16_t mavlink_msg_component_information_get_component_definitio
 /**
  * @brief Get field component_definition_uri from component_information message
  *
- * @return  Component definition URI (if any, otherwise only basic functions will be available).
+ * @return  Component definition URI (if any, otherwise only basic functions will be available). The XML format is not yet specified and work in progress. 
  */
 static inline uint16_t mavlink_msg_component_information_get_component_definition_uri(const mavlink_message_t* msg, char *component_definition_uri)
 {

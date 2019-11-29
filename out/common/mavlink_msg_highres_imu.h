@@ -20,11 +20,12 @@ typedef struct __mavlink_highres_imu_t {
     float pressure_alt; /*<  Altitude calculated from pressure*/
     float temperature; /*< [degC] Temperature*/
     uint16_t fields_updated; /*<  Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature*/
+    uint8_t id; /*<  Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)*/
 }) mavlink_highres_imu_t;
 
-#define MAVLINK_MSG_ID_HIGHRES_IMU_LEN 62
+#define MAVLINK_MSG_ID_HIGHRES_IMU_LEN 63
 #define MAVLINK_MSG_ID_HIGHRES_IMU_MIN_LEN 62
-#define MAVLINK_MSG_ID_105_LEN 62
+#define MAVLINK_MSG_ID_105_LEN 63
 #define MAVLINK_MSG_ID_105_MIN_LEN 62
 
 #define MAVLINK_MSG_ID_HIGHRES_IMU_CRC 93
@@ -36,7 +37,7 @@ typedef struct __mavlink_highres_imu_t {
 #define MAVLINK_MESSAGE_INFO_HIGHRES_IMU { \
     105, \
     "HIGHRES_IMU", \
-    15, \
+    16, \
     {  { "time_usec", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_highres_imu_t, time_usec) }, \
          { "xacc", NULL, MAVLINK_TYPE_FLOAT, 0, 8, offsetof(mavlink_highres_imu_t, xacc) }, \
          { "yacc", NULL, MAVLINK_TYPE_FLOAT, 0, 12, offsetof(mavlink_highres_imu_t, yacc) }, \
@@ -52,12 +53,13 @@ typedef struct __mavlink_highres_imu_t {
          { "pressure_alt", NULL, MAVLINK_TYPE_FLOAT, 0, 52, offsetof(mavlink_highres_imu_t, pressure_alt) }, \
          { "temperature", NULL, MAVLINK_TYPE_FLOAT, 0, 56, offsetof(mavlink_highres_imu_t, temperature) }, \
          { "fields_updated", NULL, MAVLINK_TYPE_UINT16_T, 0, 60, offsetof(mavlink_highres_imu_t, fields_updated) }, \
+         { "id", NULL, MAVLINK_TYPE_UINT8_T, 0, 62, offsetof(mavlink_highres_imu_t, id) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_HIGHRES_IMU { \
     "HIGHRES_IMU", \
-    15, \
+    16, \
     {  { "time_usec", NULL, MAVLINK_TYPE_UINT64_T, 0, 0, offsetof(mavlink_highres_imu_t, time_usec) }, \
          { "xacc", NULL, MAVLINK_TYPE_FLOAT, 0, 8, offsetof(mavlink_highres_imu_t, xacc) }, \
          { "yacc", NULL, MAVLINK_TYPE_FLOAT, 0, 12, offsetof(mavlink_highres_imu_t, yacc) }, \
@@ -73,6 +75,7 @@ typedef struct __mavlink_highres_imu_t {
          { "pressure_alt", NULL, MAVLINK_TYPE_FLOAT, 0, 52, offsetof(mavlink_highres_imu_t, pressure_alt) }, \
          { "temperature", NULL, MAVLINK_TYPE_FLOAT, 0, 56, offsetof(mavlink_highres_imu_t, temperature) }, \
          { "fields_updated", NULL, MAVLINK_TYPE_UINT16_T, 0, 60, offsetof(mavlink_highres_imu_t, fields_updated) }, \
+         { "id", NULL, MAVLINK_TYPE_UINT8_T, 0, 62, offsetof(mavlink_highres_imu_t, id) }, \
          } \
 }
 #endif
@@ -99,10 +102,11 @@ typedef struct __mavlink_highres_imu_t {
  * @param pressure_alt  Altitude calculated from pressure
  * @param temperature [degC] Temperature
  * @param fields_updated  Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature
+ * @param id  Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)
  * @return length of the complete message in bytes in the transmit buffer
  */
 static inline uint16_t mavlink_msg_highres_imu_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated)
+                                   uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated, uint8_t id)
 {
     uint8_t header_len;
     if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
@@ -128,6 +132,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack_txbuf(char* mav_txbuf, mavli
     _mav_put_float(buf, 52, pressure_alt);
     _mav_put_float(buf, 56, temperature);
     _mav_put_uint16_t(buf, 60, fields_updated);
+    _mav_put_uint8_t(buf, 62, id);
 
 #else
     mavlink_highres_imu_t* packet = (mavlink_highres_imu_t*)(&mav_txbuf[header_len]);
@@ -146,6 +151,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack_txbuf(char* mav_txbuf, mavli
     packet->pressure_alt = pressure_alt;
     packet->temperature = temperature;
     packet->fields_updated = fields_updated;
+    packet->id = id;
 
 #endif
 
@@ -175,10 +181,11 @@ static inline uint16_t mavlink_msg_highres_imu_pack_txbuf(char* mav_txbuf, mavli
  * @param pressure_alt  Altitude calculated from pressure
  * @param temperature [degC] Temperature
  * @param fields_updated  Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature
+ * @param id  Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_highres_imu_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated)
+                                 uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated, uint8_t id)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_HIGHRES_IMU_LEN];
@@ -197,6 +204,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack(uint8_t system_id, uint8_t c
     _mav_put_float(buf, 52, pressure_alt);
     _mav_put_float(buf, 56, temperature);
     _mav_put_uint16_t(buf, 60, fields_updated);
+    _mav_put_uint8_t(buf, 62, id);
 
     memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_HIGHRES_IMU_LEN);
 #else
@@ -216,6 +224,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack(uint8_t system_id, uint8_t c
     packet.pressure_alt = pressure_alt;
     packet.temperature = temperature;
     packet.fields_updated = fields_updated;
+    packet.id = id;
 
     memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_HIGHRES_IMU_LEN);
 #endif
@@ -245,11 +254,12 @@ static inline uint16_t mavlink_msg_highres_imu_pack(uint8_t system_id, uint8_t c
  * @param pressure_alt  Altitude calculated from pressure
  * @param temperature [degC] Temperature
  * @param fields_updated  Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature
+ * @param id  Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_highres_imu_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                 mavlink_message_t* msg,
-                                uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated)
+                                uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated, uint8_t id)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_HIGHRES_IMU_LEN];
@@ -268,6 +278,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack_chan(uint8_t system_id, uint
     _mav_put_float(buf, 52, pressure_alt);
     _mav_put_float(buf, 56, temperature);
     _mav_put_uint16_t(buf, 60, fields_updated);
+    _mav_put_uint8_t(buf, 62, id);
 
     memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_HIGHRES_IMU_LEN);
 #else
@@ -287,6 +298,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack_chan(uint8_t system_id, uint
     packet.pressure_alt = pressure_alt;
     packet.temperature = temperature;
     packet.fields_updated = fields_updated;
+    packet.id = id;
 
     memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_HIGHRES_IMU_LEN);
 #endif
@@ -305,7 +317,7 @@ static inline uint16_t mavlink_msg_highres_imu_pack_chan(uint8_t system_id, uint
  */
 static inline uint16_t mavlink_msg_highres_imu_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_highres_imu_t* highres_imu)
 {
-    return mavlink_msg_highres_imu_pack(system_id, component_id, msg, highres_imu->time_usec, highres_imu->xacc, highres_imu->yacc, highres_imu->zacc, highres_imu->xgyro, highres_imu->ygyro, highres_imu->zgyro, highres_imu->xmag, highres_imu->ymag, highres_imu->zmag, highres_imu->abs_pressure, highres_imu->diff_pressure, highres_imu->pressure_alt, highres_imu->temperature, highres_imu->fields_updated);
+    return mavlink_msg_highres_imu_pack(system_id, component_id, msg, highres_imu->time_usec, highres_imu->xacc, highres_imu->yacc, highres_imu->zacc, highres_imu->xgyro, highres_imu->ygyro, highres_imu->zgyro, highres_imu->xmag, highres_imu->ymag, highres_imu->zmag, highres_imu->abs_pressure, highres_imu->diff_pressure, highres_imu->pressure_alt, highres_imu->temperature, highres_imu->fields_updated, highres_imu->id);
 }
 
 /**
@@ -319,7 +331,7 @@ static inline uint16_t mavlink_msg_highres_imu_encode(uint8_t system_id, uint8_t
  */
 static inline uint16_t mavlink_msg_highres_imu_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_highres_imu_t* highres_imu)
 {
-    return mavlink_msg_highres_imu_pack_chan(system_id, component_id, chan, msg, highres_imu->time_usec, highres_imu->xacc, highres_imu->yacc, highres_imu->zacc, highres_imu->xgyro, highres_imu->ygyro, highres_imu->zgyro, highres_imu->xmag, highres_imu->ymag, highres_imu->zmag, highres_imu->abs_pressure, highres_imu->diff_pressure, highres_imu->pressure_alt, highres_imu->temperature, highres_imu->fields_updated);
+    return mavlink_msg_highres_imu_pack_chan(system_id, component_id, chan, msg, highres_imu->time_usec, highres_imu->xacc, highres_imu->yacc, highres_imu->zacc, highres_imu->xgyro, highres_imu->ygyro, highres_imu->zgyro, highres_imu->xmag, highres_imu->ymag, highres_imu->zmag, highres_imu->abs_pressure, highres_imu->diff_pressure, highres_imu->pressure_alt, highres_imu->temperature, highres_imu->fields_updated, highres_imu->id);
 }
 
 #endif
@@ -343,10 +355,11 @@ static inline uint16_t mavlink_msg_highres_imu_encode_chan(uint8_t system_id, ui
  * @param pressure_alt  Altitude calculated from pressure
  * @param temperature [degC] Temperature
  * @param fields_updated  Bitmap for fields that have updated since last message, bit 0 = xacc, bit 12: temperature
+ * @param id  Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_highres_imu_send(mavlink_channel_t chan, uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated)
+static inline void mavlink_msg_highres_imu_send(mavlink_channel_t chan, uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated, uint8_t id)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_HIGHRES_IMU_LEN];
@@ -365,6 +378,7 @@ static inline void mavlink_msg_highres_imu_send(mavlink_channel_t chan, uint64_t
     _mav_put_float(buf, 52, pressure_alt);
     _mav_put_float(buf, 56, temperature);
     _mav_put_uint16_t(buf, 60, fields_updated);
+    _mav_put_uint8_t(buf, 62, id);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_HIGHRES_IMU, buf, MAVLINK_MSG_ID_HIGHRES_IMU_MIN_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_CRC);
 #else
@@ -384,6 +398,7 @@ static inline void mavlink_msg_highres_imu_send(mavlink_channel_t chan, uint64_t
     packet.pressure_alt = pressure_alt;
     packet.temperature = temperature;
     packet.fields_updated = fields_updated;
+    packet.id = id;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_HIGHRES_IMU, (const char*)&packet, MAVLINK_MSG_ID_HIGHRES_IMU_MIN_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_CRC);
 #endif
@@ -397,7 +412,7 @@ static inline void mavlink_msg_highres_imu_send(mavlink_channel_t chan, uint64_t
 static inline void mavlink_msg_highres_imu_send_struct(mavlink_channel_t chan, const mavlink_highres_imu_t* highres_imu)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_highres_imu_send(chan, highres_imu->time_usec, highres_imu->xacc, highres_imu->yacc, highres_imu->zacc, highres_imu->xgyro, highres_imu->ygyro, highres_imu->zgyro, highres_imu->xmag, highres_imu->ymag, highres_imu->zmag, highres_imu->abs_pressure, highres_imu->diff_pressure, highres_imu->pressure_alt, highres_imu->temperature, highres_imu->fields_updated);
+    mavlink_msg_highres_imu_send(chan, highres_imu->time_usec, highres_imu->xacc, highres_imu->yacc, highres_imu->zacc, highres_imu->xgyro, highres_imu->ygyro, highres_imu->zgyro, highres_imu->xmag, highres_imu->ymag, highres_imu->zmag, highres_imu->abs_pressure, highres_imu->diff_pressure, highres_imu->pressure_alt, highres_imu->temperature, highres_imu->fields_updated, highres_imu->id);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_HIGHRES_IMU, (const char*)highres_imu, MAVLINK_MSG_ID_HIGHRES_IMU_MIN_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_CRC);
 #endif
@@ -411,7 +426,7 @@ static inline void mavlink_msg_highres_imu_send_struct(mavlink_channel_t chan, c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_highres_imu_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated)
+static inline void mavlink_msg_highres_imu_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, float xacc, float yacc, float zacc, float xgyro, float ygyro, float zgyro, float xmag, float ymag, float zmag, float abs_pressure, float diff_pressure, float pressure_alt, float temperature, uint16_t fields_updated, uint8_t id)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char*)msgbuf;
@@ -430,6 +445,7 @@ static inline void mavlink_msg_highres_imu_send_buf(mavlink_message_t* msgbuf, m
     _mav_put_float(buf, 52, pressure_alt);
     _mav_put_float(buf, 56, temperature);
     _mav_put_uint16_t(buf, 60, fields_updated);
+    _mav_put_uint8_t(buf, 62, id);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_HIGHRES_IMU, buf, MAVLINK_MSG_ID_HIGHRES_IMU_MIN_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_CRC);
 #else
@@ -449,6 +465,7 @@ static inline void mavlink_msg_highres_imu_send_buf(mavlink_message_t* msgbuf, m
     packet->pressure_alt = pressure_alt;
     packet->temperature = temperature;
     packet->fields_updated = fields_updated;
+    packet->id = id;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_HIGHRES_IMU, (const char*)packet, MAVLINK_MSG_ID_HIGHRES_IMU_MIN_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_LEN, MAVLINK_MSG_ID_HIGHRES_IMU_CRC);
 #endif
@@ -611,6 +628,16 @@ static inline uint16_t mavlink_msg_highres_imu_get_fields_updated(const mavlink_
 }
 
 /**
+ * @brief Get field id from highres_imu message
+ *
+ * @return  Id. Ids are numbered from 0 and map to IMUs numbered from 1 (e.g. IMU1 will have a message with id=0)
+ */
+static inline uint8_t mavlink_msg_highres_imu_get_id(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_uint8_t(msg, 62);
+}
+
+/**
  * @brief Decode a highres_imu message into a struct
  *
  * @param msg The message to decode
@@ -634,6 +661,7 @@ static inline void mavlink_msg_highres_imu_decode(const mavlink_message_t* msg, 
     highres_imu->pressure_alt = mavlink_msg_highres_imu_get_pressure_alt(msg);
     highres_imu->temperature = mavlink_msg_highres_imu_get_temperature(msg);
     highres_imu->fields_updated = mavlink_msg_highres_imu_get_fields_updated(msg);
+    highres_imu->id = mavlink_msg_highres_imu_get_id(msg);
 #else
     uint8_t len = msg->len < MAVLINK_MSG_ID_HIGHRES_IMU_LEN ? msg->len : MAVLINK_MSG_ID_HIGHRES_IMU_LEN;
     memset(highres_imu, 0, MAVLINK_MSG_ID_HIGHRES_IMU_LEN);

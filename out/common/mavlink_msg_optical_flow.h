@@ -6,8 +6,8 @@
 MAVPACKED(
 typedef struct __mavlink_optical_flow_t {
     uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    float flow_comp_m_x; /*< [m] Flow in x-sensor direction, angular-speed compensated*/
-    float flow_comp_m_y; /*< [m] Flow in y-sensor direction, angular-speed compensated*/
+    float flow_comp_m_x; /*< [m/s] Flow in x-sensor direction, angular-speed compensated*/
+    float flow_comp_m_y; /*< [m/s] Flow in y-sensor direction, angular-speed compensated*/
     float ground_distance; /*< [m] Ground distance. Positive value: distance known. Negative value: Unknown distance*/
     int16_t flow_x; /*< [dpix] Flow in x-sensor direction*/
     int16_t flow_y; /*< [dpix] Flow in y-sensor direction*/
@@ -73,8 +73,8 @@ typedef struct __mavlink_optical_flow_t {
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
- * @param flow_comp_m_x [m] Flow in x-sensor direction, angular-speed compensated
- * @param flow_comp_m_y [m] Flow in y-sensor direction, angular-speed compensated
+ * @param flow_comp_m_x [m/s] Flow in x-sensor direction, angular-speed compensated
+ * @param flow_comp_m_y [m/s] Flow in y-sensor direction, angular-speed compensated
  * @param quality  Optical flow quality / confidence. 0: bad, 255: maximum quality
  * @param ground_distance [m] Ground distance. Positive value: distance known. Negative value: Unknown distance
  * @param flow_rate_x [rad/s] Flow rate about X axis
@@ -134,8 +134,8 @@ static inline uint16_t mavlink_msg_optical_flow_pack_txbuf(char* mav_txbuf, mavl
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
- * @param flow_comp_m_x [m] Flow in x-sensor direction, angular-speed compensated
- * @param flow_comp_m_y [m] Flow in y-sensor direction, angular-speed compensated
+ * @param flow_comp_m_x [m/s] Flow in x-sensor direction, angular-speed compensated
+ * @param flow_comp_m_y [m/s] Flow in y-sensor direction, angular-speed compensated
  * @param quality  Optical flow quality / confidence. 0: bad, 255: maximum quality
  * @param ground_distance [m] Ground distance. Positive value: distance known. Negative value: Unknown distance
  * @param flow_rate_x [rad/s] Flow rate about X axis
@@ -189,8 +189,8 @@ static inline uint16_t mavlink_msg_optical_flow_pack(uint8_t system_id, uint8_t 
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
- * @param flow_comp_m_x [m] Flow in x-sensor direction, angular-speed compensated
- * @param flow_comp_m_y [m] Flow in y-sensor direction, angular-speed compensated
+ * @param flow_comp_m_x [m/s] Flow in x-sensor direction, angular-speed compensated
+ * @param flow_comp_m_y [m/s] Flow in y-sensor direction, angular-speed compensated
  * @param quality  Optical flow quality / confidence. 0: bad, 255: maximum quality
  * @param ground_distance [m] Ground distance. Positive value: distance known. Negative value: Unknown distance
  * @param flow_rate_x [rad/s] Flow rate about X axis
@@ -272,8 +272,8 @@ static inline uint16_t mavlink_msg_optical_flow_encode_chan(uint8_t system_id, u
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
- * @param flow_comp_m_x [m] Flow in x-sensor direction, angular-speed compensated
- * @param flow_comp_m_y [m] Flow in y-sensor direction, angular-speed compensated
+ * @param flow_comp_m_x [m/s] Flow in x-sensor direction, angular-speed compensated
+ * @param flow_comp_m_y [m/s] Flow in y-sensor direction, angular-speed compensated
  * @param quality  Optical flow quality / confidence. 0: bad, 255: maximum quality
  * @param ground_distance [m] Ground distance. Positive value: distance known. Negative value: Unknown distance
  * @param flow_rate_x [rad/s] Flow rate about X axis
@@ -418,7 +418,7 @@ static inline int16_t mavlink_msg_optical_flow_get_flow_y(const mavlink_message_
 /**
  * @brief Get field flow_comp_m_x from optical_flow message
  *
- * @return [m] Flow in x-sensor direction, angular-speed compensated
+ * @return [m/s] Flow in x-sensor direction, angular-speed compensated
  */
 static inline float mavlink_msg_optical_flow_get_flow_comp_m_x(const mavlink_message_t* msg)
 {
@@ -428,7 +428,7 @@ static inline float mavlink_msg_optical_flow_get_flow_comp_m_x(const mavlink_mes
 /**
  * @brief Get field flow_comp_m_y from optical_flow message
  *
- * @return [m] Flow in y-sensor direction, angular-speed compensated
+ * @return [m/s] Flow in y-sensor direction, angular-speed compensated
  */
 static inline float mavlink_msg_optical_flow_get_flow_comp_m_y(const mavlink_message_t* msg)
 {

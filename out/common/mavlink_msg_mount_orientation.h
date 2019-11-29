@@ -8,8 +8,8 @@ typedef struct __mavlink_mount_orientation_t {
     uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
     float roll; /*< [deg] Roll in global frame (set to NaN for invalid).*/
     float pitch; /*< [deg] Pitch in global frame (set to NaN for invalid).*/
-    float yaw; /*< [deg] Yaw relative to vehicle(set to NaN for invalid).*/
-    float yaw_absolute; /*< [deg] Yaw in absolute frame, North is 0 (set to NaN for invalid).*/
+    float yaw; /*< [deg] Yaw relative to vehicle (set to NaN for invalid).*/
+    float yaw_absolute; /*< [deg] Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).*/
 }) mavlink_mount_orientation_t;
 
 #define MAVLINK_MSG_ID_MOUNT_ORIENTATION_LEN 20
@@ -57,8 +57,8 @@ typedef struct __mavlink_mount_orientation_t {
  * @param time_boot_ms [ms] Timestamp (time since system boot).
  * @param roll [deg] Roll in global frame (set to NaN for invalid).
  * @param pitch [deg] Pitch in global frame (set to NaN for invalid).
- * @param yaw [deg] Yaw relative to vehicle(set to NaN for invalid).
- * @param yaw_absolute [deg] Yaw in absolute frame, North is 0 (set to NaN for invalid).
+ * @param yaw [deg] Yaw relative to vehicle (set to NaN for invalid).
+ * @param yaw_absolute [deg] Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).
  * @return length of the complete message in bytes in the transmit buffer
  */
 static inline uint16_t mavlink_msg_mount_orientation_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
@@ -103,8 +103,8 @@ static inline uint16_t mavlink_msg_mount_orientation_pack_txbuf(char* mav_txbuf,
  * @param time_boot_ms [ms] Timestamp (time since system boot).
  * @param roll [deg] Roll in global frame (set to NaN for invalid).
  * @param pitch [deg] Pitch in global frame (set to NaN for invalid).
- * @param yaw [deg] Yaw relative to vehicle(set to NaN for invalid).
- * @param yaw_absolute [deg] Yaw in absolute frame, North is 0 (set to NaN for invalid).
+ * @param yaw [deg] Yaw relative to vehicle (set to NaN for invalid).
+ * @param yaw_absolute [deg] Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_mount_orientation_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
@@ -143,8 +143,8 @@ static inline uint16_t mavlink_msg_mount_orientation_pack(uint8_t system_id, uin
  * @param time_boot_ms [ms] Timestamp (time since system boot).
  * @param roll [deg] Roll in global frame (set to NaN for invalid).
  * @param pitch [deg] Pitch in global frame (set to NaN for invalid).
- * @param yaw [deg] Yaw relative to vehicle(set to NaN for invalid).
- * @param yaw_absolute [deg] Yaw in absolute frame, North is 0 (set to NaN for invalid).
+ * @param yaw [deg] Yaw relative to vehicle (set to NaN for invalid).
+ * @param yaw_absolute [deg] Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_mount_orientation_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
@@ -211,8 +211,8 @@ static inline uint16_t mavlink_msg_mount_orientation_encode_chan(uint8_t system_
  * @param time_boot_ms [ms] Timestamp (time since system boot).
  * @param roll [deg] Roll in global frame (set to NaN for invalid).
  * @param pitch [deg] Pitch in global frame (set to NaN for invalid).
- * @param yaw [deg] Yaw relative to vehicle(set to NaN for invalid).
- * @param yaw_absolute [deg] Yaw in absolute frame, North is 0 (set to NaN for invalid).
+ * @param yaw [deg] Yaw relative to vehicle (set to NaN for invalid).
+ * @param yaw_absolute [deg] Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -323,7 +323,7 @@ static inline float mavlink_msg_mount_orientation_get_pitch(const mavlink_messag
 /**
  * @brief Get field yaw from mount_orientation message
  *
- * @return [deg] Yaw relative to vehicle(set to NaN for invalid).
+ * @return [deg] Yaw relative to vehicle (set to NaN for invalid).
  */
 static inline float mavlink_msg_mount_orientation_get_yaw(const mavlink_message_t* msg)
 {
@@ -333,7 +333,7 @@ static inline float mavlink_msg_mount_orientation_get_yaw(const mavlink_message_
 /**
  * @brief Get field yaw_absolute from mount_orientation message
  *
- * @return [deg] Yaw in absolute frame, North is 0 (set to NaN for invalid).
+ * @return [deg] Yaw in absolute frame relative to Earth's North, north is 0 (set to NaN for invalid).
  */
 static inline float mavlink_msg_mount_orientation_get_yaw_absolute(const mavlink_message_t* msg)
 {

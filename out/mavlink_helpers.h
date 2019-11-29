@@ -633,7 +633,7 @@ MAVLINK_HELPER const mavlink_msg_entry_t* mavlink_get_msg_entry(uint32_t msgid)
       use a bisection search to find the right entry. A perfect hash may be better
       Note that this assumes the table is sorted by msgid
     */
-    uint32_t low = 0, high = sizeof(mavlink_message_crcs)/sizeof(mavlink_message_crcs[0]);
+    uint32_t low = 0, high = sizeof(mavlink_message_crcs)/sizeof(mavlink_message_crcs[0]) - 1;
     while (low < high) {
         uint32_t mid = (low+1+high)/2;
         if (msgid < mavlink_message_crcs[mid].msgid) {
@@ -1144,7 +1144,8 @@ MAVLINK_HELPER uint8_t mavlink_frame_char_buffer(mavlink_message_t* rxmsg,
                 status->parse_state = MAVLINK_PARSE_STATE_GOT_PAYLOAD;
             }
 #ifdef MAVLINK_CHECK_MESSAGE_LENGTH
-            if (rxmsg->len != MAVLINK_MESSAGE_LENGTH(rxmsg->msgid)) {
+			if (rxmsg->len < mavlink_min_message_length(rxmsg) ||
+				rxmsg->len > mavlink_max_message_length(rxmsg)) {
                 _mav_parse_error(status);
                 status->parse_state = MAVLINK_PARSE_STATE_IDLE;
                 break;
@@ -1170,7 +1171,8 @@ MAVLINK_HELPER uint8_t mavlink_frame_char_buffer(mavlink_message_t* rxmsg,
             status->parse_state = MAVLINK_PARSE_STATE_GOT_PAYLOAD;
         }
 #ifdef MAVLINK_CHECK_MESSAGE_LENGTH
-        if (rxmsg->len != MAVLINK_MESSAGE_LENGTH(rxmsg->msgid)) {
+        if (rxmsg->len < mavlink_min_message_length(rxmsg) ||
+            rxmsg->len > mavlink_max_message_length(rxmsg)) {
             _mav_parse_error(status);
             status->parse_state = MAVLINK_PARSE_STATE_IDLE;
             break;
