@@ -5,16 +5,16 @@
 
 MAVPACKED(
 typedef struct __mavlink_global_position_int_cov_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    int32_t lat; /*< [degE7] Latitude*/
-    int32_t lon; /*< [degE7] Longitude*/
-    int32_t alt; /*< [mm] Altitude in meters above MSL*/
-    int32_t relative_alt; /*< [mm] Altitude above ground*/
-    float vx; /*< [m/s] Ground X Speed (Latitude)*/
-    float vy; /*< [m/s] Ground Y Speed (Longitude)*/
-    float vz; /*< [m/s] Ground Z Speed (Altitude)*/
-    float covariance[36]; /*<  Row-major representation of a 6x6 position and velocity 6x6 cross-covariance matrix (states: lat, lon, alt, vx, vy, vz; first six entries are the first ROW, next six entries are the second row, etc.). If unknown, assign NaN value to first element in the array.*/
-    uint8_t estimator_type; /*<  Class id of the estimator this estimate originated from.*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
+ int32_t lat; /*< [degE7] Latitude*/
+ int32_t lon; /*< [degE7] Longitude*/
+ int32_t alt; /*< [mm] Altitude in meters above MSL*/
+ int32_t relative_alt; /*< [mm] Altitude above ground*/
+ float vx; /*< [m/s] Ground X Speed (Latitude)*/
+ float vy; /*< [m/s] Ground Y Speed (Longitude)*/
+ float vz; /*< [m/s] Ground Z Speed (Altitude)*/
+ float covariance[36]; /*<  Row-major representation of a 6x6 position and velocity 6x6 cross-covariance matrix (states: lat, lon, alt, vx, vy, vz; first six entries are the first ROW, next six entries are the second row, etc.). If unknown, assign NaN value to first element in the array.*/
+ uint8_t estimator_type; /*<  Class id of the estimator this estimate originated from.*/
 }) mavlink_global_position_int_cov_t;
 
 #define MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN 181
@@ -63,66 +63,6 @@ typedef struct __mavlink_global_position_int_cov_t {
 #endif
 
 /**
- * @brief Pack a global_position_int_cov message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
- * @param estimator_type  Class id of the estimator this estimate originated from.
- * @param lat [degE7] Latitude
- * @param lon [degE7] Longitude
- * @param alt [mm] Altitude in meters above MSL
- * @param relative_alt [mm] Altitude above ground
- * @param vx [m/s] Ground X Speed (Latitude)
- * @param vy [m/s] Ground Y Speed (Longitude)
- * @param vz [m/s] Ground Z Speed (Altitude)
- * @param covariance  Row-major representation of a 6x6 position and velocity 6x6 cross-covariance matrix (states: lat, lon, alt, vx, vy, vz; first six entries are the first ROW, next six entries are the second row, etc.). If unknown, assign NaN value to first element in the array.
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_global_position_int_cov_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint64_t time_usec, uint8_t estimator_type, int32_t lat, int32_t lon, int32_t alt, int32_t relative_alt, float vx, float vy, float vz, const float *covariance)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_uint64_t(buf, 0, time_usec);
-    _mav_put_int32_t(buf, 8, lat);
-    _mav_put_int32_t(buf, 12, lon);
-    _mav_put_int32_t(buf, 16, alt);
-    _mav_put_int32_t(buf, 20, relative_alt);
-    _mav_put_float(buf, 24, vx);
-    _mav_put_float(buf, 28, vy);
-    _mav_put_float(buf, 32, vz);
-    _mav_put_uint8_t(buf, 180, estimator_type);
-    _mav_put_float_array(buf, 36, covariance, 36);
-#else
-    mavlink_global_position_int_cov_t* packet = (mavlink_global_position_int_cov_t*)(&mav_txbuf[header_len]);
-    packet->time_usec = time_usec;
-    packet->lat = lat;
-    packet->lon = lon;
-    packet->alt = alt;
-    packet->relative_alt = relative_alt;
-    packet->vx = vx;
-    packet->vy = vy;
-    packet->vz = vz;
-    packet->estimator_type = estimator_type;
-    mav_array_memcpy(packet->covariance, covariance, sizeof(float)*36);
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a global_position_int_cov message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -141,7 +81,7 @@ static inline uint16_t mavlink_msg_global_position_int_cov_pack_txbuf(char* mav_
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_global_position_int_cov_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, uint8_t estimator_type, int32_t lat, int32_t lon, int32_t alt, int32_t relative_alt, float vx, float vy, float vz, const float *covariance)
+                               uint64_t time_usec, uint8_t estimator_type, int32_t lat, int32_t lon, int32_t alt, int32_t relative_alt, float vx, float vy, float vz, const float *covariance)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN];
@@ -155,7 +95,7 @@ static inline uint16_t mavlink_msg_global_position_int_cov_pack(uint8_t system_i
     _mav_put_float(buf, 32, vz);
     _mav_put_uint8_t(buf, 180, estimator_type);
     _mav_put_float_array(buf, 36, covariance, 36);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
 #else
     mavlink_global_position_int_cov_t packet;
     packet.time_usec = time_usec;
@@ -168,7 +108,7 @@ static inline uint16_t mavlink_msg_global_position_int_cov_pack(uint8_t system_i
     packet.vz = vz;
     packet.estimator_type = estimator_type;
     mav_array_memcpy(packet.covariance, covariance, sizeof(float)*36);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV;
@@ -194,8 +134,8 @@ static inline uint16_t mavlink_msg_global_position_int_cov_pack(uint8_t system_i
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_global_position_int_cov_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, uint8_t estimator_type, int32_t lat, int32_t lon, int32_t alt, int32_t relative_alt, float vx, float vy, float vz, const float *covariance)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,uint8_t estimator_type,int32_t lat,int32_t lon,int32_t alt,int32_t relative_alt,float vx,float vy,float vz,const float *covariance)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN];
@@ -209,7 +149,7 @@ static inline uint16_t mavlink_msg_global_position_int_cov_pack_chan(uint8_t sys
     _mav_put_float(buf, 32, vz);
     _mav_put_uint8_t(buf, 180, estimator_type);
     _mav_put_float_array(buf, 36, covariance, 36);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
 #else
     mavlink_global_position_int_cov_t packet;
     packet.time_usec = time_usec;
@@ -222,7 +162,7 @@ static inline uint16_t mavlink_msg_global_position_int_cov_pack_chan(uint8_t sys
     packet.vz = vz;
     packet.estimator_type = estimator_type;
     mav_array_memcpy(packet.covariance, covariance, sizeof(float)*36);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV;
@@ -255,8 +195,6 @@ static inline uint16_t mavlink_msg_global_position_int_cov_encode_chan(uint8_t s
 {
     return mavlink_msg_global_position_int_cov_pack_chan(system_id, component_id, chan, msg, global_position_int_cov->time_usec, global_position_int_cov->estimator_type, global_position_int_cov->lat, global_position_int_cov->lon, global_position_int_cov->alt, global_position_int_cov->relative_alt, global_position_int_cov->vx, global_position_int_cov->vy, global_position_int_cov->vz, global_position_int_cov->covariance);
 }
-
-#endif
 
 /**
  * @brief Send a global_position_int_cov message
@@ -302,7 +240,7 @@ static inline void mavlink_msg_global_position_int_cov_send(mavlink_channel_t ch
     packet.vz = vz;
     packet.estimator_type = estimator_type;
     mav_array_memcpy(packet.covariance, covariance, sizeof(float)*36);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, (const char*)&packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, (const char *)&packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
 #endif
 }
 
@@ -316,7 +254,7 @@ static inline void mavlink_msg_global_position_int_cov_send_struct(mavlink_chann
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_global_position_int_cov_send(chan, global_position_int_cov->time_usec, global_position_int_cov->estimator_type, global_position_int_cov->lat, global_position_int_cov->lon, global_position_int_cov->alt, global_position_int_cov->relative_alt, global_position_int_cov->vx, global_position_int_cov->vy, global_position_int_cov->vz, global_position_int_cov->covariance);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, (const char*)global_position_int_cov, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, (const char *)global_position_int_cov, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
 #endif
 }
 
@@ -328,10 +266,10 @@ static inline void mavlink_msg_global_position_int_cov_send_struct(mavlink_chann
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_global_position_int_cov_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, uint8_t estimator_type, int32_t lat, int32_t lon, int32_t alt, int32_t relative_alt, float vx, float vy, float vz, const float *covariance)
+static inline void mavlink_msg_global_position_int_cov_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, uint8_t estimator_type, int32_t lat, int32_t lon, int32_t alt, int32_t relative_alt, float vx, float vy, float vz, const float *covariance)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_int32_t(buf, 8, lat);
     _mav_put_int32_t(buf, 12, lon);
@@ -344,7 +282,7 @@ static inline void mavlink_msg_global_position_int_cov_send_buf(mavlink_message_
     _mav_put_float_array(buf, 36, covariance, 36);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, buf, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
 #else
-    mavlink_global_position_int_cov_t* packet = (mavlink_global_position_int_cov_t*)msgbuf;
+    mavlink_global_position_int_cov_t *packet = (mavlink_global_position_int_cov_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->lat = lat;
     packet->lon = lon;
@@ -355,7 +293,7 @@ static inline void mavlink_msg_global_position_int_cov_send_buf(mavlink_message_
     packet->vz = vz;
     packet->estimator_type = estimator_type;
     mav_array_memcpy(packet->covariance, covariance, sizeof(float)*36);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, (const char*)packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV, (const char *)packet, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_MIN_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_CRC);
 #endif
 }
 #endif
@@ -372,7 +310,7 @@ static inline void mavlink_msg_global_position_int_cov_send_buf(mavlink_message_
  */
 static inline uint64_t mavlink_msg_global_position_int_cov_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -382,7 +320,7 @@ static inline uint64_t mavlink_msg_global_position_int_cov_get_time_usec(const m
  */
 static inline uint8_t mavlink_msg_global_position_int_cov_get_estimator_type(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 180);
+    return _MAV_RETURN_uint8_t(msg,  180);
 }
 
 /**
@@ -392,7 +330,7 @@ static inline uint8_t mavlink_msg_global_position_int_cov_get_estimator_type(con
  */
 static inline int32_t mavlink_msg_global_position_int_cov_get_lat(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 8);
+    return _MAV_RETURN_int32_t(msg,  8);
 }
 
 /**
@@ -402,7 +340,7 @@ static inline int32_t mavlink_msg_global_position_int_cov_get_lat(const mavlink_
  */
 static inline int32_t mavlink_msg_global_position_int_cov_get_lon(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 12);
+    return _MAV_RETURN_int32_t(msg,  12);
 }
 
 /**
@@ -412,7 +350,7 @@ static inline int32_t mavlink_msg_global_position_int_cov_get_lon(const mavlink_
  */
 static inline int32_t mavlink_msg_global_position_int_cov_get_alt(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 16);
+    return _MAV_RETURN_int32_t(msg,  16);
 }
 
 /**
@@ -422,7 +360,7 @@ static inline int32_t mavlink_msg_global_position_int_cov_get_alt(const mavlink_
  */
 static inline int32_t mavlink_msg_global_position_int_cov_get_relative_alt(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 20);
+    return _MAV_RETURN_int32_t(msg,  20);
 }
 
 /**
@@ -432,7 +370,7 @@ static inline int32_t mavlink_msg_global_position_int_cov_get_relative_alt(const
  */
 static inline float mavlink_msg_global_position_int_cov_get_vx(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 24);
+    return _MAV_RETURN_float(msg,  24);
 }
 
 /**
@@ -442,7 +380,7 @@ static inline float mavlink_msg_global_position_int_cov_get_vx(const mavlink_mes
  */
 static inline float mavlink_msg_global_position_int_cov_get_vy(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 28);
+    return _MAV_RETURN_float(msg,  28);
 }
 
 /**
@@ -452,7 +390,7 @@ static inline float mavlink_msg_global_position_int_cov_get_vy(const mavlink_mes
  */
 static inline float mavlink_msg_global_position_int_cov_get_vz(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 32);
+    return _MAV_RETURN_float(msg,  32);
 }
 
 /**
@@ -462,7 +400,7 @@ static inline float mavlink_msg_global_position_int_cov_get_vz(const mavlink_mes
  */
 static inline uint16_t mavlink_msg_global_position_int_cov_get_covariance(const mavlink_message_t* msg, float *covariance)
 {
-    return _MAV_RETURN_float_array(msg, covariance, 36, 36);
+    return _MAV_RETURN_float_array(msg, covariance, 36,  36);
 }
 
 /**
@@ -485,8 +423,8 @@ static inline void mavlink_msg_global_position_int_cov_decode(const mavlink_mess
     mavlink_msg_global_position_int_cov_get_covariance(msg, global_position_int_cov->covariance);
     global_position_int_cov->estimator_type = mavlink_msg_global_position_int_cov_get_estimator_type(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN ? msg->len : MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN;
-    memset(global_position_int_cov, 0, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN? msg->len : MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN;
+        memset(global_position_int_cov, 0, MAVLINK_MSG_ID_GLOBAL_POSITION_INT_COV_LEN);
     memcpy(global_position_int_cov, _MAV_PAYLOAD(msg), len);
 #endif
 }

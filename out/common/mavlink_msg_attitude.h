@@ -5,13 +5,13 @@
 
 MAVPACKED(
 typedef struct __mavlink_attitude_t {
-    uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
-    float roll; /*< [rad] Roll angle (-pi..+pi)*/
-    float pitch; /*< [rad] Pitch angle (-pi..+pi)*/
-    float yaw; /*< [rad] Yaw angle (-pi..+pi)*/
-    float rollspeed; /*< [rad/s] Roll angular speed*/
-    float pitchspeed; /*< [rad/s] Pitch angular speed*/
-    float yawspeed; /*< [rad/s] Yaw angular speed*/
+ uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
+ float roll; /*< [rad] Roll angle (-pi..+pi)*/
+ float pitch; /*< [rad] Pitch angle (-pi..+pi)*/
+ float yaw; /*< [rad] Yaw angle (-pi..+pi)*/
+ float rollspeed; /*< [rad/s] Roll angular speed*/
+ float pitchspeed; /*< [rad/s] Pitch angular speed*/
+ float yawspeed; /*< [rad/s] Yaw angular speed*/
 }) mavlink_attitude_t;
 
 #define MAVLINK_MSG_ID_ATTITUDE_LEN 28
@@ -54,59 +54,6 @@ typedef struct __mavlink_attitude_t {
 #endif
 
 /**
- * @brief Pack a attitude message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param time_boot_ms [ms] Timestamp (time since system boot).
- * @param roll [rad] Roll angle (-pi..+pi)
- * @param pitch [rad] Pitch angle (-pi..+pi)
- * @param yaw [rad] Yaw angle (-pi..+pi)
- * @param rollspeed [rad/s] Roll angular speed
- * @param pitchspeed [rad/s] Pitch angular speed
- * @param yawspeed [rad/s] Yaw angular speed
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_attitude_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint32_t time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_uint32_t(buf, 0, time_boot_ms);
-    _mav_put_float(buf, 4, roll);
-    _mav_put_float(buf, 8, pitch);
-    _mav_put_float(buf, 12, yaw);
-    _mav_put_float(buf, 16, rollspeed);
-    _mav_put_float(buf, 20, pitchspeed);
-    _mav_put_float(buf, 24, yawspeed);
-
-#else
-    mavlink_attitude_t* packet = (mavlink_attitude_t*)(&mav_txbuf[header_len]);
-    packet->time_boot_ms = time_boot_ms;
-    packet->roll = roll;
-    packet->pitch = pitch;
-    packet->yaw = yaw;
-    packet->rollspeed = rollspeed;
-    packet->pitchspeed = pitchspeed;
-    packet->yawspeed = yawspeed;
-
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_ATTITUDE, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a attitude message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -122,7 +69,7 @@ static inline uint16_t mavlink_msg_attitude_pack_txbuf(char* mav_txbuf, mavlink_
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_attitude_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint32_t time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed)
+                               uint32_t time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ATTITUDE_LEN];
@@ -134,7 +81,7 @@ static inline uint16_t mavlink_msg_attitude_pack(uint8_t system_id, uint8_t comp
     _mav_put_float(buf, 20, pitchspeed);
     _mav_put_float(buf, 24, yawspeed);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ATTITUDE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ATTITUDE_LEN);
 #else
     mavlink_attitude_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -145,7 +92,7 @@ static inline uint16_t mavlink_msg_attitude_pack(uint8_t system_id, uint8_t comp
     packet.pitchspeed = pitchspeed;
     packet.yawspeed = yawspeed;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ATTITUDE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ATTITUDE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ATTITUDE;
@@ -168,8 +115,8 @@ static inline uint16_t mavlink_msg_attitude_pack(uint8_t system_id, uint8_t comp
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_attitude_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint32_t time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed)
+                               mavlink_message_t* msg,
+                                   uint32_t time_boot_ms,float roll,float pitch,float yaw,float rollspeed,float pitchspeed,float yawspeed)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ATTITUDE_LEN];
@@ -181,7 +128,7 @@ static inline uint16_t mavlink_msg_attitude_pack_chan(uint8_t system_id, uint8_t
     _mav_put_float(buf, 20, pitchspeed);
     _mav_put_float(buf, 24, yawspeed);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ATTITUDE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ATTITUDE_LEN);
 #else
     mavlink_attitude_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -192,7 +139,7 @@ static inline uint16_t mavlink_msg_attitude_pack_chan(uint8_t system_id, uint8_t
     packet.pitchspeed = pitchspeed;
     packet.yawspeed = yawspeed;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ATTITUDE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ATTITUDE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ATTITUDE;
@@ -225,8 +172,6 @@ static inline uint16_t mavlink_msg_attitude_encode_chan(uint8_t system_id, uint8
 {
     return mavlink_msg_attitude_pack_chan(system_id, component_id, chan, msg, attitude->time_boot_ms, attitude->roll, attitude->pitch, attitude->yaw, attitude->rollspeed, attitude->pitchspeed, attitude->yawspeed);
 }
-
-#endif
 
 /**
  * @brief Send a attitude message
@@ -265,7 +210,7 @@ static inline void mavlink_msg_attitude_send(mavlink_channel_t chan, uint32_t ti
     packet.pitchspeed = pitchspeed;
     packet.yawspeed = yawspeed;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ATTITUDE, (const char*)&packet, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ATTITUDE, (const char *)&packet, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
 #endif
 }
 
@@ -279,7 +224,7 @@ static inline void mavlink_msg_attitude_send_struct(mavlink_channel_t chan, cons
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_attitude_send(chan, attitude->time_boot_ms, attitude->roll, attitude->pitch, attitude->yaw, attitude->rollspeed, attitude->pitchspeed, attitude->yawspeed);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ATTITUDE, (const char*)attitude, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ATTITUDE, (const char *)attitude, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
 #endif
 }
 
@@ -291,10 +236,10 @@ static inline void mavlink_msg_attitude_send_struct(mavlink_channel_t chan, cons
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_attitude_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint32_t time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed)
+static inline void mavlink_msg_attitude_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t time_boot_ms, float roll, float pitch, float yaw, float rollspeed, float pitchspeed, float yawspeed)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint32_t(buf, 0, time_boot_ms);
     _mav_put_float(buf, 4, roll);
     _mav_put_float(buf, 8, pitch);
@@ -305,7 +250,7 @@ static inline void mavlink_msg_attitude_send_buf(mavlink_message_t* msgbuf, mavl
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ATTITUDE, buf, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
 #else
-    mavlink_attitude_t* packet = (mavlink_attitude_t*)msgbuf;
+    mavlink_attitude_t *packet = (mavlink_attitude_t *)msgbuf;
     packet->time_boot_ms = time_boot_ms;
     packet->roll = roll;
     packet->pitch = pitch;
@@ -314,7 +259,7 @@ static inline void mavlink_msg_attitude_send_buf(mavlink_message_t* msgbuf, mavl
     packet->pitchspeed = pitchspeed;
     packet->yawspeed = yawspeed;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ATTITUDE, (const char*)packet, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ATTITUDE, (const char *)packet, MAVLINK_MSG_ID_ATTITUDE_MIN_LEN, MAVLINK_MSG_ID_ATTITUDE_LEN, MAVLINK_MSG_ID_ATTITUDE_CRC);
 #endif
 }
 #endif
@@ -331,7 +276,7 @@ static inline void mavlink_msg_attitude_send_buf(mavlink_message_t* msgbuf, mavl
  */
 static inline uint32_t mavlink_msg_attitude_get_time_boot_ms(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 0);
+    return _MAV_RETURN_uint32_t(msg,  0);
 }
 
 /**
@@ -341,7 +286,7 @@ static inline uint32_t mavlink_msg_attitude_get_time_boot_ms(const mavlink_messa
  */
 static inline float mavlink_msg_attitude_get_roll(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 4);
+    return _MAV_RETURN_float(msg,  4);
 }
 
 /**
@@ -351,7 +296,7 @@ static inline float mavlink_msg_attitude_get_roll(const mavlink_message_t* msg)
  */
 static inline float mavlink_msg_attitude_get_pitch(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -361,7 +306,7 @@ static inline float mavlink_msg_attitude_get_pitch(const mavlink_message_t* msg)
  */
 static inline float mavlink_msg_attitude_get_yaw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -371,7 +316,7 @@ static inline float mavlink_msg_attitude_get_yaw(const mavlink_message_t* msg)
  */
 static inline float mavlink_msg_attitude_get_rollspeed(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 16);
+    return _MAV_RETURN_float(msg,  16);
 }
 
 /**
@@ -381,7 +326,7 @@ static inline float mavlink_msg_attitude_get_rollspeed(const mavlink_message_t* 
  */
 static inline float mavlink_msg_attitude_get_pitchspeed(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 20);
+    return _MAV_RETURN_float(msg,  20);
 }
 
 /**
@@ -391,7 +336,7 @@ static inline float mavlink_msg_attitude_get_pitchspeed(const mavlink_message_t*
  */
 static inline float mavlink_msg_attitude_get_yawspeed(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 24);
+    return _MAV_RETURN_float(msg,  24);
 }
 
 /**
@@ -411,8 +356,8 @@ static inline void mavlink_msg_attitude_decode(const mavlink_message_t* msg, mav
     attitude->pitchspeed = mavlink_msg_attitude_get_pitchspeed(msg);
     attitude->yawspeed = mavlink_msg_attitude_get_yawspeed(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_ATTITUDE_LEN ? msg->len : MAVLINK_MSG_ID_ATTITUDE_LEN;
-    memset(attitude, 0, MAVLINK_MSG_ID_ATTITUDE_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_ATTITUDE_LEN? msg->len : MAVLINK_MSG_ID_ATTITUDE_LEN;
+        memset(attitude, 0, MAVLINK_MSG_ID_ATTITUDE_LEN);
     memcpy(attitude, _MAV_PAYLOAD(msg), len);
 #endif
 }

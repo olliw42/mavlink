@@ -5,8 +5,8 @@
 
 MAVPACKED(
 typedef struct __mavlink_timesync_t {
-    int64_t tc1; /*<  Time sync timestamp 1*/
-    int64_t ts1; /*<  Time sync timestamp 2*/
+ int64_t tc1; /*<  Time sync timestamp 1*/
+ int64_t ts1; /*<  Time sync timestamp 2*/
 }) mavlink_timesync_t;
 
 #define MAVLINK_MSG_ID_TIMESYNC_LEN 16
@@ -39,44 +39,6 @@ typedef struct __mavlink_timesync_t {
 #endif
 
 /**
- * @brief Pack a timesync message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param tc1  Time sync timestamp 1
- * @param ts1  Time sync timestamp 2
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_timesync_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   int64_t tc1, int64_t ts1)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_int64_t(buf, 0, tc1);
-    _mav_put_int64_t(buf, 8, ts1);
-
-#else
-    mavlink_timesync_t* packet = (mavlink_timesync_t*)(&mav_txbuf[header_len]);
-    packet->tc1 = tc1;
-    packet->ts1 = ts1;
-
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_TIMESYNC, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a timesync message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -87,20 +49,20 @@ static inline uint16_t mavlink_msg_timesync_pack_txbuf(char* mav_txbuf, mavlink_
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_timesync_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 int64_t tc1, int64_t ts1)
+                               int64_t tc1, int64_t ts1)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_TIMESYNC_LEN];
     _mav_put_int64_t(buf, 0, tc1);
     _mav_put_int64_t(buf, 8, ts1);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_TIMESYNC_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_TIMESYNC_LEN);
 #else
     mavlink_timesync_t packet;
     packet.tc1 = tc1;
     packet.ts1 = ts1;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_TIMESYNC_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_TIMESYNC_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_TIMESYNC;
@@ -118,21 +80,21 @@ static inline uint16_t mavlink_msg_timesync_pack(uint8_t system_id, uint8_t comp
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_timesync_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                int64_t tc1, int64_t ts1)
+                               mavlink_message_t* msg,
+                                   int64_t tc1,int64_t ts1)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_TIMESYNC_LEN];
     _mav_put_int64_t(buf, 0, tc1);
     _mav_put_int64_t(buf, 8, ts1);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_TIMESYNC_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_TIMESYNC_LEN);
 #else
     mavlink_timesync_t packet;
     packet.tc1 = tc1;
     packet.ts1 = ts1;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_TIMESYNC_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_TIMESYNC_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_TIMESYNC;
@@ -166,8 +128,6 @@ static inline uint16_t mavlink_msg_timesync_encode_chan(uint8_t system_id, uint8
     return mavlink_msg_timesync_pack_chan(system_id, component_id, chan, msg, timesync->tc1, timesync->ts1);
 }
 
-#endif
-
 /**
  * @brief Send a timesync message
  * @param chan MAVLink channel to send the message
@@ -190,7 +150,7 @@ static inline void mavlink_msg_timesync_send(mavlink_channel_t chan, int64_t tc1
     packet.tc1 = tc1;
     packet.ts1 = ts1;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TIMESYNC, (const char*)&packet, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TIMESYNC, (const char *)&packet, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
 #endif
 }
 
@@ -204,7 +164,7 @@ static inline void mavlink_msg_timesync_send_struct(mavlink_channel_t chan, cons
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_timesync_send(chan, timesync->tc1, timesync->ts1);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TIMESYNC, (const char*)timesync, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TIMESYNC, (const char *)timesync, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
 #endif
 }
 
@@ -216,20 +176,20 @@ static inline void mavlink_msg_timesync_send_struct(mavlink_channel_t chan, cons
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_timesync_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, int64_t tc1, int64_t ts1)
+static inline void mavlink_msg_timesync_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int64_t tc1, int64_t ts1)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_int64_t(buf, 0, tc1);
     _mav_put_int64_t(buf, 8, ts1);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TIMESYNC, buf, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
 #else
-    mavlink_timesync_t* packet = (mavlink_timesync_t*)msgbuf;
+    mavlink_timesync_t *packet = (mavlink_timesync_t *)msgbuf;
     packet->tc1 = tc1;
     packet->ts1 = ts1;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TIMESYNC, (const char*)packet, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TIMESYNC, (const char *)packet, MAVLINK_MSG_ID_TIMESYNC_MIN_LEN, MAVLINK_MSG_ID_TIMESYNC_LEN, MAVLINK_MSG_ID_TIMESYNC_CRC);
 #endif
 }
 #endif
@@ -246,7 +206,7 @@ static inline void mavlink_msg_timesync_send_buf(mavlink_message_t* msgbuf, mavl
  */
 static inline int64_t mavlink_msg_timesync_get_tc1(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int64_t(msg, 0);
+    return _MAV_RETURN_int64_t(msg,  0);
 }
 
 /**
@@ -256,7 +216,7 @@ static inline int64_t mavlink_msg_timesync_get_tc1(const mavlink_message_t* msg)
  */
 static inline int64_t mavlink_msg_timesync_get_ts1(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int64_t(msg, 8);
+    return _MAV_RETURN_int64_t(msg,  8);
 }
 
 /**
@@ -271,8 +231,8 @@ static inline void mavlink_msg_timesync_decode(const mavlink_message_t* msg, mav
     timesync->tc1 = mavlink_msg_timesync_get_tc1(msg);
     timesync->ts1 = mavlink_msg_timesync_get_ts1(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_TIMESYNC_LEN ? msg->len : MAVLINK_MSG_ID_TIMESYNC_LEN;
-    memset(timesync, 0, MAVLINK_MSG_ID_TIMESYNC_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_TIMESYNC_LEN? msg->len : MAVLINK_MSG_ID_TIMESYNC_LEN;
+        memset(timesync, 0, MAVLINK_MSG_ID_TIMESYNC_LEN);
     memcpy(timesync, _MAV_PAYLOAD(msg), len);
 #endif
 }

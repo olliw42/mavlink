@@ -5,18 +5,18 @@
 
 MAVPACKED(
 typedef struct __mavlink_gimbal_report_t {
-    float delta_time; /*< [s] Time since last update.*/
-    float delta_angle_x; /*< [rad] Delta angle X.*/
-    float delta_angle_y; /*< [rad] Delta angle Y.*/
-    float delta_angle_z; /*< [rad] Delta angle X.*/
-    float delta_velocity_x; /*< [m/s] Delta velocity X.*/
-    float delta_velocity_y; /*< [m/s] Delta velocity Y.*/
-    float delta_velocity_z; /*< [m/s] Delta velocity Z.*/
-    float joint_roll; /*< [rad] Joint ROLL.*/
-    float joint_el; /*< [rad] Joint EL.*/
-    float joint_az; /*< [rad] Joint AZ.*/
-    uint8_t target_system; /*<  System ID.*/
-    uint8_t target_component; /*<  Component ID.*/
+ float delta_time; /*< [s] Time since last update.*/
+ float delta_angle_x; /*< [rad] Delta angle X.*/
+ float delta_angle_y; /*< [rad] Delta angle Y.*/
+ float delta_angle_z; /*< [rad] Delta angle X.*/
+ float delta_velocity_x; /*< [m/s] Delta velocity X.*/
+ float delta_velocity_y; /*< [m/s] Delta velocity Y.*/
+ float delta_velocity_z; /*< [m/s] Delta velocity Z.*/
+ float joint_roll; /*< [rad] Joint ROLL.*/
+ float joint_el; /*< [rad] Joint EL.*/
+ float joint_az; /*< [rad] Joint AZ.*/
+ uint8_t target_system; /*<  System ID.*/
+ uint8_t target_component; /*<  Component ID.*/
 }) mavlink_gimbal_report_t;
 
 #define MAVLINK_MSG_ID_GIMBAL_REPORT_LEN 42
@@ -69,74 +69,6 @@ typedef struct __mavlink_gimbal_report_t {
 #endif
 
 /**
- * @brief Pack a gimbal_report message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param target_system  System ID.
- * @param target_component  Component ID.
- * @param delta_time [s] Time since last update.
- * @param delta_angle_x [rad] Delta angle X.
- * @param delta_angle_y [rad] Delta angle Y.
- * @param delta_angle_z [rad] Delta angle X.
- * @param delta_velocity_x [m/s] Delta velocity X.
- * @param delta_velocity_y [m/s] Delta velocity Y.
- * @param delta_velocity_z [m/s] Delta velocity Z.
- * @param joint_roll [rad] Joint ROLL.
- * @param joint_el [rad] Joint EL.
- * @param joint_az [rad] Joint AZ.
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_gimbal_report_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint8_t target_system, uint8_t target_component, float delta_time, float delta_angle_x, float delta_angle_y, float delta_angle_z, float delta_velocity_x, float delta_velocity_y, float delta_velocity_z, float joint_roll, float joint_el, float joint_az)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_float(buf, 0, delta_time);
-    _mav_put_float(buf, 4, delta_angle_x);
-    _mav_put_float(buf, 8, delta_angle_y);
-    _mav_put_float(buf, 12, delta_angle_z);
-    _mav_put_float(buf, 16, delta_velocity_x);
-    _mav_put_float(buf, 20, delta_velocity_y);
-    _mav_put_float(buf, 24, delta_velocity_z);
-    _mav_put_float(buf, 28, joint_roll);
-    _mav_put_float(buf, 32, joint_el);
-    _mav_put_float(buf, 36, joint_az);
-    _mav_put_uint8_t(buf, 40, target_system);
-    _mav_put_uint8_t(buf, 41, target_component);
-
-#else
-    mavlink_gimbal_report_t* packet = (mavlink_gimbal_report_t*)(&mav_txbuf[header_len]);
-    packet->delta_time = delta_time;
-    packet->delta_angle_x = delta_angle_x;
-    packet->delta_angle_y = delta_angle_y;
-    packet->delta_angle_z = delta_angle_z;
-    packet->delta_velocity_x = delta_velocity_x;
-    packet->delta_velocity_y = delta_velocity_y;
-    packet->delta_velocity_z = delta_velocity_z;
-    packet->joint_roll = joint_roll;
-    packet->joint_el = joint_el;
-    packet->joint_az = joint_az;
-    packet->target_system = target_system;
-    packet->target_component = target_component;
-
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_GIMBAL_REPORT, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a gimbal_report message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -157,7 +89,7 @@ static inline uint16_t mavlink_msg_gimbal_report_pack_txbuf(char* mav_txbuf, mav
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gimbal_report_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint8_t target_system, uint8_t target_component, float delta_time, float delta_angle_x, float delta_angle_y, float delta_angle_z, float delta_velocity_x, float delta_velocity_y, float delta_velocity_z, float joint_roll, float joint_el, float joint_az)
+                               uint8_t target_system, uint8_t target_component, float delta_time, float delta_angle_x, float delta_angle_y, float delta_angle_z, float delta_velocity_x, float delta_velocity_y, float delta_velocity_z, float joint_roll, float joint_el, float joint_az)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GIMBAL_REPORT_LEN];
@@ -174,7 +106,7 @@ static inline uint16_t mavlink_msg_gimbal_report_pack(uint8_t system_id, uint8_t
     _mav_put_uint8_t(buf, 40, target_system);
     _mav_put_uint8_t(buf, 41, target_component);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
 #else
     mavlink_gimbal_report_t packet;
     packet.delta_time = delta_time;
@@ -190,7 +122,7 @@ static inline uint16_t mavlink_msg_gimbal_report_pack(uint8_t system_id, uint8_t
     packet.target_system = target_system;
     packet.target_component = target_component;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GIMBAL_REPORT;
@@ -218,8 +150,8 @@ static inline uint16_t mavlink_msg_gimbal_report_pack(uint8_t system_id, uint8_t
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gimbal_report_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint8_t target_system, uint8_t target_component, float delta_time, float delta_angle_x, float delta_angle_y, float delta_angle_z, float delta_velocity_x, float delta_velocity_y, float delta_velocity_z, float joint_roll, float joint_el, float joint_az)
+                               mavlink_message_t* msg,
+                                   uint8_t target_system,uint8_t target_component,float delta_time,float delta_angle_x,float delta_angle_y,float delta_angle_z,float delta_velocity_x,float delta_velocity_y,float delta_velocity_z,float joint_roll,float joint_el,float joint_az)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GIMBAL_REPORT_LEN];
@@ -236,7 +168,7 @@ static inline uint16_t mavlink_msg_gimbal_report_pack_chan(uint8_t system_id, ui
     _mav_put_uint8_t(buf, 40, target_system);
     _mav_put_uint8_t(buf, 41, target_component);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
 #else
     mavlink_gimbal_report_t packet;
     packet.delta_time = delta_time;
@@ -252,7 +184,7 @@ static inline uint16_t mavlink_msg_gimbal_report_pack_chan(uint8_t system_id, ui
     packet.target_system = target_system;
     packet.target_component = target_component;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GIMBAL_REPORT;
@@ -285,8 +217,6 @@ static inline uint16_t mavlink_msg_gimbal_report_encode_chan(uint8_t system_id, 
 {
     return mavlink_msg_gimbal_report_pack_chan(system_id, component_id, chan, msg, gimbal_report->target_system, gimbal_report->target_component, gimbal_report->delta_time, gimbal_report->delta_angle_x, gimbal_report->delta_angle_y, gimbal_report->delta_angle_z, gimbal_report->delta_velocity_x, gimbal_report->delta_velocity_y, gimbal_report->delta_velocity_z, gimbal_report->joint_roll, gimbal_report->joint_el, gimbal_report->joint_az);
 }
-
-#endif
 
 /**
  * @brief Send a gimbal_report message
@@ -340,7 +270,7 @@ static inline void mavlink_msg_gimbal_report_send(mavlink_channel_t chan, uint8_
     packet.target_system = target_system;
     packet.target_component = target_component;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_REPORT, (const char*)&packet, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_REPORT, (const char *)&packet, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
 #endif
 }
 
@@ -354,7 +284,7 @@ static inline void mavlink_msg_gimbal_report_send_struct(mavlink_channel_t chan,
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_gimbal_report_send(chan, gimbal_report->target_system, gimbal_report->target_component, gimbal_report->delta_time, gimbal_report->delta_angle_x, gimbal_report->delta_angle_y, gimbal_report->delta_angle_z, gimbal_report->delta_velocity_x, gimbal_report->delta_velocity_y, gimbal_report->delta_velocity_z, gimbal_report->joint_roll, gimbal_report->joint_el, gimbal_report->joint_az);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_REPORT, (const char*)gimbal_report, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_REPORT, (const char *)gimbal_report, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
 #endif
 }
 
@@ -366,10 +296,10 @@ static inline void mavlink_msg_gimbal_report_send_struct(mavlink_channel_t chan,
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_gimbal_report_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint8_t target_system, uint8_t target_component, float delta_time, float delta_angle_x, float delta_angle_y, float delta_angle_z, float delta_velocity_x, float delta_velocity_y, float delta_velocity_z, float joint_roll, float joint_el, float joint_az)
+static inline void mavlink_msg_gimbal_report_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t target_system, uint8_t target_component, float delta_time, float delta_angle_x, float delta_angle_y, float delta_angle_z, float delta_velocity_x, float delta_velocity_y, float delta_velocity_z, float joint_roll, float joint_el, float joint_az)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_float(buf, 0, delta_time);
     _mav_put_float(buf, 4, delta_angle_x);
     _mav_put_float(buf, 8, delta_angle_y);
@@ -385,7 +315,7 @@ static inline void mavlink_msg_gimbal_report_send_buf(mavlink_message_t* msgbuf,
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_REPORT, buf, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
 #else
-    mavlink_gimbal_report_t* packet = (mavlink_gimbal_report_t*)msgbuf;
+    mavlink_gimbal_report_t *packet = (mavlink_gimbal_report_t *)msgbuf;
     packet->delta_time = delta_time;
     packet->delta_angle_x = delta_angle_x;
     packet->delta_angle_y = delta_angle_y;
@@ -399,7 +329,7 @@ static inline void mavlink_msg_gimbal_report_send_buf(mavlink_message_t* msgbuf,
     packet->target_system = target_system;
     packet->target_component = target_component;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_REPORT, (const char*)packet, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_REPORT, (const char *)packet, MAVLINK_MSG_ID_GIMBAL_REPORT_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN, MAVLINK_MSG_ID_GIMBAL_REPORT_CRC);
 #endif
 }
 #endif
@@ -416,7 +346,7 @@ static inline void mavlink_msg_gimbal_report_send_buf(mavlink_message_t* msgbuf,
  */
 static inline uint8_t mavlink_msg_gimbal_report_get_target_system(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 40);
+    return _MAV_RETURN_uint8_t(msg,  40);
 }
 
 /**
@@ -426,7 +356,7 @@ static inline uint8_t mavlink_msg_gimbal_report_get_target_system(const mavlink_
  */
 static inline uint8_t mavlink_msg_gimbal_report_get_target_component(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 41);
+    return _MAV_RETURN_uint8_t(msg,  41);
 }
 
 /**
@@ -436,7 +366,7 @@ static inline uint8_t mavlink_msg_gimbal_report_get_target_component(const mavli
  */
 static inline float mavlink_msg_gimbal_report_get_delta_time(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 0);
+    return _MAV_RETURN_float(msg,  0);
 }
 
 /**
@@ -446,7 +376,7 @@ static inline float mavlink_msg_gimbal_report_get_delta_time(const mavlink_messa
  */
 static inline float mavlink_msg_gimbal_report_get_delta_angle_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 4);
+    return _MAV_RETURN_float(msg,  4);
 }
 
 /**
@@ -456,7 +386,7 @@ static inline float mavlink_msg_gimbal_report_get_delta_angle_x(const mavlink_me
  */
 static inline float mavlink_msg_gimbal_report_get_delta_angle_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -466,7 +396,7 @@ static inline float mavlink_msg_gimbal_report_get_delta_angle_y(const mavlink_me
  */
 static inline float mavlink_msg_gimbal_report_get_delta_angle_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -476,7 +406,7 @@ static inline float mavlink_msg_gimbal_report_get_delta_angle_z(const mavlink_me
  */
 static inline float mavlink_msg_gimbal_report_get_delta_velocity_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 16);
+    return _MAV_RETURN_float(msg,  16);
 }
 
 /**
@@ -486,7 +416,7 @@ static inline float mavlink_msg_gimbal_report_get_delta_velocity_x(const mavlink
  */
 static inline float mavlink_msg_gimbal_report_get_delta_velocity_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 20);
+    return _MAV_RETURN_float(msg,  20);
 }
 
 /**
@@ -496,7 +426,7 @@ static inline float mavlink_msg_gimbal_report_get_delta_velocity_y(const mavlink
  */
 static inline float mavlink_msg_gimbal_report_get_delta_velocity_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 24);
+    return _MAV_RETURN_float(msg,  24);
 }
 
 /**
@@ -506,7 +436,7 @@ static inline float mavlink_msg_gimbal_report_get_delta_velocity_z(const mavlink
  */
 static inline float mavlink_msg_gimbal_report_get_joint_roll(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 28);
+    return _MAV_RETURN_float(msg,  28);
 }
 
 /**
@@ -516,7 +446,7 @@ static inline float mavlink_msg_gimbal_report_get_joint_roll(const mavlink_messa
  */
 static inline float mavlink_msg_gimbal_report_get_joint_el(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 32);
+    return _MAV_RETURN_float(msg,  32);
 }
 
 /**
@@ -526,7 +456,7 @@ static inline float mavlink_msg_gimbal_report_get_joint_el(const mavlink_message
  */
 static inline float mavlink_msg_gimbal_report_get_joint_az(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 36);
+    return _MAV_RETURN_float(msg,  36);
 }
 
 /**
@@ -551,8 +481,8 @@ static inline void mavlink_msg_gimbal_report_decode(const mavlink_message_t* msg
     gimbal_report->target_system = mavlink_msg_gimbal_report_get_target_system(msg);
     gimbal_report->target_component = mavlink_msg_gimbal_report_get_target_component(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_GIMBAL_REPORT_LEN ? msg->len : MAVLINK_MSG_ID_GIMBAL_REPORT_LEN;
-    memset(gimbal_report, 0, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_GIMBAL_REPORT_LEN? msg->len : MAVLINK_MSG_ID_GIMBAL_REPORT_LEN;
+        memset(gimbal_report, 0, MAVLINK_MSG_ID_GIMBAL_REPORT_LEN);
     memcpy(gimbal_report, _MAV_PAYLOAD(msg), len);
 #endif
 }

@@ -5,15 +5,15 @@
 
 MAVPACKED(
 typedef struct __mavlink_mag_cal_progress_t {
-    float direction_x; /*<  Body frame direction vector for display.*/
-    float direction_y; /*<  Body frame direction vector for display.*/
-    float direction_z; /*<  Body frame direction vector for display.*/
-    uint8_t compass_id; /*<  Compass being calibrated.*/
-    uint8_t cal_mask; /*<  Bitmask of compasses being calibrated.*/
-    uint8_t cal_status; /*<  Calibration Status.*/
-    uint8_t attempt; /*<  Attempt number.*/
-    uint8_t completion_pct; /*< [%] Completion percentage.*/
-    uint8_t completion_mask[10]; /*<  Bitmask of sphere sections (see http://en.wikipedia.org/wiki/Geodesic_grid).*/
+ float direction_x; /*<  Body frame direction vector for display.*/
+ float direction_y; /*<  Body frame direction vector for display.*/
+ float direction_z; /*<  Body frame direction vector for display.*/
+ uint8_t compass_id; /*<  Compass being calibrated.*/
+ uint8_t cal_mask; /*<  Bitmask of compasses being calibrated.*/
+ uint8_t cal_status; /*<  Calibration Status.*/
+ uint8_t attempt; /*<  Attempt number.*/
+ uint8_t completion_pct; /*< [%] Completion percentage.*/
+ uint8_t completion_mask[10]; /*<  Bitmask of sphere sections (see http://en.wikipedia.org/wiki/Geodesic_grid).*/
 }) mavlink_mag_cal_progress_t;
 
 #define MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN 27
@@ -60,63 +60,6 @@ typedef struct __mavlink_mag_cal_progress_t {
 #endif
 
 /**
- * @brief Pack a mag_cal_progress message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param compass_id  Compass being calibrated.
- * @param cal_mask  Bitmask of compasses being calibrated.
- * @param cal_status  Calibration Status.
- * @param attempt  Attempt number.
- * @param completion_pct [%] Completion percentage.
- * @param completion_mask  Bitmask of sphere sections (see http://en.wikipedia.org/wiki/Geodesic_grid).
- * @param direction_x  Body frame direction vector for display.
- * @param direction_y  Body frame direction vector for display.
- * @param direction_z  Body frame direction vector for display.
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_mag_cal_progress_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint8_t compass_id, uint8_t cal_mask, uint8_t cal_status, uint8_t attempt, uint8_t completion_pct, const uint8_t *completion_mask, float direction_x, float direction_y, float direction_z)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_float(buf, 0, direction_x);
-    _mav_put_float(buf, 4, direction_y);
-    _mav_put_float(buf, 8, direction_z);
-    _mav_put_uint8_t(buf, 12, compass_id);
-    _mav_put_uint8_t(buf, 13, cal_mask);
-    _mav_put_uint8_t(buf, 14, cal_status);
-    _mav_put_uint8_t(buf, 15, attempt);
-    _mav_put_uint8_t(buf, 16, completion_pct);
-    _mav_put_uint8_t_array(buf, 17, completion_mask, 10);
-#else
-    mavlink_mag_cal_progress_t* packet = (mavlink_mag_cal_progress_t*)(&mav_txbuf[header_len]);
-    packet->direction_x = direction_x;
-    packet->direction_y = direction_y;
-    packet->direction_z = direction_z;
-    packet->compass_id = compass_id;
-    packet->cal_mask = cal_mask;
-    packet->cal_status = cal_status;
-    packet->attempt = attempt;
-    packet->completion_pct = completion_pct;
-    mav_array_memcpy(packet->completion_mask, completion_mask, sizeof(uint8_t)*10);
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_MAG_CAL_PROGRESS, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a mag_cal_progress message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -134,7 +77,7 @@ static inline uint16_t mavlink_msg_mag_cal_progress_pack_txbuf(char* mav_txbuf, 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_mag_cal_progress_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint8_t compass_id, uint8_t cal_mask, uint8_t cal_status, uint8_t attempt, uint8_t completion_pct, const uint8_t *completion_mask, float direction_x, float direction_y, float direction_z)
+                               uint8_t compass_id, uint8_t cal_mask, uint8_t cal_status, uint8_t attempt, uint8_t completion_pct, const uint8_t *completion_mask, float direction_x, float direction_y, float direction_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN];
@@ -147,7 +90,7 @@ static inline uint16_t mavlink_msg_mag_cal_progress_pack(uint8_t system_id, uint
     _mav_put_uint8_t(buf, 15, attempt);
     _mav_put_uint8_t(buf, 16, completion_pct);
     _mav_put_uint8_t_array(buf, 17, completion_mask, 10);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
 #else
     mavlink_mag_cal_progress_t packet;
     packet.direction_x = direction_x;
@@ -159,7 +102,7 @@ static inline uint16_t mavlink_msg_mag_cal_progress_pack(uint8_t system_id, uint
     packet.attempt = attempt;
     packet.completion_pct = completion_pct;
     mav_array_memcpy(packet.completion_mask, completion_mask, sizeof(uint8_t)*10);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_MAG_CAL_PROGRESS;
@@ -184,8 +127,8 @@ static inline uint16_t mavlink_msg_mag_cal_progress_pack(uint8_t system_id, uint
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_mag_cal_progress_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint8_t compass_id, uint8_t cal_mask, uint8_t cal_status, uint8_t attempt, uint8_t completion_pct, const uint8_t *completion_mask, float direction_x, float direction_y, float direction_z)
+                               mavlink_message_t* msg,
+                                   uint8_t compass_id,uint8_t cal_mask,uint8_t cal_status,uint8_t attempt,uint8_t completion_pct,const uint8_t *completion_mask,float direction_x,float direction_y,float direction_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN];
@@ -198,7 +141,7 @@ static inline uint16_t mavlink_msg_mag_cal_progress_pack_chan(uint8_t system_id,
     _mav_put_uint8_t(buf, 15, attempt);
     _mav_put_uint8_t(buf, 16, completion_pct);
     _mav_put_uint8_t_array(buf, 17, completion_mask, 10);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
 #else
     mavlink_mag_cal_progress_t packet;
     packet.direction_x = direction_x;
@@ -210,7 +153,7 @@ static inline uint16_t mavlink_msg_mag_cal_progress_pack_chan(uint8_t system_id,
     packet.attempt = attempt;
     packet.completion_pct = completion_pct;
     mav_array_memcpy(packet.completion_mask, completion_mask, sizeof(uint8_t)*10);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_MAG_CAL_PROGRESS;
@@ -243,8 +186,6 @@ static inline uint16_t mavlink_msg_mag_cal_progress_encode_chan(uint8_t system_i
 {
     return mavlink_msg_mag_cal_progress_pack_chan(system_id, component_id, chan, msg, mag_cal_progress->compass_id, mag_cal_progress->cal_mask, mag_cal_progress->cal_status, mag_cal_progress->attempt, mag_cal_progress->completion_pct, mag_cal_progress->completion_mask, mag_cal_progress->direction_x, mag_cal_progress->direction_y, mag_cal_progress->direction_z);
 }
-
-#endif
 
 /**
  * @brief Send a mag_cal_progress message
@@ -287,7 +228,7 @@ static inline void mavlink_msg_mag_cal_progress_send(mavlink_channel_t chan, uin
     packet.attempt = attempt;
     packet.completion_pct = completion_pct;
     mav_array_memcpy(packet.completion_mask, completion_mask, sizeof(uint8_t)*10);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAG_CAL_PROGRESS, (const char*)&packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAG_CAL_PROGRESS, (const char *)&packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
 #endif
 }
 
@@ -301,7 +242,7 @@ static inline void mavlink_msg_mag_cal_progress_send_struct(mavlink_channel_t ch
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_mag_cal_progress_send(chan, mag_cal_progress->compass_id, mag_cal_progress->cal_mask, mag_cal_progress->cal_status, mag_cal_progress->attempt, mag_cal_progress->completion_pct, mag_cal_progress->completion_mask, mag_cal_progress->direction_x, mag_cal_progress->direction_y, mag_cal_progress->direction_z);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAG_CAL_PROGRESS, (const char*)mag_cal_progress, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAG_CAL_PROGRESS, (const char *)mag_cal_progress, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
 #endif
 }
 
@@ -313,10 +254,10 @@ static inline void mavlink_msg_mag_cal_progress_send_struct(mavlink_channel_t ch
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_mag_cal_progress_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint8_t compass_id, uint8_t cal_mask, uint8_t cal_status, uint8_t attempt, uint8_t completion_pct, const uint8_t *completion_mask, float direction_x, float direction_y, float direction_z)
+static inline void mavlink_msg_mag_cal_progress_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t compass_id, uint8_t cal_mask, uint8_t cal_status, uint8_t attempt, uint8_t completion_pct, const uint8_t *completion_mask, float direction_x, float direction_y, float direction_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_float(buf, 0, direction_x);
     _mav_put_float(buf, 4, direction_y);
     _mav_put_float(buf, 8, direction_z);
@@ -328,7 +269,7 @@ static inline void mavlink_msg_mag_cal_progress_send_buf(mavlink_message_t* msgb
     _mav_put_uint8_t_array(buf, 17, completion_mask, 10);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAG_CAL_PROGRESS, buf, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
 #else
-    mavlink_mag_cal_progress_t* packet = (mavlink_mag_cal_progress_t*)msgbuf;
+    mavlink_mag_cal_progress_t *packet = (mavlink_mag_cal_progress_t *)msgbuf;
     packet->direction_x = direction_x;
     packet->direction_y = direction_y;
     packet->direction_z = direction_z;
@@ -338,7 +279,7 @@ static inline void mavlink_msg_mag_cal_progress_send_buf(mavlink_message_t* msgb
     packet->attempt = attempt;
     packet->completion_pct = completion_pct;
     mav_array_memcpy(packet->completion_mask, completion_mask, sizeof(uint8_t)*10);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAG_CAL_PROGRESS, (const char*)packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_MAG_CAL_PROGRESS, (const char *)packet, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_MIN_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_CRC);
 #endif
 }
 #endif
@@ -355,7 +296,7 @@ static inline void mavlink_msg_mag_cal_progress_send_buf(mavlink_message_t* msgb
  */
 static inline uint8_t mavlink_msg_mag_cal_progress_get_compass_id(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 12);
+    return _MAV_RETURN_uint8_t(msg,  12);
 }
 
 /**
@@ -365,7 +306,7 @@ static inline uint8_t mavlink_msg_mag_cal_progress_get_compass_id(const mavlink_
  */
 static inline uint8_t mavlink_msg_mag_cal_progress_get_cal_mask(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 13);
+    return _MAV_RETURN_uint8_t(msg,  13);
 }
 
 /**
@@ -375,7 +316,7 @@ static inline uint8_t mavlink_msg_mag_cal_progress_get_cal_mask(const mavlink_me
  */
 static inline uint8_t mavlink_msg_mag_cal_progress_get_cal_status(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 14);
+    return _MAV_RETURN_uint8_t(msg,  14);
 }
 
 /**
@@ -385,7 +326,7 @@ static inline uint8_t mavlink_msg_mag_cal_progress_get_cal_status(const mavlink_
  */
 static inline uint8_t mavlink_msg_mag_cal_progress_get_attempt(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 15);
+    return _MAV_RETURN_uint8_t(msg,  15);
 }
 
 /**
@@ -395,7 +336,7 @@ static inline uint8_t mavlink_msg_mag_cal_progress_get_attempt(const mavlink_mes
  */
 static inline uint8_t mavlink_msg_mag_cal_progress_get_completion_pct(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 16);
+    return _MAV_RETURN_uint8_t(msg,  16);
 }
 
 /**
@@ -405,7 +346,7 @@ static inline uint8_t mavlink_msg_mag_cal_progress_get_completion_pct(const mavl
  */
 static inline uint16_t mavlink_msg_mag_cal_progress_get_completion_mask(const mavlink_message_t* msg, uint8_t *completion_mask)
 {
-    return _MAV_RETURN_uint8_t_array(msg, completion_mask, 10, 17);
+    return _MAV_RETURN_uint8_t_array(msg, completion_mask, 10,  17);
 }
 
 /**
@@ -415,7 +356,7 @@ static inline uint16_t mavlink_msg_mag_cal_progress_get_completion_mask(const ma
  */
 static inline float mavlink_msg_mag_cal_progress_get_direction_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 0);
+    return _MAV_RETURN_float(msg,  0);
 }
 
 /**
@@ -425,7 +366,7 @@ static inline float mavlink_msg_mag_cal_progress_get_direction_x(const mavlink_m
  */
 static inline float mavlink_msg_mag_cal_progress_get_direction_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 4);
+    return _MAV_RETURN_float(msg,  4);
 }
 
 /**
@@ -435,7 +376,7 @@ static inline float mavlink_msg_mag_cal_progress_get_direction_y(const mavlink_m
  */
 static inline float mavlink_msg_mag_cal_progress_get_direction_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -457,8 +398,8 @@ static inline void mavlink_msg_mag_cal_progress_decode(const mavlink_message_t* 
     mag_cal_progress->completion_pct = mavlink_msg_mag_cal_progress_get_completion_pct(msg);
     mavlink_msg_mag_cal_progress_get_completion_mask(msg, mag_cal_progress->completion_mask);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN ? msg->len : MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN;
-    memset(mag_cal_progress, 0, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN? msg->len : MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN;
+        memset(mag_cal_progress, 0, MAVLINK_MSG_ID_MAG_CAL_PROGRESS_LEN);
     memcpy(mag_cal_progress, _MAV_PAYLOAD(msg), len);
 #endif
 }

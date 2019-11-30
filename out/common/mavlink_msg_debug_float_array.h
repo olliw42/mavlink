@@ -5,10 +5,10 @@
 
 MAVPACKED(
 typedef struct __mavlink_debug_float_array_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    uint16_t array_id; /*<  Unique ID used to discriminate between arrays*/
-    char name[10]; /*<  Name, for human-friendly display in a Ground Control Station*/
-    float data[58]; /*<  data*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
+ uint16_t array_id; /*<  Unique ID used to discriminate between arrays*/
+ char name[10]; /*<  Name, for human-friendly display in a Ground Control Station*/
+ float data[58]; /*<  data*/
 }) mavlink_debug_float_array_t;
 
 #define MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN 252
@@ -46,48 +46,6 @@ typedef struct __mavlink_debug_float_array_t {
 #endif
 
 /**
- * @brief Pack a debug_float_array message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
- * @param name  Name, for human-friendly display in a Ground Control Station
- * @param array_id  Unique ID used to discriminate between arrays
- * @param data  data
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_debug_float_array_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint64_t time_usec, const char *name, uint16_t array_id, const float *data)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_uint64_t(buf, 0, time_usec);
-    _mav_put_uint16_t(buf, 8, array_id);
-    _mav_put_char_array(buf, 10, name, 10);
-    _mav_put_float_array(buf, 20, data, 58);
-#else
-    mavlink_debug_float_array_t* packet = (mavlink_debug_float_array_t*)(&mav_txbuf[header_len]);
-    packet->time_usec = time_usec;
-    packet->array_id = array_id;
-    mav_array_memcpy(packet->name, name, sizeof(char)*10);
-    mav_array_memcpy(packet->data, data, sizeof(float)*58);
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a debug_float_array message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -100,7 +58,7 @@ static inline uint16_t mavlink_msg_debug_float_array_pack_txbuf(char* mav_txbuf,
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_debug_float_array_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, const char *name, uint16_t array_id, const float *data)
+                               uint64_t time_usec, const char *name, uint16_t array_id, const float *data)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN];
@@ -108,14 +66,14 @@ static inline uint16_t mavlink_msg_debug_float_array_pack(uint8_t system_id, uin
     _mav_put_uint16_t(buf, 8, array_id);
     _mav_put_char_array(buf, 10, name, 10);
     _mav_put_float_array(buf, 20, data, 58);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
 #else
     mavlink_debug_float_array_t packet;
     packet.time_usec = time_usec;
     packet.array_id = array_id;
     mav_array_memcpy(packet.name, name, sizeof(char)*10);
     mav_array_memcpy(packet.data, data, sizeof(float)*58);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY;
@@ -135,8 +93,8 @@ static inline uint16_t mavlink_msg_debug_float_array_pack(uint8_t system_id, uin
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_debug_float_array_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, const char *name, uint16_t array_id, const float *data)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,const char *name,uint16_t array_id,const float *data)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN];
@@ -144,14 +102,14 @@ static inline uint16_t mavlink_msg_debug_float_array_pack_chan(uint8_t system_id
     _mav_put_uint16_t(buf, 8, array_id);
     _mav_put_char_array(buf, 10, name, 10);
     _mav_put_float_array(buf, 20, data, 58);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
 #else
     mavlink_debug_float_array_t packet;
     packet.time_usec = time_usec;
     packet.array_id = array_id;
     mav_array_memcpy(packet.name, name, sizeof(char)*10);
     mav_array_memcpy(packet.data, data, sizeof(float)*58);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY;
@@ -185,8 +143,6 @@ static inline uint16_t mavlink_msg_debug_float_array_encode_chan(uint8_t system_
     return mavlink_msg_debug_float_array_pack_chan(system_id, component_id, chan, msg, debug_float_array->time_usec, debug_float_array->name, debug_float_array->array_id, debug_float_array->data);
 }
 
-#endif
-
 /**
  * @brief Send a debug_float_array message
  * @param chan MAVLink channel to send the message
@@ -213,7 +169,7 @@ static inline void mavlink_msg_debug_float_array_send(mavlink_channel_t chan, ui
     packet.array_id = array_id;
     mav_array_memcpy(packet.name, name, sizeof(char)*10);
     mav_array_memcpy(packet.data, data, sizeof(float)*58);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, (const char*)&packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, (const char *)&packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
 #endif
 }
 
@@ -227,7 +183,7 @@ static inline void mavlink_msg_debug_float_array_send_struct(mavlink_channel_t c
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_debug_float_array_send(chan, debug_float_array->time_usec, debug_float_array->name, debug_float_array->array_id, debug_float_array->data);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, (const char*)debug_float_array, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, (const char *)debug_float_array, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
 #endif
 }
 
@@ -239,22 +195,22 @@ static inline void mavlink_msg_debug_float_array_send_struct(mavlink_channel_t c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_debug_float_array_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, const char *name, uint16_t array_id, const float *data)
+static inline void mavlink_msg_debug_float_array_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, const char *name, uint16_t array_id, const float *data)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_uint16_t(buf, 8, array_id);
     _mav_put_char_array(buf, 10, name, 10);
     _mav_put_float_array(buf, 20, data, 58);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, buf, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
 #else
-    mavlink_debug_float_array_t* packet = (mavlink_debug_float_array_t*)msgbuf;
+    mavlink_debug_float_array_t *packet = (mavlink_debug_float_array_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->array_id = array_id;
     mav_array_memcpy(packet->name, name, sizeof(char)*10);
     mav_array_memcpy(packet->data, data, sizeof(float)*58);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, (const char*)packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY, (const char *)packet, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_MIN_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_CRC);
 #endif
 }
 #endif
@@ -271,7 +227,7 @@ static inline void mavlink_msg_debug_float_array_send_buf(mavlink_message_t* msg
  */
 static inline uint64_t mavlink_msg_debug_float_array_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -281,7 +237,7 @@ static inline uint64_t mavlink_msg_debug_float_array_get_time_usec(const mavlink
  */
 static inline uint16_t mavlink_msg_debug_float_array_get_name(const mavlink_message_t* msg, char *name)
 {
-    return _MAV_RETURN_char_array(msg, name, 10, 10);
+    return _MAV_RETURN_char_array(msg, name, 10,  10);
 }
 
 /**
@@ -291,7 +247,7 @@ static inline uint16_t mavlink_msg_debug_float_array_get_name(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_debug_float_array_get_array_id(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 8);
+    return _MAV_RETURN_uint16_t(msg,  8);
 }
 
 /**
@@ -301,7 +257,7 @@ static inline uint16_t mavlink_msg_debug_float_array_get_array_id(const mavlink_
  */
 static inline uint16_t mavlink_msg_debug_float_array_get_data(const mavlink_message_t* msg, float *data)
 {
-    return _MAV_RETURN_float_array(msg, data, 58, 20);
+    return _MAV_RETURN_float_array(msg, data, 58,  20);
 }
 
 /**
@@ -318,8 +274,8 @@ static inline void mavlink_msg_debug_float_array_decode(const mavlink_message_t*
     mavlink_msg_debug_float_array_get_name(msg, debug_float_array->name);
     mavlink_msg_debug_float_array_get_data(msg, debug_float_array->data);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN ? msg->len : MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN;
-    memset(debug_float_array, 0, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN? msg->len : MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN;
+        memset(debug_float_array, 0, MAVLINK_MSG_ID_DEBUG_FLOAT_ARRAY_LEN);
     memcpy(debug_float_array, _MAV_PAYLOAD(msg), len);
 #endif
 }

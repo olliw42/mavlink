@@ -5,19 +5,19 @@
 
 MAVPACKED(
 typedef struct __mavlink_camera_information_t {
-    uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
-    uint32_t firmware_version; /*<  Version of the camera firmware (v << 24 & 0xff = Dev, v << 16 & 0xff = Patch, v << 8 & 0xff = Minor, v & 0xff = Major)*/
-    float focal_length; /*< [mm] Focal length*/
-    float sensor_size_h; /*< [mm] Image sensor size horizontal*/
-    float sensor_size_v; /*< [mm] Image sensor size vertical*/
-    uint32_t flags; /*<  Bitmap of camera capability flags.*/
-    uint16_t resolution_h; /*< [pix] Horizontal image resolution*/
-    uint16_t resolution_v; /*< [pix] Vertical image resolution*/
-    uint16_t cam_definition_version; /*<  Camera definition version (iteration)*/
-    uint8_t vendor_name[32]; /*<  Name of the camera vendor*/
-    uint8_t model_name[32]; /*<  Name of the camera model*/
-    uint8_t lens_id; /*<  Reserved for a lens ID*/
-    char cam_definition_uri[140]; /*<  Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).*/
+ uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
+ uint32_t firmware_version; /*<  Version of the camera firmware (v << 24 & 0xff = Dev, v << 16 & 0xff = Patch, v << 8 & 0xff = Minor, v & 0xff = Major)*/
+ float focal_length; /*< [mm] Focal length*/
+ float sensor_size_h; /*< [mm] Image sensor size horizontal*/
+ float sensor_size_v; /*< [mm] Image sensor size vertical*/
+ uint32_t flags; /*<  Bitmap of camera capability flags.*/
+ uint16_t resolution_h; /*< [pix] Horizontal image resolution*/
+ uint16_t resolution_v; /*< [pix] Vertical image resolution*/
+ uint16_t cam_definition_version; /*<  Camera definition version (iteration)*/
+ uint8_t vendor_name[32]; /*<  Name of the camera vendor*/
+ uint8_t model_name[32]; /*<  Name of the camera model*/
+ uint8_t lens_id; /*<  Reserved for a lens ID*/
+ char cam_definition_uri[140]; /*<  Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).*/
 }) mavlink_camera_information_t;
 
 #define MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN 235
@@ -74,75 +74,6 @@ typedef struct __mavlink_camera_information_t {
 #endif
 
 /**
- * @brief Pack a camera_information message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param time_boot_ms [ms] Timestamp (time since system boot).
- * @param vendor_name  Name of the camera vendor
- * @param model_name  Name of the camera model
- * @param firmware_version  Version of the camera firmware (v << 24 & 0xff = Dev, v << 16 & 0xff = Patch, v << 8 & 0xff = Minor, v & 0xff = Major)
- * @param focal_length [mm] Focal length
- * @param sensor_size_h [mm] Image sensor size horizontal
- * @param sensor_size_v [mm] Image sensor size vertical
- * @param resolution_h [pix] Horizontal image resolution
- * @param resolution_v [pix] Vertical image resolution
- * @param lens_id  Reserved for a lens ID
- * @param flags  Bitmap of camera capability flags.
- * @param cam_definition_version  Camera definition version (iteration)
- * @param cam_definition_uri  Camera definition URI (if any, otherwise only basic functions will be available). HTTP- (http://) and MAVLink FTP- (mavlinkftp://) formatted URIs are allowed (and both must be supported by any GCS that implements the Camera Protocol).
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_camera_information_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint32_t time_boot_ms, const uint8_t *vendor_name, const uint8_t *model_name, uint32_t firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, uint16_t resolution_h, uint16_t resolution_v, uint8_t lens_id, uint32_t flags, uint16_t cam_definition_version, const char *cam_definition_uri)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_uint32_t(buf, 0, time_boot_ms);
-    _mav_put_uint32_t(buf, 4, firmware_version);
-    _mav_put_float(buf, 8, focal_length);
-    _mav_put_float(buf, 12, sensor_size_h);
-    _mav_put_float(buf, 16, sensor_size_v);
-    _mav_put_uint32_t(buf, 20, flags);
-    _mav_put_uint16_t(buf, 24, resolution_h);
-    _mav_put_uint16_t(buf, 26, resolution_v);
-    _mav_put_uint16_t(buf, 28, cam_definition_version);
-    _mav_put_uint8_t(buf, 94, lens_id);
-    _mav_put_uint8_t_array(buf, 30, vendor_name, 32);
-    _mav_put_uint8_t_array(buf, 62, model_name, 32);
-    _mav_put_char_array(buf, 95, cam_definition_uri, 140);
-#else
-    mavlink_camera_information_t* packet = (mavlink_camera_information_t*)(&mav_txbuf[header_len]);
-    packet->time_boot_ms = time_boot_ms;
-    packet->firmware_version = firmware_version;
-    packet->focal_length = focal_length;
-    packet->sensor_size_h = sensor_size_h;
-    packet->sensor_size_v = sensor_size_v;
-    packet->flags = flags;
-    packet->resolution_h = resolution_h;
-    packet->resolution_v = resolution_v;
-    packet->cam_definition_version = cam_definition_version;
-    packet->lens_id = lens_id;
-    mav_array_memcpy(packet->vendor_name, vendor_name, sizeof(uint8_t)*32);
-    mav_array_memcpy(packet->model_name, model_name, sizeof(uint8_t)*32);
-    mav_array_memcpy(packet->cam_definition_uri, cam_definition_uri, sizeof(char)*140);
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_CAMERA_INFORMATION, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a camera_information message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -164,7 +95,7 @@ static inline uint16_t mavlink_msg_camera_information_pack_txbuf(char* mav_txbuf
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_camera_information_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint32_t time_boot_ms, const uint8_t *vendor_name, const uint8_t *model_name, uint32_t firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, uint16_t resolution_h, uint16_t resolution_v, uint8_t lens_id, uint32_t flags, uint16_t cam_definition_version, const char *cam_definition_uri)
+                               uint32_t time_boot_ms, const uint8_t *vendor_name, const uint8_t *model_name, uint32_t firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, uint16_t resolution_h, uint16_t resolution_v, uint8_t lens_id, uint32_t flags, uint16_t cam_definition_version, const char *cam_definition_uri)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN];
@@ -181,7 +112,7 @@ static inline uint16_t mavlink_msg_camera_information_pack(uint8_t system_id, ui
     _mav_put_uint8_t_array(buf, 30, vendor_name, 32);
     _mav_put_uint8_t_array(buf, 62, model_name, 32);
     _mav_put_char_array(buf, 95, cam_definition_uri, 140);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
 #else
     mavlink_camera_information_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -197,7 +128,7 @@ static inline uint16_t mavlink_msg_camera_information_pack(uint8_t system_id, ui
     mav_array_memcpy(packet.vendor_name, vendor_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet.model_name, model_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet.cam_definition_uri, cam_definition_uri, sizeof(char)*140);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_CAMERA_INFORMATION;
@@ -226,8 +157,8 @@ static inline uint16_t mavlink_msg_camera_information_pack(uint8_t system_id, ui
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_camera_information_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint32_t time_boot_ms, const uint8_t *vendor_name, const uint8_t *model_name, uint32_t firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, uint16_t resolution_h, uint16_t resolution_v, uint8_t lens_id, uint32_t flags, uint16_t cam_definition_version, const char *cam_definition_uri)
+                               mavlink_message_t* msg,
+                                   uint32_t time_boot_ms,const uint8_t *vendor_name,const uint8_t *model_name,uint32_t firmware_version,float focal_length,float sensor_size_h,float sensor_size_v,uint16_t resolution_h,uint16_t resolution_v,uint8_t lens_id,uint32_t flags,uint16_t cam_definition_version,const char *cam_definition_uri)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN];
@@ -244,7 +175,7 @@ static inline uint16_t mavlink_msg_camera_information_pack_chan(uint8_t system_i
     _mav_put_uint8_t_array(buf, 30, vendor_name, 32);
     _mav_put_uint8_t_array(buf, 62, model_name, 32);
     _mav_put_char_array(buf, 95, cam_definition_uri, 140);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
 #else
     mavlink_camera_information_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -260,7 +191,7 @@ static inline uint16_t mavlink_msg_camera_information_pack_chan(uint8_t system_i
     mav_array_memcpy(packet.vendor_name, vendor_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet.model_name, model_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet.cam_definition_uri, cam_definition_uri, sizeof(char)*140);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_CAMERA_INFORMATION;
@@ -293,8 +224,6 @@ static inline uint16_t mavlink_msg_camera_information_encode_chan(uint8_t system
 {
     return mavlink_msg_camera_information_pack_chan(system_id, component_id, chan, msg, camera_information->time_boot_ms, camera_information->vendor_name, camera_information->model_name, camera_information->firmware_version, camera_information->focal_length, camera_information->sensor_size_h, camera_information->sensor_size_v, camera_information->resolution_h, camera_information->resolution_v, camera_information->lens_id, camera_information->flags, camera_information->cam_definition_version, camera_information->cam_definition_uri);
 }
-
-#endif
 
 /**
  * @brief Send a camera_information message
@@ -349,7 +278,7 @@ static inline void mavlink_msg_camera_information_send(mavlink_channel_t chan, u
     mav_array_memcpy(packet.vendor_name, vendor_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet.model_name, model_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet.cam_definition_uri, cam_definition_uri, sizeof(char)*140);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_CAMERA_INFORMATION, (const char*)&packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_CAMERA_INFORMATION, (const char *)&packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
 #endif
 }
 
@@ -363,7 +292,7 @@ static inline void mavlink_msg_camera_information_send_struct(mavlink_channel_t 
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_camera_information_send(chan, camera_information->time_boot_ms, camera_information->vendor_name, camera_information->model_name, camera_information->firmware_version, camera_information->focal_length, camera_information->sensor_size_h, camera_information->sensor_size_v, camera_information->resolution_h, camera_information->resolution_v, camera_information->lens_id, camera_information->flags, camera_information->cam_definition_version, camera_information->cam_definition_uri);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_CAMERA_INFORMATION, (const char*)camera_information, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_CAMERA_INFORMATION, (const char *)camera_information, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
 #endif
 }
 
@@ -375,10 +304,10 @@ static inline void mavlink_msg_camera_information_send_struct(mavlink_channel_t 
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_camera_information_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint32_t time_boot_ms, const uint8_t *vendor_name, const uint8_t *model_name, uint32_t firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, uint16_t resolution_h, uint16_t resolution_v, uint8_t lens_id, uint32_t flags, uint16_t cam_definition_version, const char *cam_definition_uri)
+static inline void mavlink_msg_camera_information_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t time_boot_ms, const uint8_t *vendor_name, const uint8_t *model_name, uint32_t firmware_version, float focal_length, float sensor_size_h, float sensor_size_v, uint16_t resolution_h, uint16_t resolution_v, uint8_t lens_id, uint32_t flags, uint16_t cam_definition_version, const char *cam_definition_uri)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint32_t(buf, 0, time_boot_ms);
     _mav_put_uint32_t(buf, 4, firmware_version);
     _mav_put_float(buf, 8, focal_length);
@@ -394,7 +323,7 @@ static inline void mavlink_msg_camera_information_send_buf(mavlink_message_t* ms
     _mav_put_char_array(buf, 95, cam_definition_uri, 140);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_CAMERA_INFORMATION, buf, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
 #else
-    mavlink_camera_information_t* packet = (mavlink_camera_information_t*)msgbuf;
+    mavlink_camera_information_t *packet = (mavlink_camera_information_t *)msgbuf;
     packet->time_boot_ms = time_boot_ms;
     packet->firmware_version = firmware_version;
     packet->focal_length = focal_length;
@@ -408,7 +337,7 @@ static inline void mavlink_msg_camera_information_send_buf(mavlink_message_t* ms
     mav_array_memcpy(packet->vendor_name, vendor_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet->model_name, model_name, sizeof(uint8_t)*32);
     mav_array_memcpy(packet->cam_definition_uri, cam_definition_uri, sizeof(char)*140);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_CAMERA_INFORMATION, (const char*)packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_CAMERA_INFORMATION, (const char *)packet, MAVLINK_MSG_ID_CAMERA_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN, MAVLINK_MSG_ID_CAMERA_INFORMATION_CRC);
 #endif
 }
 #endif
@@ -425,7 +354,7 @@ static inline void mavlink_msg_camera_information_send_buf(mavlink_message_t* ms
  */
 static inline uint32_t mavlink_msg_camera_information_get_time_boot_ms(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 0);
+    return _MAV_RETURN_uint32_t(msg,  0);
 }
 
 /**
@@ -435,7 +364,7 @@ static inline uint32_t mavlink_msg_camera_information_get_time_boot_ms(const mav
  */
 static inline uint16_t mavlink_msg_camera_information_get_vendor_name(const mavlink_message_t* msg, uint8_t *vendor_name)
 {
-    return _MAV_RETURN_uint8_t_array(msg, vendor_name, 32, 30);
+    return _MAV_RETURN_uint8_t_array(msg, vendor_name, 32,  30);
 }
 
 /**
@@ -445,7 +374,7 @@ static inline uint16_t mavlink_msg_camera_information_get_vendor_name(const mavl
  */
 static inline uint16_t mavlink_msg_camera_information_get_model_name(const mavlink_message_t* msg, uint8_t *model_name)
 {
-    return _MAV_RETURN_uint8_t_array(msg, model_name, 32, 62);
+    return _MAV_RETURN_uint8_t_array(msg, model_name, 32,  62);
 }
 
 /**
@@ -455,7 +384,7 @@ static inline uint16_t mavlink_msg_camera_information_get_model_name(const mavli
  */
 static inline uint32_t mavlink_msg_camera_information_get_firmware_version(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 4);
+    return _MAV_RETURN_uint32_t(msg,  4);
 }
 
 /**
@@ -465,7 +394,7 @@ static inline uint32_t mavlink_msg_camera_information_get_firmware_version(const
  */
 static inline float mavlink_msg_camera_information_get_focal_length(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -475,7 +404,7 @@ static inline float mavlink_msg_camera_information_get_focal_length(const mavlin
  */
 static inline float mavlink_msg_camera_information_get_sensor_size_h(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -485,7 +414,7 @@ static inline float mavlink_msg_camera_information_get_sensor_size_h(const mavli
  */
 static inline float mavlink_msg_camera_information_get_sensor_size_v(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 16);
+    return _MAV_RETURN_float(msg,  16);
 }
 
 /**
@@ -495,7 +424,7 @@ static inline float mavlink_msg_camera_information_get_sensor_size_v(const mavli
  */
 static inline uint16_t mavlink_msg_camera_information_get_resolution_h(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 24);
+    return _MAV_RETURN_uint16_t(msg,  24);
 }
 
 /**
@@ -505,7 +434,7 @@ static inline uint16_t mavlink_msg_camera_information_get_resolution_h(const mav
  */
 static inline uint16_t mavlink_msg_camera_information_get_resolution_v(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 26);
+    return _MAV_RETURN_uint16_t(msg,  26);
 }
 
 /**
@@ -515,7 +444,7 @@ static inline uint16_t mavlink_msg_camera_information_get_resolution_v(const mav
  */
 static inline uint8_t mavlink_msg_camera_information_get_lens_id(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 94);
+    return _MAV_RETURN_uint8_t(msg,  94);
 }
 
 /**
@@ -525,7 +454,7 @@ static inline uint8_t mavlink_msg_camera_information_get_lens_id(const mavlink_m
  */
 static inline uint32_t mavlink_msg_camera_information_get_flags(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 20);
+    return _MAV_RETURN_uint32_t(msg,  20);
 }
 
 /**
@@ -535,7 +464,7 @@ static inline uint32_t mavlink_msg_camera_information_get_flags(const mavlink_me
  */
 static inline uint16_t mavlink_msg_camera_information_get_cam_definition_version(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 28);
+    return _MAV_RETURN_uint16_t(msg,  28);
 }
 
 /**
@@ -545,7 +474,7 @@ static inline uint16_t mavlink_msg_camera_information_get_cam_definition_version
  */
 static inline uint16_t mavlink_msg_camera_information_get_cam_definition_uri(const mavlink_message_t* msg, char *cam_definition_uri)
 {
-    return _MAV_RETURN_char_array(msg, cam_definition_uri, 140, 95);
+    return _MAV_RETURN_char_array(msg, cam_definition_uri, 140,  95);
 }
 
 /**
@@ -571,8 +500,8 @@ static inline void mavlink_msg_camera_information_decode(const mavlink_message_t
     camera_information->lens_id = mavlink_msg_camera_information_get_lens_id(msg);
     mavlink_msg_camera_information_get_cam_definition_uri(msg, camera_information->cam_definition_uri);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN ? msg->len : MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN;
-    memset(camera_information, 0, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN? msg->len : MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN;
+        memset(camera_information, 0, MAVLINK_MSG_ID_CAMERA_INFORMATION_LEN);
     memcpy(camera_information, _MAV_PAYLOAD(msg), len);
 #endif
 }

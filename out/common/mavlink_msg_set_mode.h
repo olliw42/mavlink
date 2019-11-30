@@ -5,9 +5,9 @@
 
 MAVPACKED(
 typedef struct __mavlink_set_mode_t {
-    uint32_t custom_mode; /*<  The new autopilot-specific mode. This field can be ignored by an autopilot.*/
-    uint8_t target_system; /*<  The system setting the mode*/
-    uint8_t base_mode; /*<  The new base mode.*/
+ uint32_t custom_mode; /*<  The new autopilot-specific mode. This field can be ignored by an autopilot.*/
+ uint8_t target_system; /*<  The system setting the mode*/
+ uint8_t base_mode; /*<  The new base mode.*/
 }) mavlink_set_mode_t;
 
 #define MAVLINK_MSG_ID_SET_MODE_LEN 6
@@ -42,47 +42,6 @@ typedef struct __mavlink_set_mode_t {
 #endif
 
 /**
- * @brief Pack a set_mode message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param target_system  The system setting the mode
- * @param base_mode  The new base mode.
- * @param custom_mode  The new autopilot-specific mode. This field can be ignored by an autopilot.
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_set_mode_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint8_t target_system, uint8_t base_mode, uint32_t custom_mode)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_uint32_t(buf, 0, custom_mode);
-    _mav_put_uint8_t(buf, 4, target_system);
-    _mav_put_uint8_t(buf, 5, base_mode);
-
-#else
-    mavlink_set_mode_t* packet = (mavlink_set_mode_t*)(&mav_txbuf[header_len]);
-    packet->custom_mode = custom_mode;
-    packet->target_system = target_system;
-    packet->base_mode = base_mode;
-
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_SET_MODE, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a set_mode message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -94,7 +53,7 @@ static inline uint16_t mavlink_msg_set_mode_pack_txbuf(char* mav_txbuf, mavlink_
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_set_mode_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint8_t target_system, uint8_t base_mode, uint32_t custom_mode)
+                               uint8_t target_system, uint8_t base_mode, uint32_t custom_mode)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_SET_MODE_LEN];
@@ -102,14 +61,14 @@ static inline uint16_t mavlink_msg_set_mode_pack(uint8_t system_id, uint8_t comp
     _mav_put_uint8_t(buf, 4, target_system);
     _mav_put_uint8_t(buf, 5, base_mode);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SET_MODE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SET_MODE_LEN);
 #else
     mavlink_set_mode_t packet;
     packet.custom_mode = custom_mode;
     packet.target_system = target_system;
     packet.base_mode = base_mode;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SET_MODE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SET_MODE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_SET_MODE;
@@ -128,8 +87,8 @@ static inline uint16_t mavlink_msg_set_mode_pack(uint8_t system_id, uint8_t comp
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_set_mode_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint8_t target_system, uint8_t base_mode, uint32_t custom_mode)
+                               mavlink_message_t* msg,
+                                   uint8_t target_system,uint8_t base_mode,uint32_t custom_mode)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_SET_MODE_LEN];
@@ -137,14 +96,14 @@ static inline uint16_t mavlink_msg_set_mode_pack_chan(uint8_t system_id, uint8_t
     _mav_put_uint8_t(buf, 4, target_system);
     _mav_put_uint8_t(buf, 5, base_mode);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SET_MODE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SET_MODE_LEN);
 #else
     mavlink_set_mode_t packet;
     packet.custom_mode = custom_mode;
     packet.target_system = target_system;
     packet.base_mode = base_mode;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SET_MODE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SET_MODE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_SET_MODE;
@@ -178,8 +137,6 @@ static inline uint16_t mavlink_msg_set_mode_encode_chan(uint8_t system_id, uint8
     return mavlink_msg_set_mode_pack_chan(system_id, component_id, chan, msg, set_mode->target_system, set_mode->base_mode, set_mode->custom_mode);
 }
 
-#endif
-
 /**
  * @brief Send a set_mode message
  * @param chan MAVLink channel to send the message
@@ -205,7 +162,7 @@ static inline void mavlink_msg_set_mode_send(mavlink_channel_t chan, uint8_t tar
     packet.target_system = target_system;
     packet.base_mode = base_mode;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SET_MODE, (const char*)&packet, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SET_MODE, (const char *)&packet, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
 #endif
 }
 
@@ -219,7 +176,7 @@ static inline void mavlink_msg_set_mode_send_struct(mavlink_channel_t chan, cons
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_set_mode_send(chan, set_mode->target_system, set_mode->base_mode, set_mode->custom_mode);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SET_MODE, (const char*)set_mode, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SET_MODE, (const char *)set_mode, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
 #endif
 }
 
@@ -231,22 +188,22 @@ static inline void mavlink_msg_set_mode_send_struct(mavlink_channel_t chan, cons
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_set_mode_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint8_t target_system, uint8_t base_mode, uint32_t custom_mode)
+static inline void mavlink_msg_set_mode_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t target_system, uint8_t base_mode, uint32_t custom_mode)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint32_t(buf, 0, custom_mode);
     _mav_put_uint8_t(buf, 4, target_system);
     _mav_put_uint8_t(buf, 5, base_mode);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SET_MODE, buf, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
 #else
-    mavlink_set_mode_t* packet = (mavlink_set_mode_t*)msgbuf;
+    mavlink_set_mode_t *packet = (mavlink_set_mode_t *)msgbuf;
     packet->custom_mode = custom_mode;
     packet->target_system = target_system;
     packet->base_mode = base_mode;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SET_MODE, (const char*)packet, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SET_MODE, (const char *)packet, MAVLINK_MSG_ID_SET_MODE_MIN_LEN, MAVLINK_MSG_ID_SET_MODE_LEN, MAVLINK_MSG_ID_SET_MODE_CRC);
 #endif
 }
 #endif
@@ -263,7 +220,7 @@ static inline void mavlink_msg_set_mode_send_buf(mavlink_message_t* msgbuf, mavl
  */
 static inline uint8_t mavlink_msg_set_mode_get_target_system(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 4);
+    return _MAV_RETURN_uint8_t(msg,  4);
 }
 
 /**
@@ -273,7 +230,7 @@ static inline uint8_t mavlink_msg_set_mode_get_target_system(const mavlink_messa
  */
 static inline uint8_t mavlink_msg_set_mode_get_base_mode(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 5);
+    return _MAV_RETURN_uint8_t(msg,  5);
 }
 
 /**
@@ -283,7 +240,7 @@ static inline uint8_t mavlink_msg_set_mode_get_base_mode(const mavlink_message_t
  */
 static inline uint32_t mavlink_msg_set_mode_get_custom_mode(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 0);
+    return _MAV_RETURN_uint32_t(msg,  0);
 }
 
 /**
@@ -299,8 +256,8 @@ static inline void mavlink_msg_set_mode_decode(const mavlink_message_t* msg, mav
     set_mode->target_system = mavlink_msg_set_mode_get_target_system(msg);
     set_mode->base_mode = mavlink_msg_set_mode_get_base_mode(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_SET_MODE_LEN ? msg->len : MAVLINK_MSG_ID_SET_MODE_LEN;
-    memset(set_mode, 0, MAVLINK_MSG_ID_SET_MODE_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_SET_MODE_LEN? msg->len : MAVLINK_MSG_ID_SET_MODE_LEN;
+        memset(set_mode, 0, MAVLINK_MSG_ID_SET_MODE_LEN);
     memcpy(set_mode, _MAV_PAYLOAD(msg), len);
 #endif
 }

@@ -5,27 +5,27 @@
 
 MAVPACKED(
 typedef struct __mavlink_rc_channels_t {
-    uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
-    uint16_t chan1_raw; /*< [us] RC channel 1 value.*/
-    uint16_t chan2_raw; /*< [us] RC channel 2 value.*/
-    uint16_t chan3_raw; /*< [us] RC channel 3 value.*/
-    uint16_t chan4_raw; /*< [us] RC channel 4 value.*/
-    uint16_t chan5_raw; /*< [us] RC channel 5 value.*/
-    uint16_t chan6_raw; /*< [us] RC channel 6 value.*/
-    uint16_t chan7_raw; /*< [us] RC channel 7 value.*/
-    uint16_t chan8_raw; /*< [us] RC channel 8 value.*/
-    uint16_t chan9_raw; /*< [us] RC channel 9 value.*/
-    uint16_t chan10_raw; /*< [us] RC channel 10 value.*/
-    uint16_t chan11_raw; /*< [us] RC channel 11 value.*/
-    uint16_t chan12_raw; /*< [us] RC channel 12 value.*/
-    uint16_t chan13_raw; /*< [us] RC channel 13 value.*/
-    uint16_t chan14_raw; /*< [us] RC channel 14 value.*/
-    uint16_t chan15_raw; /*< [us] RC channel 15 value.*/
-    uint16_t chan16_raw; /*< [us] RC channel 16 value.*/
-    uint16_t chan17_raw; /*< [us] RC channel 17 value.*/
-    uint16_t chan18_raw; /*< [us] RC channel 18 value.*/
-    uint8_t chancount; /*<  Total number of RC channels being received. This can be larger than 18, indicating that more channels are available but not given in this message. This value should be 0 when no RC channels are available.*/
-    uint8_t rssi; /*<  Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.*/
+ uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
+ uint16_t chan1_raw; /*< [us] RC channel 1 value.*/
+ uint16_t chan2_raw; /*< [us] RC channel 2 value.*/
+ uint16_t chan3_raw; /*< [us] RC channel 3 value.*/
+ uint16_t chan4_raw; /*< [us] RC channel 4 value.*/
+ uint16_t chan5_raw; /*< [us] RC channel 5 value.*/
+ uint16_t chan6_raw; /*< [us] RC channel 6 value.*/
+ uint16_t chan7_raw; /*< [us] RC channel 7 value.*/
+ uint16_t chan8_raw; /*< [us] RC channel 8 value.*/
+ uint16_t chan9_raw; /*< [us] RC channel 9 value.*/
+ uint16_t chan10_raw; /*< [us] RC channel 10 value.*/
+ uint16_t chan11_raw; /*< [us] RC channel 11 value.*/
+ uint16_t chan12_raw; /*< [us] RC channel 12 value.*/
+ uint16_t chan13_raw; /*< [us] RC channel 13 value.*/
+ uint16_t chan14_raw; /*< [us] RC channel 14 value.*/
+ uint16_t chan15_raw; /*< [us] RC channel 15 value.*/
+ uint16_t chan16_raw; /*< [us] RC channel 16 value.*/
+ uint16_t chan17_raw; /*< [us] RC channel 17 value.*/
+ uint16_t chan18_raw; /*< [us] RC channel 18 value.*/
+ uint8_t chancount; /*<  Total number of RC channels being received. This can be larger than 18, indicating that more channels are available but not given in this message. This value should be 0 when no RC channels are available.*/
+ uint8_t rssi; /*<  Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.*/
 }) mavlink_rc_channels_t;
 
 #define MAVLINK_MSG_ID_RC_CHANNELS_LEN 42
@@ -96,101 +96,6 @@ typedef struct __mavlink_rc_channels_t {
 #endif
 
 /**
- * @brief Pack a rc_channels message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param time_boot_ms [ms] Timestamp (time since system boot).
- * @param chancount  Total number of RC channels being received. This can be larger than 18, indicating that more channels are available but not given in this message. This value should be 0 when no RC channels are available.
- * @param chan1_raw [us] RC channel 1 value.
- * @param chan2_raw [us] RC channel 2 value.
- * @param chan3_raw [us] RC channel 3 value.
- * @param chan4_raw [us] RC channel 4 value.
- * @param chan5_raw [us] RC channel 5 value.
- * @param chan6_raw [us] RC channel 6 value.
- * @param chan7_raw [us] RC channel 7 value.
- * @param chan8_raw [us] RC channel 8 value.
- * @param chan9_raw [us] RC channel 9 value.
- * @param chan10_raw [us] RC channel 10 value.
- * @param chan11_raw [us] RC channel 11 value.
- * @param chan12_raw [us] RC channel 12 value.
- * @param chan13_raw [us] RC channel 13 value.
- * @param chan14_raw [us] RC channel 14 value.
- * @param chan15_raw [us] RC channel 15 value.
- * @param chan16_raw [us] RC channel 16 value.
- * @param chan17_raw [us] RC channel 17 value.
- * @param chan18_raw [us] RC channel 18 value.
- * @param rssi  Receive signal strength indicator in device-dependent units/scale. Values: [0-254], 255: invalid/unknown.
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_rc_channels_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   uint32_t time_boot_ms, uint8_t chancount, uint16_t chan1_raw, uint16_t chan2_raw, uint16_t chan3_raw, uint16_t chan4_raw, uint16_t chan5_raw, uint16_t chan6_raw, uint16_t chan7_raw, uint16_t chan8_raw, uint16_t chan9_raw, uint16_t chan10_raw, uint16_t chan11_raw, uint16_t chan12_raw, uint16_t chan13_raw, uint16_t chan14_raw, uint16_t chan15_raw, uint16_t chan16_raw, uint16_t chan17_raw, uint16_t chan18_raw, uint8_t rssi)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-    _mav_put_uint32_t(buf, 0, time_boot_ms);
-    _mav_put_uint16_t(buf, 4, chan1_raw);
-    _mav_put_uint16_t(buf, 6, chan2_raw);
-    _mav_put_uint16_t(buf, 8, chan3_raw);
-    _mav_put_uint16_t(buf, 10, chan4_raw);
-    _mav_put_uint16_t(buf, 12, chan5_raw);
-    _mav_put_uint16_t(buf, 14, chan6_raw);
-    _mav_put_uint16_t(buf, 16, chan7_raw);
-    _mav_put_uint16_t(buf, 18, chan8_raw);
-    _mav_put_uint16_t(buf, 20, chan9_raw);
-    _mav_put_uint16_t(buf, 22, chan10_raw);
-    _mav_put_uint16_t(buf, 24, chan11_raw);
-    _mav_put_uint16_t(buf, 26, chan12_raw);
-    _mav_put_uint16_t(buf, 28, chan13_raw);
-    _mav_put_uint16_t(buf, 30, chan14_raw);
-    _mav_put_uint16_t(buf, 32, chan15_raw);
-    _mav_put_uint16_t(buf, 34, chan16_raw);
-    _mav_put_uint16_t(buf, 36, chan17_raw);
-    _mav_put_uint16_t(buf, 38, chan18_raw);
-    _mav_put_uint8_t(buf, 40, chancount);
-    _mav_put_uint8_t(buf, 41, rssi);
-
-#else
-    mavlink_rc_channels_t* packet = (mavlink_rc_channels_t*)(&mav_txbuf[header_len]);
-    packet->time_boot_ms = time_boot_ms;
-    packet->chan1_raw = chan1_raw;
-    packet->chan2_raw = chan2_raw;
-    packet->chan3_raw = chan3_raw;
-    packet->chan4_raw = chan4_raw;
-    packet->chan5_raw = chan5_raw;
-    packet->chan6_raw = chan6_raw;
-    packet->chan7_raw = chan7_raw;
-    packet->chan8_raw = chan8_raw;
-    packet->chan9_raw = chan9_raw;
-    packet->chan10_raw = chan10_raw;
-    packet->chan11_raw = chan11_raw;
-    packet->chan12_raw = chan12_raw;
-    packet->chan13_raw = chan13_raw;
-    packet->chan14_raw = chan14_raw;
-    packet->chan15_raw = chan15_raw;
-    packet->chan16_raw = chan16_raw;
-    packet->chan17_raw = chan17_raw;
-    packet->chan18_raw = chan18_raw;
-    packet->chancount = chancount;
-    packet->rssi = rssi;
-
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_RC_CHANNELS, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a rc_channels message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -220,7 +125,7 @@ static inline uint16_t mavlink_msg_rc_channels_pack_txbuf(char* mav_txbuf, mavli
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_rc_channels_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint32_t time_boot_ms, uint8_t chancount, uint16_t chan1_raw, uint16_t chan2_raw, uint16_t chan3_raw, uint16_t chan4_raw, uint16_t chan5_raw, uint16_t chan6_raw, uint16_t chan7_raw, uint16_t chan8_raw, uint16_t chan9_raw, uint16_t chan10_raw, uint16_t chan11_raw, uint16_t chan12_raw, uint16_t chan13_raw, uint16_t chan14_raw, uint16_t chan15_raw, uint16_t chan16_raw, uint16_t chan17_raw, uint16_t chan18_raw, uint8_t rssi)
+                               uint32_t time_boot_ms, uint8_t chancount, uint16_t chan1_raw, uint16_t chan2_raw, uint16_t chan3_raw, uint16_t chan4_raw, uint16_t chan5_raw, uint16_t chan6_raw, uint16_t chan7_raw, uint16_t chan8_raw, uint16_t chan9_raw, uint16_t chan10_raw, uint16_t chan11_raw, uint16_t chan12_raw, uint16_t chan13_raw, uint16_t chan14_raw, uint16_t chan15_raw, uint16_t chan16_raw, uint16_t chan17_raw, uint16_t chan18_raw, uint8_t rssi)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_RC_CHANNELS_LEN];
@@ -246,7 +151,7 @@ static inline uint16_t mavlink_msg_rc_channels_pack(uint8_t system_id, uint8_t c
     _mav_put_uint8_t(buf, 40, chancount);
     _mav_put_uint8_t(buf, 41, rssi);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
 #else
     mavlink_rc_channels_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -271,7 +176,7 @@ static inline uint16_t mavlink_msg_rc_channels_pack(uint8_t system_id, uint8_t c
     packet.chancount = chancount;
     packet.rssi = rssi;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_RC_CHANNELS;
@@ -308,8 +213,8 @@ static inline uint16_t mavlink_msg_rc_channels_pack(uint8_t system_id, uint8_t c
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_rc_channels_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint32_t time_boot_ms, uint8_t chancount, uint16_t chan1_raw, uint16_t chan2_raw, uint16_t chan3_raw, uint16_t chan4_raw, uint16_t chan5_raw, uint16_t chan6_raw, uint16_t chan7_raw, uint16_t chan8_raw, uint16_t chan9_raw, uint16_t chan10_raw, uint16_t chan11_raw, uint16_t chan12_raw, uint16_t chan13_raw, uint16_t chan14_raw, uint16_t chan15_raw, uint16_t chan16_raw, uint16_t chan17_raw, uint16_t chan18_raw, uint8_t rssi)
+                               mavlink_message_t* msg,
+                                   uint32_t time_boot_ms,uint8_t chancount,uint16_t chan1_raw,uint16_t chan2_raw,uint16_t chan3_raw,uint16_t chan4_raw,uint16_t chan5_raw,uint16_t chan6_raw,uint16_t chan7_raw,uint16_t chan8_raw,uint16_t chan9_raw,uint16_t chan10_raw,uint16_t chan11_raw,uint16_t chan12_raw,uint16_t chan13_raw,uint16_t chan14_raw,uint16_t chan15_raw,uint16_t chan16_raw,uint16_t chan17_raw,uint16_t chan18_raw,uint8_t rssi)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_RC_CHANNELS_LEN];
@@ -335,7 +240,7 @@ static inline uint16_t mavlink_msg_rc_channels_pack_chan(uint8_t system_id, uint
     _mav_put_uint8_t(buf, 40, chancount);
     _mav_put_uint8_t(buf, 41, rssi);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
 #else
     mavlink_rc_channels_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -360,7 +265,7 @@ static inline uint16_t mavlink_msg_rc_channels_pack_chan(uint8_t system_id, uint
     packet.chancount = chancount;
     packet.rssi = rssi;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_RC_CHANNELS;
@@ -393,8 +298,6 @@ static inline uint16_t mavlink_msg_rc_channels_encode_chan(uint8_t system_id, ui
 {
     return mavlink_msg_rc_channels_pack_chan(system_id, component_id, chan, msg, rc_channels->time_boot_ms, rc_channels->chancount, rc_channels->chan1_raw, rc_channels->chan2_raw, rc_channels->chan3_raw, rc_channels->chan4_raw, rc_channels->chan5_raw, rc_channels->chan6_raw, rc_channels->chan7_raw, rc_channels->chan8_raw, rc_channels->chan9_raw, rc_channels->chan10_raw, rc_channels->chan11_raw, rc_channels->chan12_raw, rc_channels->chan13_raw, rc_channels->chan14_raw, rc_channels->chan15_raw, rc_channels->chan16_raw, rc_channels->chan17_raw, rc_channels->chan18_raw, rc_channels->rssi);
 }
-
-#endif
 
 /**
  * @brief Send a rc_channels message
@@ -475,7 +378,7 @@ static inline void mavlink_msg_rc_channels_send(mavlink_channel_t chan, uint32_t
     packet.chancount = chancount;
     packet.rssi = rssi;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RC_CHANNELS, (const char*)&packet, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RC_CHANNELS, (const char *)&packet, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
 #endif
 }
 
@@ -489,7 +392,7 @@ static inline void mavlink_msg_rc_channels_send_struct(mavlink_channel_t chan, c
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_rc_channels_send(chan, rc_channels->time_boot_ms, rc_channels->chancount, rc_channels->chan1_raw, rc_channels->chan2_raw, rc_channels->chan3_raw, rc_channels->chan4_raw, rc_channels->chan5_raw, rc_channels->chan6_raw, rc_channels->chan7_raw, rc_channels->chan8_raw, rc_channels->chan9_raw, rc_channels->chan10_raw, rc_channels->chan11_raw, rc_channels->chan12_raw, rc_channels->chan13_raw, rc_channels->chan14_raw, rc_channels->chan15_raw, rc_channels->chan16_raw, rc_channels->chan17_raw, rc_channels->chan18_raw, rc_channels->rssi);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RC_CHANNELS, (const char*)rc_channels, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RC_CHANNELS, (const char *)rc_channels, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
 #endif
 }
 
@@ -501,10 +404,10 @@ static inline void mavlink_msg_rc_channels_send_struct(mavlink_channel_t chan, c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_rc_channels_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint32_t time_boot_ms, uint8_t chancount, uint16_t chan1_raw, uint16_t chan2_raw, uint16_t chan3_raw, uint16_t chan4_raw, uint16_t chan5_raw, uint16_t chan6_raw, uint16_t chan7_raw, uint16_t chan8_raw, uint16_t chan9_raw, uint16_t chan10_raw, uint16_t chan11_raw, uint16_t chan12_raw, uint16_t chan13_raw, uint16_t chan14_raw, uint16_t chan15_raw, uint16_t chan16_raw, uint16_t chan17_raw, uint16_t chan18_raw, uint8_t rssi)
+static inline void mavlink_msg_rc_channels_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t time_boot_ms, uint8_t chancount, uint16_t chan1_raw, uint16_t chan2_raw, uint16_t chan3_raw, uint16_t chan4_raw, uint16_t chan5_raw, uint16_t chan6_raw, uint16_t chan7_raw, uint16_t chan8_raw, uint16_t chan9_raw, uint16_t chan10_raw, uint16_t chan11_raw, uint16_t chan12_raw, uint16_t chan13_raw, uint16_t chan14_raw, uint16_t chan15_raw, uint16_t chan16_raw, uint16_t chan17_raw, uint16_t chan18_raw, uint8_t rssi)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint32_t(buf, 0, time_boot_ms);
     _mav_put_uint16_t(buf, 4, chan1_raw);
     _mav_put_uint16_t(buf, 6, chan2_raw);
@@ -529,7 +432,7 @@ static inline void mavlink_msg_rc_channels_send_buf(mavlink_message_t* msgbuf, m
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RC_CHANNELS, buf, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
 #else
-    mavlink_rc_channels_t* packet = (mavlink_rc_channels_t*)msgbuf;
+    mavlink_rc_channels_t *packet = (mavlink_rc_channels_t *)msgbuf;
     packet->time_boot_ms = time_boot_ms;
     packet->chan1_raw = chan1_raw;
     packet->chan2_raw = chan2_raw;
@@ -552,7 +455,7 @@ static inline void mavlink_msg_rc_channels_send_buf(mavlink_message_t* msgbuf, m
     packet->chancount = chancount;
     packet->rssi = rssi;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RC_CHANNELS, (const char*)packet, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RC_CHANNELS, (const char *)packet, MAVLINK_MSG_ID_RC_CHANNELS_MIN_LEN, MAVLINK_MSG_ID_RC_CHANNELS_LEN, MAVLINK_MSG_ID_RC_CHANNELS_CRC);
 #endif
 }
 #endif
@@ -569,7 +472,7 @@ static inline void mavlink_msg_rc_channels_send_buf(mavlink_message_t* msgbuf, m
  */
 static inline uint32_t mavlink_msg_rc_channels_get_time_boot_ms(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 0);
+    return _MAV_RETURN_uint32_t(msg,  0);
 }
 
 /**
@@ -579,7 +482,7 @@ static inline uint32_t mavlink_msg_rc_channels_get_time_boot_ms(const mavlink_me
  */
 static inline uint8_t mavlink_msg_rc_channels_get_chancount(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 40);
+    return _MAV_RETURN_uint8_t(msg,  40);
 }
 
 /**
@@ -589,7 +492,7 @@ static inline uint8_t mavlink_msg_rc_channels_get_chancount(const mavlink_messag
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan1_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 4);
+    return _MAV_RETURN_uint16_t(msg,  4);
 }
 
 /**
@@ -599,7 +502,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan1_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan2_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 6);
+    return _MAV_RETURN_uint16_t(msg,  6);
 }
 
 /**
@@ -609,7 +512,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan2_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan3_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 8);
+    return _MAV_RETURN_uint16_t(msg,  8);
 }
 
 /**
@@ -619,7 +522,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan3_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan4_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 10);
+    return _MAV_RETURN_uint16_t(msg,  10);
 }
 
 /**
@@ -629,7 +532,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan4_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan5_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 12);
+    return _MAV_RETURN_uint16_t(msg,  12);
 }
 
 /**
@@ -639,7 +542,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan5_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan6_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 14);
+    return _MAV_RETURN_uint16_t(msg,  14);
 }
 
 /**
@@ -649,7 +552,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan6_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan7_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 16);
+    return _MAV_RETURN_uint16_t(msg,  16);
 }
 
 /**
@@ -659,7 +562,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan7_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan8_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 18);
+    return _MAV_RETURN_uint16_t(msg,  18);
 }
 
 /**
@@ -669,7 +572,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan8_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan9_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 20);
+    return _MAV_RETURN_uint16_t(msg,  20);
 }
 
 /**
@@ -679,7 +582,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan9_raw(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan10_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 22);
+    return _MAV_RETURN_uint16_t(msg,  22);
 }
 
 /**
@@ -689,7 +592,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan10_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan11_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 24);
+    return _MAV_RETURN_uint16_t(msg,  24);
 }
 
 /**
@@ -699,7 +602,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan11_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan12_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 26);
+    return _MAV_RETURN_uint16_t(msg,  26);
 }
 
 /**
@@ -709,7 +612,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan12_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan13_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 28);
+    return _MAV_RETURN_uint16_t(msg,  28);
 }
 
 /**
@@ -719,7 +622,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan13_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan14_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 30);
+    return _MAV_RETURN_uint16_t(msg,  30);
 }
 
 /**
@@ -729,7 +632,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan14_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan15_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 32);
+    return _MAV_RETURN_uint16_t(msg,  32);
 }
 
 /**
@@ -739,7 +642,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan15_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan16_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 34);
+    return _MAV_RETURN_uint16_t(msg,  34);
 }
 
 /**
@@ -749,7 +652,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan16_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan17_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 36);
+    return _MAV_RETURN_uint16_t(msg,  36);
 }
 
 /**
@@ -759,7 +662,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan17_raw(const mavlink_mess
  */
 static inline uint16_t mavlink_msg_rc_channels_get_chan18_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 38);
+    return _MAV_RETURN_uint16_t(msg,  38);
 }
 
 /**
@@ -769,7 +672,7 @@ static inline uint16_t mavlink_msg_rc_channels_get_chan18_raw(const mavlink_mess
  */
 static inline uint8_t mavlink_msg_rc_channels_get_rssi(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 41);
+    return _MAV_RETURN_uint8_t(msg,  41);
 }
 
 /**
@@ -803,8 +706,8 @@ static inline void mavlink_msg_rc_channels_decode(const mavlink_message_t* msg, 
     rc_channels->chancount = mavlink_msg_rc_channels_get_chancount(msg);
     rc_channels->rssi = mavlink_msg_rc_channels_get_rssi(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_RC_CHANNELS_LEN ? msg->len : MAVLINK_MSG_ID_RC_CHANNELS_LEN;
-    memset(rc_channels, 0, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_RC_CHANNELS_LEN? msg->len : MAVLINK_MSG_ID_RC_CHANNELS_LEN;
+        memset(rc_channels, 0, MAVLINK_MSG_ID_RC_CHANNELS_LEN);
     memcpy(rc_channels, _MAV_PAYLOAD(msg), len);
 #endif
 }

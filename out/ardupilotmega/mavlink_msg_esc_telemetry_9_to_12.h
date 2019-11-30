@@ -5,12 +5,12 @@
 
 MAVPACKED(
 typedef struct __mavlink_esc_telemetry_9_to_12_t {
-    uint16_t voltage[4]; /*< [cV] Voltage.*/
-    uint16_t current[4]; /*< [cA] Current.*/
-    uint16_t totalcurrent[4]; /*< [mAh] Total current.*/
-    uint16_t rpm[4]; /*< [rpm] RPM (eRPM).*/
-    uint16_t count[4]; /*<  count of telemetry packets received (wraps at 65535).*/
-    uint8_t temperature[4]; /*< [degC] Temperature.*/
+ uint16_t voltage[4]; /*< [cV] Voltage.*/
+ uint16_t current[4]; /*< [cA] Current.*/
+ uint16_t totalcurrent[4]; /*< [mAh] Total current.*/
+ uint16_t rpm[4]; /*< [rpm] RPM (eRPM).*/
+ uint16_t count[4]; /*<  count of telemetry packets received (wraps at 65535).*/
+ uint8_t temperature[4]; /*< [degC] Temperature.*/
 }) mavlink_esc_telemetry_9_to_12_t;
 
 #define MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN 44
@@ -56,56 +56,6 @@ typedef struct __mavlink_esc_telemetry_9_to_12_t {
 #endif
 
 /**
- * @brief Pack a esc_telemetry_9_to_12 message into a transmit buffer
- * @param mav_txbuf The transmit buffer
- * @param mav_status The parsing status buffer
- * @param system_id ID of this system
- * @param component_id ID of this component (e.g. 200 for IMU)
- *
- * @param temperature [degC] Temperature.
- * @param voltage [cV] Voltage.
- * @param current [cA] Current.
- * @param totalcurrent [mAh] Total current.
- * @param rpm [rpm] RPM (eRPM).
- * @param count  count of telemetry packets received (wraps at 65535).
- * @return length of the complete message in bytes in the transmit buffer
- */
-static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
-                                   const uint8_t *temperature, const uint16_t *voltage, const uint16_t *current, const uint16_t *totalcurrent, const uint16_t *rpm, const uint16_t *count)
-{
-    uint8_t header_len;
-    if (mav_status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
-        header_len = MAVLINK_CORE_HEADER_MAVLINK1_LEN+1;
-    } else {
-        header_len = MAVLINK_CORE_HEADER_LEN+1;
-    }
-
-#if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char* buf = (char*)(&mav_txbuf[header_len]);
-
-    _mav_put_uint16_t_array(buf, 0, voltage, 4);
-    _mav_put_uint16_t_array(buf, 8, current, 4);
-    _mav_put_uint16_t_array(buf, 16, totalcurrent, 4);
-    _mav_put_uint16_t_array(buf, 24, rpm, 4);
-    _mav_put_uint16_t_array(buf, 32, count, 4);
-    _mav_put_uint8_t_array(buf, 40, temperature, 4);
-#else
-    mavlink_esc_telemetry_9_to_12_t* packet = (mavlink_esc_telemetry_9_to_12_t*)(&mav_txbuf[header_len]);
-
-    mav_array_memcpy(packet->voltage, voltage, sizeof(uint16_t)*4);
-    mav_array_memcpy(packet->current, current, sizeof(uint16_t)*4);
-    mav_array_memcpy(packet->totalcurrent, totalcurrent, sizeof(uint16_t)*4);
-    mav_array_memcpy(packet->rpm, rpm, sizeof(uint16_t)*4);
-    mav_array_memcpy(packet->count, count, sizeof(uint16_t)*4);
-    mav_array_memcpy(packet->temperature, temperature, sizeof(uint8_t)*4);
-#endif
-
-    return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
-                                          MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
-}
-
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
-/**
  * @brief Pack a esc_telemetry_9_to_12 message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
@@ -120,7 +70,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack_txbuf(char* mav_tx
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 const uint8_t *temperature, const uint16_t *voltage, const uint16_t *current, const uint16_t *totalcurrent, const uint16_t *rpm, const uint16_t *count)
+                               const uint8_t *temperature, const uint16_t *voltage, const uint16_t *current, const uint16_t *totalcurrent, const uint16_t *rpm, const uint16_t *count)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN];
@@ -131,7 +81,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack(uint8_t system_id,
     _mav_put_uint16_t_array(buf, 24, rpm, 4);
     _mav_put_uint16_t_array(buf, 32, count, 4);
     _mav_put_uint8_t_array(buf, 40, temperature, 4);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
 #else
     mavlink_esc_telemetry_9_to_12_t packet;
 
@@ -141,7 +91,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack(uint8_t system_id,
     mav_array_memcpy(packet.rpm, rpm, sizeof(uint16_t)*4);
     mav_array_memcpy(packet.count, count, sizeof(uint16_t)*4);
     mav_array_memcpy(packet.temperature, temperature, sizeof(uint8_t)*4);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12;
@@ -163,8 +113,8 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack(uint8_t system_id,
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                const uint8_t *temperature, const uint16_t *voltage, const uint16_t *current, const uint16_t *totalcurrent, const uint16_t *rpm, const uint16_t *count)
+                               mavlink_message_t* msg,
+                                   const uint8_t *temperature,const uint16_t *voltage,const uint16_t *current,const uint16_t *totalcurrent,const uint16_t *rpm,const uint16_t *count)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN];
@@ -175,7 +125,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack_chan(uint8_t syste
     _mav_put_uint16_t_array(buf, 24, rpm, 4);
     _mav_put_uint16_t_array(buf, 32, count, 4);
     _mav_put_uint8_t_array(buf, 40, temperature, 4);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
 #else
     mavlink_esc_telemetry_9_to_12_t packet;
 
@@ -185,7 +135,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_pack_chan(uint8_t syste
     mav_array_memcpy(packet.rpm, rpm, sizeof(uint16_t)*4);
     mav_array_memcpy(packet.count, count, sizeof(uint16_t)*4);
     mav_array_memcpy(packet.temperature, temperature, sizeof(uint8_t)*4);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12;
@@ -218,8 +168,6 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_encode_chan(uint8_t sys
 {
     return mavlink_msg_esc_telemetry_9_to_12_pack_chan(system_id, component_id, chan, msg, esc_telemetry_9_to_12->temperature, esc_telemetry_9_to_12->voltage, esc_telemetry_9_to_12->current, esc_telemetry_9_to_12->totalcurrent, esc_telemetry_9_to_12->rpm, esc_telemetry_9_to_12->count);
 }
-
-#endif
 
 /**
  * @brief Send a esc_telemetry_9_to_12 message
@@ -255,7 +203,7 @@ static inline void mavlink_msg_esc_telemetry_9_to_12_send(mavlink_channel_t chan
     mav_array_memcpy(packet.rpm, rpm, sizeof(uint16_t)*4);
     mav_array_memcpy(packet.count, count, sizeof(uint16_t)*4);
     mav_array_memcpy(packet.temperature, temperature, sizeof(uint8_t)*4);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, (const char*)&packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, (const char *)&packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
 #endif
 }
 
@@ -269,7 +217,7 @@ static inline void mavlink_msg_esc_telemetry_9_to_12_send_struct(mavlink_channel
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_esc_telemetry_9_to_12_send(chan, esc_telemetry_9_to_12->temperature, esc_telemetry_9_to_12->voltage, esc_telemetry_9_to_12->current, esc_telemetry_9_to_12->totalcurrent, esc_telemetry_9_to_12->rpm, esc_telemetry_9_to_12->count);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, (const char*)esc_telemetry_9_to_12, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, (const char *)esc_telemetry_9_to_12, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
 #endif
 }
 
@@ -281,10 +229,10 @@ static inline void mavlink_msg_esc_telemetry_9_to_12_send_struct(mavlink_channel
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_esc_telemetry_9_to_12_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, const uint8_t *temperature, const uint16_t *voltage, const uint16_t *current, const uint16_t *totalcurrent, const uint16_t *rpm, const uint16_t *count)
+static inline void mavlink_msg_esc_telemetry_9_to_12_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  const uint8_t *temperature, const uint16_t *voltage, const uint16_t *current, const uint16_t *totalcurrent, const uint16_t *rpm, const uint16_t *count)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
 
     _mav_put_uint16_t_array(buf, 0, voltage, 4);
     _mav_put_uint16_t_array(buf, 8, current, 4);
@@ -294,7 +242,7 @@ static inline void mavlink_msg_esc_telemetry_9_to_12_send_buf(mavlink_message_t*
     _mav_put_uint8_t_array(buf, 40, temperature, 4);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, buf, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
 #else
-    mavlink_esc_telemetry_9_to_12_t* packet = (mavlink_esc_telemetry_9_to_12_t*)msgbuf;
+    mavlink_esc_telemetry_9_to_12_t *packet = (mavlink_esc_telemetry_9_to_12_t *)msgbuf;
 
     mav_array_memcpy(packet->voltage, voltage, sizeof(uint16_t)*4);
     mav_array_memcpy(packet->current, current, sizeof(uint16_t)*4);
@@ -302,7 +250,7 @@ static inline void mavlink_msg_esc_telemetry_9_to_12_send_buf(mavlink_message_t*
     mav_array_memcpy(packet->rpm, rpm, sizeof(uint16_t)*4);
     mav_array_memcpy(packet->count, count, sizeof(uint16_t)*4);
     mav_array_memcpy(packet->temperature, temperature, sizeof(uint8_t)*4);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, (const char*)packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12, (const char *)packet, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_MIN_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_CRC);
 #endif
 }
 #endif
@@ -319,7 +267,7 @@ static inline void mavlink_msg_esc_telemetry_9_to_12_send_buf(mavlink_message_t*
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_temperature(const mavlink_message_t* msg, uint8_t *temperature)
 {
-    return _MAV_RETURN_uint8_t_array(msg, temperature, 4, 40);
+    return _MAV_RETURN_uint8_t_array(msg, temperature, 4,  40);
 }
 
 /**
@@ -329,7 +277,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_temperature(const m
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_voltage(const mavlink_message_t* msg, uint16_t *voltage)
 {
-    return _MAV_RETURN_uint16_t_array(msg, voltage, 4, 0);
+    return _MAV_RETURN_uint16_t_array(msg, voltage, 4,  0);
 }
 
 /**
@@ -339,7 +287,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_voltage(const mavli
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_current(const mavlink_message_t* msg, uint16_t *current)
 {
-    return _MAV_RETURN_uint16_t_array(msg, current, 4, 8);
+    return _MAV_RETURN_uint16_t_array(msg, current, 4,  8);
 }
 
 /**
@@ -349,7 +297,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_current(const mavli
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_totalcurrent(const mavlink_message_t* msg, uint16_t *totalcurrent)
 {
-    return _MAV_RETURN_uint16_t_array(msg, totalcurrent, 4, 16);
+    return _MAV_RETURN_uint16_t_array(msg, totalcurrent, 4,  16);
 }
 
 /**
@@ -359,7 +307,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_totalcurrent(const 
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_rpm(const mavlink_message_t* msg, uint16_t *rpm)
 {
-    return _MAV_RETURN_uint16_t_array(msg, rpm, 4, 24);
+    return _MAV_RETURN_uint16_t_array(msg, rpm, 4,  24);
 }
 
 /**
@@ -369,7 +317,7 @@ static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_rpm(const mavlink_m
  */
 static inline uint16_t mavlink_msg_esc_telemetry_9_to_12_get_count(const mavlink_message_t* msg, uint16_t *count)
 {
-    return _MAV_RETURN_uint16_t_array(msg, count, 4, 32);
+    return _MAV_RETURN_uint16_t_array(msg, count, 4,  32);
 }
 
 /**
@@ -388,8 +336,8 @@ static inline void mavlink_msg_esc_telemetry_9_to_12_decode(const mavlink_messag
     mavlink_msg_esc_telemetry_9_to_12_get_count(msg, esc_telemetry_9_to_12->count);
     mavlink_msg_esc_telemetry_9_to_12_get_temperature(msg, esc_telemetry_9_to_12->temperature);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN ? msg->len : MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN;
-    memset(esc_telemetry_9_to_12, 0, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN? msg->len : MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN;
+        memset(esc_telemetry_9_to_12, 0, MAVLINK_MSG_ID_ESC_TELEMETRY_9_TO_12_LEN);
     memcpy(esc_telemetry_9_to_12, _MAV_PAYLOAD(msg), len);
 #endif
 }
