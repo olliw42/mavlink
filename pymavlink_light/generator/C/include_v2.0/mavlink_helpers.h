@@ -583,6 +583,7 @@ MAVLINK_HELPER uint8_t mavlink_frame_char_buffer(mavlink_message_t* rxmsg,
                                                  mavlink_status_t* r_mavlink_status)
 {
 //OW: this is highly inefficient due to multiple calls of entry
+// see mavlink_parse_nextchar()
 	int bufferIndex = 0;
 
 	status->msg_received = MAVLINK_FRAMING_INCOMPLETE;
@@ -733,6 +734,9 @@ MAVLINK_HELPER uint8_t mavlink_frame_char_buffer(mavlink_message_t* rxmsg,
 
 	case MAVLINK_PARSE_STATE_GOT_PAYLOAD: {
 		const mavlink_msg_entry_t *e = mavlink_get_msg_entry(rxmsg->msgid);
+//OW        
+        rxmsg->msg_entry = e;
+//OWEND        
 		uint8_t crc_extra = e?e->crc_extra:0;
 		mavlink_update_checksum(rxmsg, crc_extra);
 		if (c != (rxmsg->checksum & 0xFF)) {
