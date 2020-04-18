@@ -310,7 +310,7 @@
       <entry value="39" name="MAV_COMP_ID_USER15">
         <description>Id for a component on privately managed MAVLink network. Can be used for any purpose but may not be published by components outside of the private network.</description>
       </entry>
-      <entry value="40" name="MAV_COMP_ID_USE16">
+      <entry value="40" name="MAV_COMP_ID_USER16">
         <description>Id for a component on privately managed MAVLink network. Can be used for any purpose but may not be published by components outside of the private network.</description>
       </entry>
       <entry value="41" name="MAV_COMP_ID_USER17">
@@ -583,6 +583,9 @@
       </entry>
       <entry value="197" name="MAV_COMP_ID_VISUAL_INERTIAL_ODOMETRY">
         <description>Component that provides position estimates using VIO techniques.</description>
+      </entry>
+      <entry value="198" name="MAV_COMP_ID_PAIRING_MANAGER">
+        <description>Component that manages pairing of vehicle and GCS.</description>
       </entry>
       <entry value="200" name="MAV_COMP_ID_IMU">
         <description>Inertial Measurement Unit (IMU) #1.</description>
