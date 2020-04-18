@@ -44,7 +44,7 @@ else:
 from pymavlink_light.generator import mavgen
 from pymavlink_light.generator import mavparse
 
-title = "MAVLink Generator LIGHT"
+title = "MAVLink Generator LIGHT NEW"
 error_limit = 5
 
 
@@ -91,7 +91,10 @@ class Application(Frame):
         self.language_label = Label( self, text="Language" )
         self.language_label.grid(row=2, column=0)
         self.language_menu = OptionMenu(self,self.language_value,*self.language_choices)
-        self.language_value.set(mavgen.DEFAULT_LANGUAGE)
+##OW        
+#        self.language_value.set(mavgen.DEFAULT_LANGUAGE)
+        self.language_value.set('C')
+##OWEND        
         self.language_menu.config(width=10)
         self.language_menu.grid(row=2, column=1,sticky=W)
 
@@ -103,7 +106,10 @@ class Application(Frame):
         self.protocol_label = Label( self, text="Protocol")
         self.protocol_label.grid(row=3, column=0)
         self.protocol_menu = OptionMenu(self,self.protocol_value,*self.protocol_choices)
-        self.protocol_value.set(mavgen.DEFAULT_WIRE_PROTOCOL)
+##OW        
+#        self.protocol_value.set(mavgen.DEFAULT_WIRE_PROTOCOL)
+        self.protocol_value.set(mavparse.PROTOCOL_2_0)
+##OWEND        
         self.protocol_menu.config(width=10)
         self.protocol_menu.grid(row=3, column=1,sticky=W)
 

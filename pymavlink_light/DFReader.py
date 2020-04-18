@@ -122,7 +122,7 @@ class DFFormat(object):
         return ("DFFormat(%s,%s,%s,%s)" %
                 (self.type, self.name, self.format, self.columns))
 
-
+# Swiped into mavgen_python.py
 def to_string(s):
     '''desperate attempt to convert a string regardless of what garbage we get'''
     try:
@@ -193,6 +193,16 @@ class DFMessage(object):
         if self.fmt.msg_mults[i] is not None and self._apply_multiplier:
             v *= self.fmt.msg_mults[i]
         return v
+
+    def __setattr__(self, field, value):
+        '''override field setter'''
+        if not field[0].isupper() or not field in self.fmt.colhash:
+            super(DFMessage,self).__setattr__(field, value)
+        else:
+            i = self.fmt.colhash[field]
+            if self.fmt.msg_mults[i] is not None and self._apply_multiplier:
+                value /= self.fmt.msg_mults[i]
+            self._elements[i] = value
 
     def get_type(self):
         return self.fmt.name
@@ -743,7 +753,8 @@ class DFReader_binary(DFReader):
             hdr = self.data_map[ofs:ofs+3]
             if hdr[0] != HEAD1 or hdr[1] != HEAD2:
                 print("bad header 0x%02x 0x%02x" % (u_ord(hdr[0]), u_ord(hdr[1])), file=sys.stderr)
-                break
+                ofs += 1
+                continue
             mtype = u_ord(hdr[2])
             self.offsets[mtype].append(ofs)
 
