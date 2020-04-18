@@ -5,8 +5,8 @@
 
 MAVPACKED(
 typedef struct __mavlink_rangefinder_t {
-    float distance; /*< [m] Distance.*/
-    float voltage; /*< [V] Raw voltage if available, zero otherwise.*/
+ float distance; /*< [m] Distance.*/
+ float voltage; /*< [V] Raw voltage if available, zero otherwise.*/
 }) mavlink_rangefinder_t;
 
 #define MAVLINK_MSG_ID_RANGEFINDER_LEN 8
@@ -38,6 +38,7 @@ typedef struct __mavlink_rangefinder_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a rangefinder message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -74,8 +75,9 @@ static inline uint16_t mavlink_msg_rangefinder_pack_txbuf(char* mav_txbuf, mavli
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_RANGEFINDER, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a rangefinder message
  * @param system_id ID of this system
@@ -87,20 +89,20 @@ static inline uint16_t mavlink_msg_rangefinder_pack_txbuf(char* mav_txbuf, mavli
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_rangefinder_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 float distance, float voltage)
+                               float distance, float voltage)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_RANGEFINDER_LEN];
     _mav_put_float(buf, 0, distance);
     _mav_put_float(buf, 4, voltage);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RANGEFINDER_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RANGEFINDER_LEN);
 #else
     mavlink_rangefinder_t packet;
     packet.distance = distance;
     packet.voltage = voltage;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RANGEFINDER_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RANGEFINDER_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_RANGEFINDER;
@@ -118,21 +120,21 @@ static inline uint16_t mavlink_msg_rangefinder_pack(uint8_t system_id, uint8_t c
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_rangefinder_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                float distance, float voltage)
+                               mavlink_message_t* msg,
+                                   float distance,float voltage)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_RANGEFINDER_LEN];
     _mav_put_float(buf, 0, distance);
     _mav_put_float(buf, 4, voltage);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RANGEFINDER_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RANGEFINDER_LEN);
 #else
     mavlink_rangefinder_t packet;
     packet.distance = distance;
     packet.voltage = voltage;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RANGEFINDER_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RANGEFINDER_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_RANGEFINDER;
@@ -166,7 +168,7 @@ static inline uint16_t mavlink_msg_rangefinder_encode_chan(uint8_t system_id, ui
     return mavlink_msg_rangefinder_pack_chan(system_id, component_id, chan, msg, rangefinder->distance, rangefinder->voltage);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a rangefinder message
@@ -190,7 +192,7 @@ static inline void mavlink_msg_rangefinder_send(mavlink_channel_t chan, float di
     packet.distance = distance;
     packet.voltage = voltage;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RANGEFINDER, (const char*)&packet, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RANGEFINDER, (const char *)&packet, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
 #endif
 }
 
@@ -204,7 +206,7 @@ static inline void mavlink_msg_rangefinder_send_struct(mavlink_channel_t chan, c
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_rangefinder_send(chan, rangefinder->distance, rangefinder->voltage);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RANGEFINDER, (const char*)rangefinder, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RANGEFINDER, (const char *)rangefinder, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
 #endif
 }
 
@@ -216,20 +218,20 @@ static inline void mavlink_msg_rangefinder_send_struct(mavlink_channel_t chan, c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_rangefinder_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, float distance, float voltage)
+static inline void mavlink_msg_rangefinder_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  float distance, float voltage)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_float(buf, 0, distance);
     _mav_put_float(buf, 4, voltage);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RANGEFINDER, buf, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
 #else
-    mavlink_rangefinder_t* packet = (mavlink_rangefinder_t*)msgbuf;
+    mavlink_rangefinder_t *packet = (mavlink_rangefinder_t *)msgbuf;
     packet->distance = distance;
     packet->voltage = voltage;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RANGEFINDER, (const char*)packet, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RANGEFINDER, (const char *)packet, MAVLINK_MSG_ID_RANGEFINDER_MIN_LEN, MAVLINK_MSG_ID_RANGEFINDER_LEN, MAVLINK_MSG_ID_RANGEFINDER_CRC);
 #endif
 }
 #endif
@@ -246,7 +248,7 @@ static inline void mavlink_msg_rangefinder_send_buf(mavlink_message_t* msgbuf, m
  */
 static inline float mavlink_msg_rangefinder_get_distance(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 0);
+    return _MAV_RETURN_float(msg,  0);
 }
 
 /**
@@ -256,7 +258,7 @@ static inline float mavlink_msg_rangefinder_get_distance(const mavlink_message_t
  */
 static inline float mavlink_msg_rangefinder_get_voltage(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 4);
+    return _MAV_RETURN_float(msg,  4);
 }
 
 /**
@@ -271,8 +273,8 @@ static inline void mavlink_msg_rangefinder_decode(const mavlink_message_t* msg, 
     rangefinder->distance = mavlink_msg_rangefinder_get_distance(msg);
     rangefinder->voltage = mavlink_msg_rangefinder_get_voltage(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_RANGEFINDER_LEN ? msg->len : MAVLINK_MSG_ID_RANGEFINDER_LEN;
-    memset(rangefinder, 0, MAVLINK_MSG_ID_RANGEFINDER_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_RANGEFINDER_LEN? msg->len : MAVLINK_MSG_ID_RANGEFINDER_LEN;
+        memset(rangefinder, 0, MAVLINK_MSG_ID_RANGEFINDER_LEN);
     memcpy(rangefinder, _MAV_PAYLOAD(msg), len);
 #endif
 }

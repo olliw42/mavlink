@@ -5,13 +5,13 @@
 
 MAVPACKED(
 typedef struct __mavlink_open_drone_id_system_t {
-    int32_t operator_latitude; /*< [degE7] Latitude of the operator. If unknown: 0 deg (both Lat/Lon).*/
-    int32_t operator_longitude; /*< [degE7] Longitude of the operator. If unknown: 0 deg (both Lat/Lon).*/
-    float area_ceiling; /*< [m] Area Operations Ceiling relative to WGS84. If unknown: -1000 m.*/
-    float area_floor; /*< [m] Area Operations Floor relative to WGS84. If unknown: -1000 m.*/
-    uint16_t area_count; /*<  Number of aircraft in the area, group or formation (default 1).*/
-    uint16_t area_radius; /*< [m] Radius of the cylindrical area of the group or formation (default 0).*/
-    uint8_t flags; /*<  Specifies the location source for the operator location.*/
+ int32_t operator_latitude; /*< [degE7] Latitude of the operator. If unknown: 0 (both Lat/Lon).*/
+ int32_t operator_longitude; /*< [degE7] Longitude of the operator. If unknown: 0 (both Lat/Lon).*/
+ float area_ceiling; /*< [m] Area Operations Ceiling relative to WGS84. If unknown: -1000 m.*/
+ float area_floor; /*< [m] Area Operations Floor relative to WGS84. If unknown: -1000 m.*/
+ uint16_t area_count; /*<  Number of aircraft in the area, group or formation (default 1).*/
+ uint16_t area_radius; /*< [m] Radius of the cylindrical area of the group or formation (default 0).*/
+ uint8_t flags; /*<  Specifies the location source for the operator location.*/
 }) mavlink_open_drone_id_system_t;
 
 #define MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN 21
@@ -53,6 +53,7 @@ typedef struct __mavlink_open_drone_id_system_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a open_drone_id_system message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -61,8 +62,8 @@ typedef struct __mavlink_open_drone_id_system_t {
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
  * @param flags  Specifies the location source for the operator location.
- * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 deg (both Lat/Lon).
- * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 deg (both Lat/Lon).
+ * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 (both Lat/Lon).
+ * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 (both Lat/Lon).
  * @param area_count  Number of aircraft in the area, group or formation (default 1).
  * @param area_radius [m] Radius of the cylindrical area of the group or formation (default 0).
  * @param area_ceiling [m] Area Operations Ceiling relative to WGS84. If unknown: -1000 m.
@@ -104,8 +105,9 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack_txbuf(char* mav_txb
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a open_drone_id_system message
  * @param system_id ID of this system
@@ -113,8 +115,8 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack_txbuf(char* mav_txb
  * @param msg The MAVLink message to compress the data into
  *
  * @param flags  Specifies the location source for the operator location.
- * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 deg (both Lat/Lon).
- * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 deg (both Lat/Lon).
+ * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 (both Lat/Lon).
+ * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 (both Lat/Lon).
  * @param area_count  Number of aircraft in the area, group or formation (default 1).
  * @param area_radius [m] Radius of the cylindrical area of the group or formation (default 0).
  * @param area_ceiling [m] Area Operations Ceiling relative to WGS84. If unknown: -1000 m.
@@ -122,7 +124,7 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack_txbuf(char* mav_txb
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_open_drone_id_system_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint8_t flags, int32_t operator_latitude, int32_t operator_longitude, uint16_t area_count, uint16_t area_radius, float area_ceiling, float area_floor)
+                               uint8_t flags, int32_t operator_latitude, int32_t operator_longitude, uint16_t area_count, uint16_t area_radius, float area_ceiling, float area_floor)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN];
@@ -134,7 +136,7 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack(uint8_t system_id, 
     _mav_put_uint16_t(buf, 18, area_radius);
     _mav_put_uint8_t(buf, 20, flags);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
 #else
     mavlink_open_drone_id_system_t packet;
     packet.operator_latitude = operator_latitude;
@@ -145,7 +147,7 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack(uint8_t system_id, 
     packet.area_radius = area_radius;
     packet.flags = flags;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM;
@@ -159,8 +161,8 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack(uint8_t system_id, 
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
  * @param flags  Specifies the location source for the operator location.
- * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 deg (both Lat/Lon).
- * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 deg (both Lat/Lon).
+ * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 (both Lat/Lon).
+ * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 (both Lat/Lon).
  * @param area_count  Number of aircraft in the area, group or formation (default 1).
  * @param area_radius [m] Radius of the cylindrical area of the group or formation (default 0).
  * @param area_ceiling [m] Area Operations Ceiling relative to WGS84. If unknown: -1000 m.
@@ -168,8 +170,8 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack(uint8_t system_id, 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_open_drone_id_system_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint8_t flags, int32_t operator_latitude, int32_t operator_longitude, uint16_t area_count, uint16_t area_radius, float area_ceiling, float area_floor)
+                               mavlink_message_t* msg,
+                                   uint8_t flags,int32_t operator_latitude,int32_t operator_longitude,uint16_t area_count,uint16_t area_radius,float area_ceiling,float area_floor)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN];
@@ -181,7 +183,7 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack_chan(uint8_t system
     _mav_put_uint16_t(buf, 18, area_radius);
     _mav_put_uint8_t(buf, 20, flags);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
 #else
     mavlink_open_drone_id_system_t packet;
     packet.operator_latitude = operator_latitude;
@@ -192,7 +194,7 @@ static inline uint16_t mavlink_msg_open_drone_id_system_pack_chan(uint8_t system
     packet.area_radius = area_radius;
     packet.flags = flags;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM;
@@ -226,15 +228,15 @@ static inline uint16_t mavlink_msg_open_drone_id_system_encode_chan(uint8_t syst
     return mavlink_msg_open_drone_id_system_pack_chan(system_id, component_id, chan, msg, open_drone_id_system->flags, open_drone_id_system->operator_latitude, open_drone_id_system->operator_longitude, open_drone_id_system->area_count, open_drone_id_system->area_radius, open_drone_id_system->area_ceiling, open_drone_id_system->area_floor);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a open_drone_id_system message
  * @param chan MAVLink channel to send the message
  *
  * @param flags  Specifies the location source for the operator location.
- * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 deg (both Lat/Lon).
- * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 deg (both Lat/Lon).
+ * @param operator_latitude [degE7] Latitude of the operator. If unknown: 0 (both Lat/Lon).
+ * @param operator_longitude [degE7] Longitude of the operator. If unknown: 0 (both Lat/Lon).
  * @param area_count  Number of aircraft in the area, group or formation (default 1).
  * @param area_radius [m] Radius of the cylindrical area of the group or formation (default 0).
  * @param area_ceiling [m] Area Operations Ceiling relative to WGS84. If unknown: -1000 m.
@@ -265,7 +267,7 @@ static inline void mavlink_msg_open_drone_id_system_send(mavlink_channel_t chan,
     packet.area_radius = area_radius;
     packet.flags = flags;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, (const char*)&packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, (const char *)&packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
 #endif
 }
 
@@ -279,7 +281,7 @@ static inline void mavlink_msg_open_drone_id_system_send_struct(mavlink_channel_
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_open_drone_id_system_send(chan, open_drone_id_system->flags, open_drone_id_system->operator_latitude, open_drone_id_system->operator_longitude, open_drone_id_system->area_count, open_drone_id_system->area_radius, open_drone_id_system->area_ceiling, open_drone_id_system->area_floor);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, (const char*)open_drone_id_system, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, (const char *)open_drone_id_system, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
 #endif
 }
 
@@ -291,10 +293,10 @@ static inline void mavlink_msg_open_drone_id_system_send_struct(mavlink_channel_
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_open_drone_id_system_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint8_t flags, int32_t operator_latitude, int32_t operator_longitude, uint16_t area_count, uint16_t area_radius, float area_ceiling, float area_floor)
+static inline void mavlink_msg_open_drone_id_system_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t flags, int32_t operator_latitude, int32_t operator_longitude, uint16_t area_count, uint16_t area_radius, float area_ceiling, float area_floor)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_int32_t(buf, 0, operator_latitude);
     _mav_put_int32_t(buf, 4, operator_longitude);
     _mav_put_float(buf, 8, area_ceiling);
@@ -305,7 +307,7 @@ static inline void mavlink_msg_open_drone_id_system_send_buf(mavlink_message_t* 
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, buf, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
 #else
-    mavlink_open_drone_id_system_t* packet = (mavlink_open_drone_id_system_t*)msgbuf;
+    mavlink_open_drone_id_system_t *packet = (mavlink_open_drone_id_system_t *)msgbuf;
     packet->operator_latitude = operator_latitude;
     packet->operator_longitude = operator_longitude;
     packet->area_ceiling = area_ceiling;
@@ -314,7 +316,7 @@ static inline void mavlink_msg_open_drone_id_system_send_buf(mavlink_message_t* 
     packet->area_radius = area_radius;
     packet->flags = flags;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, (const char*)packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM, (const char *)packet, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_MIN_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_CRC);
 #endif
 }
 #endif
@@ -331,27 +333,27 @@ static inline void mavlink_msg_open_drone_id_system_send_buf(mavlink_message_t* 
  */
 static inline uint8_t mavlink_msg_open_drone_id_system_get_flags(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 20);
+    return _MAV_RETURN_uint8_t(msg,  20);
 }
 
 /**
  * @brief Get field operator_latitude from open_drone_id_system message
  *
- * @return [degE7] Latitude of the operator. If unknown: 0 deg (both Lat/Lon).
+ * @return [degE7] Latitude of the operator. If unknown: 0 (both Lat/Lon).
  */
 static inline int32_t mavlink_msg_open_drone_id_system_get_operator_latitude(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 0);
+    return _MAV_RETURN_int32_t(msg,  0);
 }
 
 /**
  * @brief Get field operator_longitude from open_drone_id_system message
  *
- * @return [degE7] Longitude of the operator. If unknown: 0 deg (both Lat/Lon).
+ * @return [degE7] Longitude of the operator. If unknown: 0 (both Lat/Lon).
  */
 static inline int32_t mavlink_msg_open_drone_id_system_get_operator_longitude(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 4);
+    return _MAV_RETURN_int32_t(msg,  4);
 }
 
 /**
@@ -361,7 +363,7 @@ static inline int32_t mavlink_msg_open_drone_id_system_get_operator_longitude(co
  */
 static inline uint16_t mavlink_msg_open_drone_id_system_get_area_count(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 16);
+    return _MAV_RETURN_uint16_t(msg,  16);
 }
 
 /**
@@ -371,7 +373,7 @@ static inline uint16_t mavlink_msg_open_drone_id_system_get_area_count(const mav
  */
 static inline uint16_t mavlink_msg_open_drone_id_system_get_area_radius(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 18);
+    return _MAV_RETURN_uint16_t(msg,  18);
 }
 
 /**
@@ -381,7 +383,7 @@ static inline uint16_t mavlink_msg_open_drone_id_system_get_area_radius(const ma
  */
 static inline float mavlink_msg_open_drone_id_system_get_area_ceiling(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -391,7 +393,7 @@ static inline float mavlink_msg_open_drone_id_system_get_area_ceiling(const mavl
  */
 static inline float mavlink_msg_open_drone_id_system_get_area_floor(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -411,8 +413,8 @@ static inline void mavlink_msg_open_drone_id_system_decode(const mavlink_message
     open_drone_id_system->area_radius = mavlink_msg_open_drone_id_system_get_area_radius(msg);
     open_drone_id_system->flags = mavlink_msg_open_drone_id_system_get_flags(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN ? msg->len : MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN;
-    memset(open_drone_id_system, 0, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN? msg->len : MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN;
+        memset(open_drone_id_system, 0, MAVLINK_MSG_ID_OPEN_DRONE_ID_SYSTEM_LEN);
     memcpy(open_drone_id_system, _MAV_PAYLOAD(msg), len);
 #endif
 }

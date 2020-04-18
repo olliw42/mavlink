@@ -5,8 +5,8 @@
 
 MAVPACKED(
 typedef struct __mavlink_device_op_write_reply_t {
-    uint32_t request_id; /*<  Request ID - copied from request.*/
-    uint8_t result; /*<  0 for success, anything else is failure code.*/
+ uint32_t request_id; /*<  Request ID - copied from request.*/
+ uint8_t result; /*<  0 for success, anything else is failure code.*/
 }) mavlink_device_op_write_reply_t;
 
 #define MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN 5
@@ -38,6 +38,7 @@ typedef struct __mavlink_device_op_write_reply_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a device_op_write_reply message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -74,8 +75,9 @@ static inline uint16_t mavlink_msg_device_op_write_reply_pack_txbuf(char* mav_tx
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a device_op_write_reply message
  * @param system_id ID of this system
@@ -87,20 +89,20 @@ static inline uint16_t mavlink_msg_device_op_write_reply_pack_txbuf(char* mav_tx
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_device_op_write_reply_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint32_t request_id, uint8_t result)
+                               uint32_t request_id, uint8_t result)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN];
     _mav_put_uint32_t(buf, 0, request_id);
     _mav_put_uint8_t(buf, 4, result);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
 #else
     mavlink_device_op_write_reply_t packet;
     packet.request_id = request_id;
     packet.result = result;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY;
@@ -118,21 +120,21 @@ static inline uint16_t mavlink_msg_device_op_write_reply_pack(uint8_t system_id,
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_device_op_write_reply_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint32_t request_id, uint8_t result)
+                               mavlink_message_t* msg,
+                                   uint32_t request_id,uint8_t result)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN];
     _mav_put_uint32_t(buf, 0, request_id);
     _mav_put_uint8_t(buf, 4, result);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
 #else
     mavlink_device_op_write_reply_t packet;
     packet.request_id = request_id;
     packet.result = result;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY;
@@ -166,7 +168,7 @@ static inline uint16_t mavlink_msg_device_op_write_reply_encode_chan(uint8_t sys
     return mavlink_msg_device_op_write_reply_pack_chan(system_id, component_id, chan, msg, device_op_write_reply->request_id, device_op_write_reply->result);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a device_op_write_reply message
@@ -190,7 +192,7 @@ static inline void mavlink_msg_device_op_write_reply_send(mavlink_channel_t chan
     packet.request_id = request_id;
     packet.result = result;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, (const char*)&packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, (const char *)&packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
 #endif
 }
 
@@ -204,7 +206,7 @@ static inline void mavlink_msg_device_op_write_reply_send_struct(mavlink_channel
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_device_op_write_reply_send(chan, device_op_write_reply->request_id, device_op_write_reply->result);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, (const char*)device_op_write_reply, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, (const char *)device_op_write_reply, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
 #endif
 }
 
@@ -216,20 +218,20 @@ static inline void mavlink_msg_device_op_write_reply_send_struct(mavlink_channel
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_device_op_write_reply_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint32_t request_id, uint8_t result)
+static inline void mavlink_msg_device_op_write_reply_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t request_id, uint8_t result)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint32_t(buf, 0, request_id);
     _mav_put_uint8_t(buf, 4, result);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, buf, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
 #else
-    mavlink_device_op_write_reply_t* packet = (mavlink_device_op_write_reply_t*)msgbuf;
+    mavlink_device_op_write_reply_t *packet = (mavlink_device_op_write_reply_t *)msgbuf;
     packet->request_id = request_id;
     packet->result = result;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, (const char*)packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY, (const char *)packet, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_MIN_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_CRC);
 #endif
 }
 #endif
@@ -246,7 +248,7 @@ static inline void mavlink_msg_device_op_write_reply_send_buf(mavlink_message_t*
  */
 static inline uint32_t mavlink_msg_device_op_write_reply_get_request_id(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 0);
+    return _MAV_RETURN_uint32_t(msg,  0);
 }
 
 /**
@@ -256,7 +258,7 @@ static inline uint32_t mavlink_msg_device_op_write_reply_get_request_id(const ma
  */
 static inline uint8_t mavlink_msg_device_op_write_reply_get_result(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 4);
+    return _MAV_RETURN_uint8_t(msg,  4);
 }
 
 /**
@@ -271,8 +273,8 @@ static inline void mavlink_msg_device_op_write_reply_decode(const mavlink_messag
     device_op_write_reply->request_id = mavlink_msg_device_op_write_reply_get_request_id(msg);
     device_op_write_reply->result = mavlink_msg_device_op_write_reply_get_result(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN ? msg->len : MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN;
-    memset(device_op_write_reply, 0, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN? msg->len : MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN;
+        memset(device_op_write_reply, 0, MAVLINK_MSG_ID_DEVICE_OP_WRITE_REPLY_LEN);
     memcpy(device_op_write_reply, _MAV_PAYLOAD(msg), len);
 #endif
 }

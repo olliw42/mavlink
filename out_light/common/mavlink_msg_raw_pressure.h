@@ -5,11 +5,11 @@
 
 MAVPACKED(
 typedef struct __mavlink_raw_pressure_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    int16_t press_abs; /*<  Absolute pressure (raw)*/
-    int16_t press_diff1; /*<  Differential pressure 1 (raw, 0 if nonexistent)*/
-    int16_t press_diff2; /*<  Differential pressure 2 (raw, 0 if nonexistent)*/
-    int16_t temperature; /*<  Raw Temperature measurement (raw)*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ int16_t press_abs; /*<  Absolute pressure (raw)*/
+ int16_t press_diff1; /*<  Differential pressure 1 (raw, 0 if nonexistent)*/
+ int16_t press_diff2; /*<  Differential pressure 2 (raw, 0 if nonexistent)*/
+ int16_t temperature; /*<  Raw Temperature measurement (raw)*/
 }) mavlink_raw_pressure_t;
 
 #define MAVLINK_MSG_ID_RAW_PRESSURE_LEN 16
@@ -47,6 +47,7 @@ typedef struct __mavlink_raw_pressure_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a raw_pressure message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -54,7 +55,7 @@ typedef struct __mavlink_raw_pressure_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param press_abs  Absolute pressure (raw)
  * @param press_diff1  Differential pressure 1 (raw, 0 if nonexistent)
  * @param press_diff2  Differential pressure 2 (raw, 0 if nonexistent)
@@ -92,15 +93,16 @@ static inline uint16_t mavlink_msg_raw_pressure_pack_txbuf(char* mav_txbuf, mavl
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_RAW_PRESSURE, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a raw_pressure message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param press_abs  Absolute pressure (raw)
  * @param press_diff1  Differential pressure 1 (raw, 0 if nonexistent)
  * @param press_diff2  Differential pressure 2 (raw, 0 if nonexistent)
@@ -108,7 +110,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack_txbuf(char* mav_txbuf, mavl
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_raw_pressure_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, int16_t press_abs, int16_t press_diff1, int16_t press_diff2, int16_t temperature)
+                               uint64_t time_usec, int16_t press_abs, int16_t press_diff1, int16_t press_diff2, int16_t temperature)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_RAW_PRESSURE_LEN];
@@ -118,7 +120,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack(uint8_t system_id, uint8_t 
     _mav_put_int16_t(buf, 12, press_diff2);
     _mav_put_int16_t(buf, 14, temperature);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
 #else
     mavlink_raw_pressure_t packet;
     packet.time_usec = time_usec;
@@ -127,7 +129,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack(uint8_t system_id, uint8_t 
     packet.press_diff2 = press_diff2;
     packet.temperature = temperature;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_RAW_PRESSURE;
@@ -140,7 +142,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack(uint8_t system_id, uint8_t 
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param press_abs  Absolute pressure (raw)
  * @param press_diff1  Differential pressure 1 (raw, 0 if nonexistent)
  * @param press_diff2  Differential pressure 2 (raw, 0 if nonexistent)
@@ -148,8 +150,8 @@ static inline uint16_t mavlink_msg_raw_pressure_pack(uint8_t system_id, uint8_t 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_raw_pressure_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, int16_t press_abs, int16_t press_diff1, int16_t press_diff2, int16_t temperature)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,int16_t press_abs,int16_t press_diff1,int16_t press_diff2,int16_t temperature)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_RAW_PRESSURE_LEN];
@@ -159,7 +161,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack_chan(uint8_t system_id, uin
     _mav_put_int16_t(buf, 12, press_diff2);
     _mav_put_int16_t(buf, 14, temperature);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
 #else
     mavlink_raw_pressure_t packet;
     packet.time_usec = time_usec;
@@ -168,7 +170,7 @@ static inline uint16_t mavlink_msg_raw_pressure_pack_chan(uint8_t system_id, uin
     packet.press_diff2 = press_diff2;
     packet.temperature = temperature;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_RAW_PRESSURE;
@@ -202,13 +204,13 @@ static inline uint16_t mavlink_msg_raw_pressure_encode_chan(uint8_t system_id, u
     return mavlink_msg_raw_pressure_pack_chan(system_id, component_id, chan, msg, raw_pressure->time_usec, raw_pressure->press_abs, raw_pressure->press_diff1, raw_pressure->press_diff2, raw_pressure->temperature);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a raw_pressure message
  * @param chan MAVLink channel to send the message
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param press_abs  Absolute pressure (raw)
  * @param press_diff1  Differential pressure 1 (raw, 0 if nonexistent)
  * @param press_diff2  Differential pressure 2 (raw, 0 if nonexistent)
@@ -235,7 +237,7 @@ static inline void mavlink_msg_raw_pressure_send(mavlink_channel_t chan, uint64_
     packet.press_diff2 = press_diff2;
     packet.temperature = temperature;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RAW_PRESSURE, (const char*)&packet, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RAW_PRESSURE, (const char *)&packet, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
 #endif
 }
 
@@ -249,7 +251,7 @@ static inline void mavlink_msg_raw_pressure_send_struct(mavlink_channel_t chan, 
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_raw_pressure_send(chan, raw_pressure->time_usec, raw_pressure->press_abs, raw_pressure->press_diff1, raw_pressure->press_diff2, raw_pressure->temperature);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RAW_PRESSURE, (const char*)raw_pressure, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RAW_PRESSURE, (const char *)raw_pressure, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
 #endif
 }
 
@@ -261,10 +263,10 @@ static inline void mavlink_msg_raw_pressure_send_struct(mavlink_channel_t chan, 
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_raw_pressure_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, int16_t press_abs, int16_t press_diff1, int16_t press_diff2, int16_t temperature)
+static inline void mavlink_msg_raw_pressure_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, int16_t press_abs, int16_t press_diff1, int16_t press_diff2, int16_t temperature)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_int16_t(buf, 8, press_abs);
     _mav_put_int16_t(buf, 10, press_diff1);
@@ -273,14 +275,14 @@ static inline void mavlink_msg_raw_pressure_send_buf(mavlink_message_t* msgbuf, 
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RAW_PRESSURE, buf, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
 #else
-    mavlink_raw_pressure_t* packet = (mavlink_raw_pressure_t*)msgbuf;
+    mavlink_raw_pressure_t *packet = (mavlink_raw_pressure_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->press_abs = press_abs;
     packet->press_diff1 = press_diff1;
     packet->press_diff2 = press_diff2;
     packet->temperature = temperature;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RAW_PRESSURE, (const char*)packet, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_RAW_PRESSURE, (const char *)packet, MAVLINK_MSG_ID_RAW_PRESSURE_MIN_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_LEN, MAVLINK_MSG_ID_RAW_PRESSURE_CRC);
 #endif
 }
 #endif
@@ -293,11 +295,11 @@ static inline void mavlink_msg_raw_pressure_send_buf(mavlink_message_t* msgbuf, 
 /**
  * @brief Get field time_usec from raw_pressure message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_raw_pressure_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -307,7 +309,7 @@ static inline uint64_t mavlink_msg_raw_pressure_get_time_usec(const mavlink_mess
  */
 static inline int16_t mavlink_msg_raw_pressure_get_press_abs(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int16_t(msg, 8);
+    return _MAV_RETURN_int16_t(msg,  8);
 }
 
 /**
@@ -317,7 +319,7 @@ static inline int16_t mavlink_msg_raw_pressure_get_press_abs(const mavlink_messa
  */
 static inline int16_t mavlink_msg_raw_pressure_get_press_diff1(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int16_t(msg, 10);
+    return _MAV_RETURN_int16_t(msg,  10);
 }
 
 /**
@@ -327,7 +329,7 @@ static inline int16_t mavlink_msg_raw_pressure_get_press_diff1(const mavlink_mes
  */
 static inline int16_t mavlink_msg_raw_pressure_get_press_diff2(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int16_t(msg, 12);
+    return _MAV_RETURN_int16_t(msg,  12);
 }
 
 /**
@@ -337,7 +339,7 @@ static inline int16_t mavlink_msg_raw_pressure_get_press_diff2(const mavlink_mes
  */
 static inline int16_t mavlink_msg_raw_pressure_get_temperature(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int16_t(msg, 14);
+    return _MAV_RETURN_int16_t(msg,  14);
 }
 
 /**
@@ -355,8 +357,8 @@ static inline void mavlink_msg_raw_pressure_decode(const mavlink_message_t* msg,
     raw_pressure->press_diff2 = mavlink_msg_raw_pressure_get_press_diff2(msg);
     raw_pressure->temperature = mavlink_msg_raw_pressure_get_temperature(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_RAW_PRESSURE_LEN ? msg->len : MAVLINK_MSG_ID_RAW_PRESSURE_LEN;
-    memset(raw_pressure, 0, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_RAW_PRESSURE_LEN? msg->len : MAVLINK_MSG_ID_RAW_PRESSURE_LEN;
+        memset(raw_pressure, 0, MAVLINK_MSG_ID_RAW_PRESSURE_LEN);
     memcpy(raw_pressure, _MAV_PAYLOAD(msg), len);
 #endif
 }

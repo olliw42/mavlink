@@ -5,12 +5,12 @@
 
 MAVPACKED(
 typedef struct __mavlink_led_control_t {
-    uint8_t target_system; /*<  System ID.*/
-    uint8_t target_component; /*<  Component ID.*/
-    uint8_t instance; /*<  Instance (LED instance to control or 255 for all LEDs).*/
-    uint8_t pattern; /*<  Pattern (see LED_PATTERN_ENUM).*/
-    uint8_t custom_len; /*<  Custom Byte Length.*/
-    uint8_t custom_bytes[24]; /*<  Custom Bytes.*/
+ uint8_t target_system; /*<  System ID.*/
+ uint8_t target_component; /*<  Component ID.*/
+ uint8_t instance; /*<  Instance (LED instance to control or 255 for all LEDs).*/
+ uint8_t pattern; /*<  Pattern (see LED_PATTERN_ENUM).*/
+ uint8_t custom_len; /*<  Custom Byte Length.*/
+ uint8_t custom_bytes[24]; /*<  Custom Bytes.*/
 }) mavlink_led_control_t;
 
 #define MAVLINK_MSG_ID_LED_CONTROL_LEN 29
@@ -50,6 +50,7 @@ typedef struct __mavlink_led_control_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a led_control message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -96,8 +97,9 @@ static inline uint16_t mavlink_msg_led_control_pack_txbuf(char* mav_txbuf, mavli
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_LED_CONTROL, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a led_control message
  * @param system_id ID of this system
@@ -113,7 +115,7 @@ static inline uint16_t mavlink_msg_led_control_pack_txbuf(char* mav_txbuf, mavli
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_led_control_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint8_t target_system, uint8_t target_component, uint8_t instance, uint8_t pattern, uint8_t custom_len, const uint8_t *custom_bytes)
+                               uint8_t target_system, uint8_t target_component, uint8_t instance, uint8_t pattern, uint8_t custom_len, const uint8_t *custom_bytes)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_LED_CONTROL_LEN];
@@ -123,7 +125,7 @@ static inline uint16_t mavlink_msg_led_control_pack(uint8_t system_id, uint8_t c
     _mav_put_uint8_t(buf, 3, pattern);
     _mav_put_uint8_t(buf, 4, custom_len);
     _mav_put_uint8_t_array(buf, 5, custom_bytes, 24);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LED_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LED_CONTROL_LEN);
 #else
     mavlink_led_control_t packet;
     packet.target_system = target_system;
@@ -132,7 +134,7 @@ static inline uint16_t mavlink_msg_led_control_pack(uint8_t system_id, uint8_t c
     packet.pattern = pattern;
     packet.custom_len = custom_len;
     mav_array_memcpy(packet.custom_bytes, custom_bytes, sizeof(uint8_t)*24);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LED_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LED_CONTROL_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_LED_CONTROL;
@@ -154,8 +156,8 @@ static inline uint16_t mavlink_msg_led_control_pack(uint8_t system_id, uint8_t c
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_led_control_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint8_t target_system, uint8_t target_component, uint8_t instance, uint8_t pattern, uint8_t custom_len, const uint8_t *custom_bytes)
+                               mavlink_message_t* msg,
+                                   uint8_t target_system,uint8_t target_component,uint8_t instance,uint8_t pattern,uint8_t custom_len,const uint8_t *custom_bytes)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_LED_CONTROL_LEN];
@@ -165,7 +167,7 @@ static inline uint16_t mavlink_msg_led_control_pack_chan(uint8_t system_id, uint
     _mav_put_uint8_t(buf, 3, pattern);
     _mav_put_uint8_t(buf, 4, custom_len);
     _mav_put_uint8_t_array(buf, 5, custom_bytes, 24);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LED_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LED_CONTROL_LEN);
 #else
     mavlink_led_control_t packet;
     packet.target_system = target_system;
@@ -174,7 +176,7 @@ static inline uint16_t mavlink_msg_led_control_pack_chan(uint8_t system_id, uint
     packet.pattern = pattern;
     packet.custom_len = custom_len;
     mav_array_memcpy(packet.custom_bytes, custom_bytes, sizeof(uint8_t)*24);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LED_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LED_CONTROL_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_LED_CONTROL;
@@ -208,7 +210,7 @@ static inline uint16_t mavlink_msg_led_control_encode_chan(uint8_t system_id, ui
     return mavlink_msg_led_control_pack_chan(system_id, component_id, chan, msg, led_control->target_system, led_control->target_component, led_control->instance, led_control->pattern, led_control->custom_len, led_control->custom_bytes);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a led_control message
@@ -242,7 +244,7 @@ static inline void mavlink_msg_led_control_send(mavlink_channel_t chan, uint8_t 
     packet.pattern = pattern;
     packet.custom_len = custom_len;
     mav_array_memcpy(packet.custom_bytes, custom_bytes, sizeof(uint8_t)*24);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LED_CONTROL, (const char*)&packet, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LED_CONTROL, (const char *)&packet, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
 #endif
 }
 
@@ -256,7 +258,7 @@ static inline void mavlink_msg_led_control_send_struct(mavlink_channel_t chan, c
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_led_control_send(chan, led_control->target_system, led_control->target_component, led_control->instance, led_control->pattern, led_control->custom_len, led_control->custom_bytes);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LED_CONTROL, (const char*)led_control, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LED_CONTROL, (const char *)led_control, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
 #endif
 }
 
@@ -268,10 +270,10 @@ static inline void mavlink_msg_led_control_send_struct(mavlink_channel_t chan, c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_led_control_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint8_t target_system, uint8_t target_component, uint8_t instance, uint8_t pattern, uint8_t custom_len, const uint8_t *custom_bytes)
+static inline void mavlink_msg_led_control_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t target_system, uint8_t target_component, uint8_t instance, uint8_t pattern, uint8_t custom_len, const uint8_t *custom_bytes)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint8_t(buf, 0, target_system);
     _mav_put_uint8_t(buf, 1, target_component);
     _mav_put_uint8_t(buf, 2, instance);
@@ -280,14 +282,14 @@ static inline void mavlink_msg_led_control_send_buf(mavlink_message_t* msgbuf, m
     _mav_put_uint8_t_array(buf, 5, custom_bytes, 24);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LED_CONTROL, buf, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
 #else
-    mavlink_led_control_t* packet = (mavlink_led_control_t*)msgbuf;
+    mavlink_led_control_t *packet = (mavlink_led_control_t *)msgbuf;
     packet->target_system = target_system;
     packet->target_component = target_component;
     packet->instance = instance;
     packet->pattern = pattern;
     packet->custom_len = custom_len;
     mav_array_memcpy(packet->custom_bytes, custom_bytes, sizeof(uint8_t)*24);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LED_CONTROL, (const char*)packet, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LED_CONTROL, (const char *)packet, MAVLINK_MSG_ID_LED_CONTROL_MIN_LEN, MAVLINK_MSG_ID_LED_CONTROL_LEN, MAVLINK_MSG_ID_LED_CONTROL_CRC);
 #endif
 }
 #endif
@@ -304,7 +306,7 @@ static inline void mavlink_msg_led_control_send_buf(mavlink_message_t* msgbuf, m
  */
 static inline uint8_t mavlink_msg_led_control_get_target_system(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 0);
+    return _MAV_RETURN_uint8_t(msg,  0);
 }
 
 /**
@@ -314,7 +316,7 @@ static inline uint8_t mavlink_msg_led_control_get_target_system(const mavlink_me
  */
 static inline uint8_t mavlink_msg_led_control_get_target_component(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 1);
+    return _MAV_RETURN_uint8_t(msg,  1);
 }
 
 /**
@@ -324,7 +326,7 @@ static inline uint8_t mavlink_msg_led_control_get_target_component(const mavlink
  */
 static inline uint8_t mavlink_msg_led_control_get_instance(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 2);
+    return _MAV_RETURN_uint8_t(msg,  2);
 }
 
 /**
@@ -334,7 +336,7 @@ static inline uint8_t mavlink_msg_led_control_get_instance(const mavlink_message
  */
 static inline uint8_t mavlink_msg_led_control_get_pattern(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 3);
+    return _MAV_RETURN_uint8_t(msg,  3);
 }
 
 /**
@@ -344,7 +346,7 @@ static inline uint8_t mavlink_msg_led_control_get_pattern(const mavlink_message_
  */
 static inline uint8_t mavlink_msg_led_control_get_custom_len(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 4);
+    return _MAV_RETURN_uint8_t(msg,  4);
 }
 
 /**
@@ -354,7 +356,7 @@ static inline uint8_t mavlink_msg_led_control_get_custom_len(const mavlink_messa
  */
 static inline uint16_t mavlink_msg_led_control_get_custom_bytes(const mavlink_message_t* msg, uint8_t *custom_bytes)
 {
-    return _MAV_RETURN_uint8_t_array(msg, custom_bytes, 24, 5);
+    return _MAV_RETURN_uint8_t_array(msg, custom_bytes, 24,  5);
 }
 
 /**
@@ -373,8 +375,8 @@ static inline void mavlink_msg_led_control_decode(const mavlink_message_t* msg, 
     led_control->custom_len = mavlink_msg_led_control_get_custom_len(msg);
     mavlink_msg_led_control_get_custom_bytes(msg, led_control->custom_bytes);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_LED_CONTROL_LEN ? msg->len : MAVLINK_MSG_ID_LED_CONTROL_LEN;
-    memset(led_control, 0, MAVLINK_MSG_ID_LED_CONTROL_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_LED_CONTROL_LEN? msg->len : MAVLINK_MSG_ID_LED_CONTROL_LEN;
+        memset(led_control, 0, MAVLINK_MSG_ID_LED_CONTROL_LEN);
     memcpy(led_control, _MAV_PAYLOAD(msg), len);
 #endif
 }

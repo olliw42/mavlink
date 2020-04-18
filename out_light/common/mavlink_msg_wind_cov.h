@@ -5,15 +5,15 @@
 
 MAVPACKED(
 typedef struct __mavlink_wind_cov_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    float wind_x; /*< [m/s] Wind in X (NED) direction*/
-    float wind_y; /*< [m/s] Wind in Y (NED) direction*/
-    float wind_z; /*< [m/s] Wind in Z (NED) direction*/
-    float var_horiz; /*< [m/s] Variability of the wind in XY. RMS of a 1 Hz lowpassed wind estimate.*/
-    float var_vert; /*< [m/s] Variability of the wind in Z. RMS of a 1 Hz lowpassed wind estimate.*/
-    float wind_alt; /*< [m] Altitude (MSL) that this measurement was taken at*/
-    float horiz_accuracy; /*< [m] Horizontal speed 1-STD accuracy*/
-    float vert_accuracy; /*< [m] Vertical speed 1-STD accuracy*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ float wind_x; /*< [m/s] Wind in X (NED) direction*/
+ float wind_y; /*< [m/s] Wind in Y (NED) direction*/
+ float wind_z; /*< [m/s] Wind in Z (NED) direction*/
+ float var_horiz; /*< [m/s] Variability of the wind in XY. RMS of a 1 Hz lowpassed wind estimate.*/
+ float var_vert; /*< [m/s] Variability of the wind in Z. RMS of a 1 Hz lowpassed wind estimate.*/
+ float wind_alt; /*< [m] Altitude (MSL) that this measurement was taken at*/
+ float horiz_accuracy; /*< [m] Horizontal speed 1-STD accuracy*/
+ float vert_accuracy; /*< [m] Vertical speed 1-STD accuracy*/
 }) mavlink_wind_cov_t;
 
 #define MAVLINK_MSG_ID_WIND_COV_LEN 40
@@ -59,6 +59,7 @@ typedef struct __mavlink_wind_cov_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a wind_cov message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -66,7 +67,7 @@ typedef struct __mavlink_wind_cov_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param wind_x [m/s] Wind in X (NED) direction
  * @param wind_y [m/s] Wind in Y (NED) direction
  * @param wind_z [m/s] Wind in Z (NED) direction
@@ -116,15 +117,16 @@ static inline uint16_t mavlink_msg_wind_cov_pack_txbuf(char* mav_txbuf, mavlink_
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_WIND_COV, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a wind_cov message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param wind_x [m/s] Wind in X (NED) direction
  * @param wind_y [m/s] Wind in Y (NED) direction
  * @param wind_z [m/s] Wind in Z (NED) direction
@@ -136,7 +138,7 @@ static inline uint16_t mavlink_msg_wind_cov_pack_txbuf(char* mav_txbuf, mavlink_
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_wind_cov_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, float wind_x, float wind_y, float wind_z, float var_horiz, float var_vert, float wind_alt, float horiz_accuracy, float vert_accuracy)
+                               uint64_t time_usec, float wind_x, float wind_y, float wind_z, float var_horiz, float var_vert, float wind_alt, float horiz_accuracy, float vert_accuracy)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_WIND_COV_LEN];
@@ -150,7 +152,7 @@ static inline uint16_t mavlink_msg_wind_cov_pack(uint8_t system_id, uint8_t comp
     _mav_put_float(buf, 32, horiz_accuracy);
     _mav_put_float(buf, 36, vert_accuracy);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_COV_LEN);
 #else
     mavlink_wind_cov_t packet;
     packet.time_usec = time_usec;
@@ -163,7 +165,7 @@ static inline uint16_t mavlink_msg_wind_cov_pack(uint8_t system_id, uint8_t comp
     packet.horiz_accuracy = horiz_accuracy;
     packet.vert_accuracy = vert_accuracy;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_COV_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_WIND_COV;
@@ -176,7 +178,7 @@ static inline uint16_t mavlink_msg_wind_cov_pack(uint8_t system_id, uint8_t comp
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param wind_x [m/s] Wind in X (NED) direction
  * @param wind_y [m/s] Wind in Y (NED) direction
  * @param wind_z [m/s] Wind in Z (NED) direction
@@ -188,8 +190,8 @@ static inline uint16_t mavlink_msg_wind_cov_pack(uint8_t system_id, uint8_t comp
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_wind_cov_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, float wind_x, float wind_y, float wind_z, float var_horiz, float var_vert, float wind_alt, float horiz_accuracy, float vert_accuracy)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,float wind_x,float wind_y,float wind_z,float var_horiz,float var_vert,float wind_alt,float horiz_accuracy,float vert_accuracy)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_WIND_COV_LEN];
@@ -203,7 +205,7 @@ static inline uint16_t mavlink_msg_wind_cov_pack_chan(uint8_t system_id, uint8_t
     _mav_put_float(buf, 32, horiz_accuracy);
     _mav_put_float(buf, 36, vert_accuracy);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_COV_LEN);
 #else
     mavlink_wind_cov_t packet;
     packet.time_usec = time_usec;
@@ -216,7 +218,7 @@ static inline uint16_t mavlink_msg_wind_cov_pack_chan(uint8_t system_id, uint8_t
     packet.horiz_accuracy = horiz_accuracy;
     packet.vert_accuracy = vert_accuracy;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_COV_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_COV_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_WIND_COV;
@@ -250,13 +252,13 @@ static inline uint16_t mavlink_msg_wind_cov_encode_chan(uint8_t system_id, uint8
     return mavlink_msg_wind_cov_pack_chan(system_id, component_id, chan, msg, wind_cov->time_usec, wind_cov->wind_x, wind_cov->wind_y, wind_cov->wind_z, wind_cov->var_horiz, wind_cov->var_vert, wind_cov->wind_alt, wind_cov->horiz_accuracy, wind_cov->vert_accuracy);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a wind_cov message
  * @param chan MAVLink channel to send the message
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param wind_x [m/s] Wind in X (NED) direction
  * @param wind_y [m/s] Wind in Y (NED) direction
  * @param wind_z [m/s] Wind in Z (NED) direction
@@ -295,7 +297,7 @@ static inline void mavlink_msg_wind_cov_send(mavlink_channel_t chan, uint64_t ti
     packet.horiz_accuracy = horiz_accuracy;
     packet.vert_accuracy = vert_accuracy;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND_COV, (const char*)&packet, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND_COV, (const char *)&packet, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
 #endif
 }
 
@@ -309,7 +311,7 @@ static inline void mavlink_msg_wind_cov_send_struct(mavlink_channel_t chan, cons
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_wind_cov_send(chan, wind_cov->time_usec, wind_cov->wind_x, wind_cov->wind_y, wind_cov->wind_z, wind_cov->var_horiz, wind_cov->var_vert, wind_cov->wind_alt, wind_cov->horiz_accuracy, wind_cov->vert_accuracy);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND_COV, (const char*)wind_cov, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND_COV, (const char *)wind_cov, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
 #endif
 }
 
@@ -321,10 +323,10 @@ static inline void mavlink_msg_wind_cov_send_struct(mavlink_channel_t chan, cons
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_wind_cov_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, float wind_x, float wind_y, float wind_z, float var_horiz, float var_vert, float wind_alt, float horiz_accuracy, float vert_accuracy)
+static inline void mavlink_msg_wind_cov_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, float wind_x, float wind_y, float wind_z, float var_horiz, float var_vert, float wind_alt, float horiz_accuracy, float vert_accuracy)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_float(buf, 8, wind_x);
     _mav_put_float(buf, 12, wind_y);
@@ -337,7 +339,7 @@ static inline void mavlink_msg_wind_cov_send_buf(mavlink_message_t* msgbuf, mavl
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND_COV, buf, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
 #else
-    mavlink_wind_cov_t* packet = (mavlink_wind_cov_t*)msgbuf;
+    mavlink_wind_cov_t *packet = (mavlink_wind_cov_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->wind_x = wind_x;
     packet->wind_y = wind_y;
@@ -348,7 +350,7 @@ static inline void mavlink_msg_wind_cov_send_buf(mavlink_message_t* msgbuf, mavl
     packet->horiz_accuracy = horiz_accuracy;
     packet->vert_accuracy = vert_accuracy;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND_COV, (const char*)packet, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND_COV, (const char *)packet, MAVLINK_MSG_ID_WIND_COV_MIN_LEN, MAVLINK_MSG_ID_WIND_COV_LEN, MAVLINK_MSG_ID_WIND_COV_CRC);
 #endif
 }
 #endif
@@ -361,11 +363,11 @@ static inline void mavlink_msg_wind_cov_send_buf(mavlink_message_t* msgbuf, mavl
 /**
  * @brief Get field time_usec from wind_cov message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_wind_cov_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -375,7 +377,7 @@ static inline uint64_t mavlink_msg_wind_cov_get_time_usec(const mavlink_message_
  */
 static inline float mavlink_msg_wind_cov_get_wind_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -385,7 +387,7 @@ static inline float mavlink_msg_wind_cov_get_wind_x(const mavlink_message_t* msg
  */
 static inline float mavlink_msg_wind_cov_get_wind_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -395,7 +397,7 @@ static inline float mavlink_msg_wind_cov_get_wind_y(const mavlink_message_t* msg
  */
 static inline float mavlink_msg_wind_cov_get_wind_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 16);
+    return _MAV_RETURN_float(msg,  16);
 }
 
 /**
@@ -405,7 +407,7 @@ static inline float mavlink_msg_wind_cov_get_wind_z(const mavlink_message_t* msg
  */
 static inline float mavlink_msg_wind_cov_get_var_horiz(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 20);
+    return _MAV_RETURN_float(msg,  20);
 }
 
 /**
@@ -415,7 +417,7 @@ static inline float mavlink_msg_wind_cov_get_var_horiz(const mavlink_message_t* 
  */
 static inline float mavlink_msg_wind_cov_get_var_vert(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 24);
+    return _MAV_RETURN_float(msg,  24);
 }
 
 /**
@@ -425,7 +427,7 @@ static inline float mavlink_msg_wind_cov_get_var_vert(const mavlink_message_t* m
  */
 static inline float mavlink_msg_wind_cov_get_wind_alt(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 28);
+    return _MAV_RETURN_float(msg,  28);
 }
 
 /**
@@ -435,7 +437,7 @@ static inline float mavlink_msg_wind_cov_get_wind_alt(const mavlink_message_t* m
  */
 static inline float mavlink_msg_wind_cov_get_horiz_accuracy(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 32);
+    return _MAV_RETURN_float(msg,  32);
 }
 
 /**
@@ -445,7 +447,7 @@ static inline float mavlink_msg_wind_cov_get_horiz_accuracy(const mavlink_messag
  */
 static inline float mavlink_msg_wind_cov_get_vert_accuracy(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 36);
+    return _MAV_RETURN_float(msg,  36);
 }
 
 /**
@@ -467,8 +469,8 @@ static inline void mavlink_msg_wind_cov_decode(const mavlink_message_t* msg, mav
     wind_cov->horiz_accuracy = mavlink_msg_wind_cov_get_horiz_accuracy(msg);
     wind_cov->vert_accuracy = mavlink_msg_wind_cov_get_vert_accuracy(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_WIND_COV_LEN ? msg->len : MAVLINK_MSG_ID_WIND_COV_LEN;
-    memset(wind_cov, 0, MAVLINK_MSG_ID_WIND_COV_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_WIND_COV_LEN? msg->len : MAVLINK_MSG_ID_WIND_COV_LEN;
+        memset(wind_cov, 0, MAVLINK_MSG_ID_WIND_COV_LEN);
     memcpy(wind_cov, _MAV_PAYLOAD(msg), len);
 #endif
 }

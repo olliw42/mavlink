@@ -5,15 +5,15 @@
 
 MAVPACKED(
 typedef struct __mavlink_obstacle_distance_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    uint16_t distances[72]; /*< [cm] Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.*/
-    uint16_t min_distance; /*< [cm] Minimum distance the sensor can measure.*/
-    uint16_t max_distance; /*< [cm] Maximum distance the sensor can measure.*/
-    uint8_t sensor_type; /*<  Class id of the distance sensor type.*/
-    uint8_t increment; /*< [deg] Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.*/
-    float increment_f; /*< [deg] Angular width in degrees of each array element as a float. If non-zero then this value is used instead of the uint8_t increment field. Positive is clockwise direction, negative is counter-clockwise.*/
-    float angle_offset; /*< [deg] Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward. Positive is clockwise direction, negative is counter-clockwise.*/
-    uint8_t frame; /*<  Coordinate frame of reference for the yaw rotation and offset of the sensor data. Defaults to MAV_FRAME_GLOBAL, which is north aligned. For body-mounted sensors use MAV_FRAME_BODY_FRD, which is vehicle front aligned.*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ uint16_t distances[72]; /*< [cm] Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.*/
+ uint16_t min_distance; /*< [cm] Minimum distance the sensor can measure.*/
+ uint16_t max_distance; /*< [cm] Maximum distance the sensor can measure.*/
+ uint8_t sensor_type; /*<  Class id of the distance sensor type.*/
+ uint8_t increment; /*< [deg] Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.*/
+ float increment_f; /*< [deg] Angular width in degrees of each array element as a float. If non-zero then this value is used instead of the uint8_t increment field. Positive is clockwise direction, negative is counter-clockwise.*/
+ float angle_offset; /*< [deg] Relative angle offset of the 0-index element in the distances array. Value of 0 corresponds to forward. Positive is clockwise direction, negative is counter-clockwise.*/
+ uint8_t frame; /*<  Coordinate frame of reference for the yaw rotation and offset of the sensor data. Defaults to MAV_FRAME_GLOBAL, which is north aligned. For body-mounted sensors use MAV_FRAME_BODY_FRD, which is vehicle front aligned.*/
 }) mavlink_obstacle_distance_t;
 
 #define MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN 167
@@ -59,6 +59,7 @@ typedef struct __mavlink_obstacle_distance_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a obstacle_distance message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -66,7 +67,7 @@ typedef struct __mavlink_obstacle_distance_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_type  Class id of the distance sensor type.
  * @param distances [cm] Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.
  * @param increment [deg] Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.
@@ -114,15 +115,16 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack_txbuf(char* mav_txbuf,
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_OBSTACLE_DISTANCE, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a obstacle_distance message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_type  Class id of the distance sensor type.
  * @param distances [cm] Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.
  * @param increment [deg] Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.
@@ -134,7 +136,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack_txbuf(char* mav_txbuf,
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_obstacle_distance_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, uint8_t sensor_type, const uint16_t *distances, uint8_t increment, uint16_t min_distance, uint16_t max_distance, float increment_f, float angle_offset, uint8_t frame)
+                               uint64_t time_usec, uint8_t sensor_type, const uint16_t *distances, uint8_t increment, uint16_t min_distance, uint16_t max_distance, float increment_f, float angle_offset, uint8_t frame)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN];
@@ -147,7 +149,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack(uint8_t system_id, uin
     _mav_put_float(buf, 162, angle_offset);
     _mav_put_uint8_t(buf, 166, frame);
     _mav_put_uint16_t_array(buf, 8, distances, 72);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
 #else
     mavlink_obstacle_distance_t packet;
     packet.time_usec = time_usec;
@@ -159,7 +161,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack(uint8_t system_id, uin
     packet.angle_offset = angle_offset;
     packet.frame = frame;
     mav_array_memcpy(packet.distances, distances, sizeof(uint16_t)*72);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_OBSTACLE_DISTANCE;
@@ -172,7 +174,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack(uint8_t system_id, uin
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_type  Class id of the distance sensor type.
  * @param distances [cm] Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.
  * @param increment [deg] Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.
@@ -184,8 +186,8 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack(uint8_t system_id, uin
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_obstacle_distance_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, uint8_t sensor_type, const uint16_t *distances, uint8_t increment, uint16_t min_distance, uint16_t max_distance, float increment_f, float angle_offset, uint8_t frame)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,uint8_t sensor_type,const uint16_t *distances,uint8_t increment,uint16_t min_distance,uint16_t max_distance,float increment_f,float angle_offset,uint8_t frame)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN];
@@ -198,7 +200,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack_chan(uint8_t system_id
     _mav_put_float(buf, 162, angle_offset);
     _mav_put_uint8_t(buf, 166, frame);
     _mav_put_uint16_t_array(buf, 8, distances, 72);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
 #else
     mavlink_obstacle_distance_t packet;
     packet.time_usec = time_usec;
@@ -210,7 +212,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_pack_chan(uint8_t system_id
     packet.angle_offset = angle_offset;
     packet.frame = frame;
     mav_array_memcpy(packet.distances, distances, sizeof(uint16_t)*72);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_OBSTACLE_DISTANCE;
@@ -244,13 +246,13 @@ static inline uint16_t mavlink_msg_obstacle_distance_encode_chan(uint8_t system_
     return mavlink_msg_obstacle_distance_pack_chan(system_id, component_id, chan, msg, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a obstacle_distance message
  * @param chan MAVLink channel to send the message
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_type  Class id of the distance sensor type.
  * @param distances [cm] Distance of obstacles around the vehicle with index 0 corresponding to north + angle_offset, unless otherwise specified in the frame. A value of 0 is valid and means that the obstacle is practically touching the sensor. A value of max_distance +1 means no obstacle is present. A value of UINT16_MAX for unknown/not used. In a array element, one unit corresponds to 1cm.
  * @param increment [deg] Angular width in degrees of each array element. Increment direction is clockwise. This field is ignored if increment_f is non-zero.
@@ -287,7 +289,7 @@ static inline void mavlink_msg_obstacle_distance_send(mavlink_channel_t chan, ui
     packet.angle_offset = angle_offset;
     packet.frame = frame;
     mav_array_memcpy(packet.distances, distances, sizeof(uint16_t)*72);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OBSTACLE_DISTANCE, (const char*)&packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OBSTACLE_DISTANCE, (const char *)&packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
 #endif
 }
 
@@ -301,7 +303,7 @@ static inline void mavlink_msg_obstacle_distance_send_struct(mavlink_channel_t c
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_obstacle_distance_send(chan, obstacle_distance->time_usec, obstacle_distance->sensor_type, obstacle_distance->distances, obstacle_distance->increment, obstacle_distance->min_distance, obstacle_distance->max_distance, obstacle_distance->increment_f, obstacle_distance->angle_offset, obstacle_distance->frame);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OBSTACLE_DISTANCE, (const char*)obstacle_distance, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OBSTACLE_DISTANCE, (const char *)obstacle_distance, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
 #endif
 }
 
@@ -313,10 +315,10 @@ static inline void mavlink_msg_obstacle_distance_send_struct(mavlink_channel_t c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_obstacle_distance_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, uint8_t sensor_type, const uint16_t *distances, uint8_t increment, uint16_t min_distance, uint16_t max_distance, float increment_f, float angle_offset, uint8_t frame)
+static inline void mavlink_msg_obstacle_distance_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, uint8_t sensor_type, const uint16_t *distances, uint8_t increment, uint16_t min_distance, uint16_t max_distance, float increment_f, float angle_offset, uint8_t frame)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_uint16_t(buf, 152, min_distance);
     _mav_put_uint16_t(buf, 154, max_distance);
@@ -328,7 +330,7 @@ static inline void mavlink_msg_obstacle_distance_send_buf(mavlink_message_t* msg
     _mav_put_uint16_t_array(buf, 8, distances, 72);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OBSTACLE_DISTANCE, buf, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
 #else
-    mavlink_obstacle_distance_t* packet = (mavlink_obstacle_distance_t*)msgbuf;
+    mavlink_obstacle_distance_t *packet = (mavlink_obstacle_distance_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->min_distance = min_distance;
     packet->max_distance = max_distance;
@@ -338,7 +340,7 @@ static inline void mavlink_msg_obstacle_distance_send_buf(mavlink_message_t* msg
     packet->angle_offset = angle_offset;
     packet->frame = frame;
     mav_array_memcpy(packet->distances, distances, sizeof(uint16_t)*72);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OBSTACLE_DISTANCE, (const char*)packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OBSTACLE_DISTANCE, (const char *)packet, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_MIN_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_CRC);
 #endif
 }
 #endif
@@ -351,11 +353,11 @@ static inline void mavlink_msg_obstacle_distance_send_buf(mavlink_message_t* msg
 /**
  * @brief Get field time_usec from obstacle_distance message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_obstacle_distance_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -365,7 +367,7 @@ static inline uint64_t mavlink_msg_obstacle_distance_get_time_usec(const mavlink
  */
 static inline uint8_t mavlink_msg_obstacle_distance_get_sensor_type(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 156);
+    return _MAV_RETURN_uint8_t(msg,  156);
 }
 
 /**
@@ -375,7 +377,7 @@ static inline uint8_t mavlink_msg_obstacle_distance_get_sensor_type(const mavlin
  */
 static inline uint16_t mavlink_msg_obstacle_distance_get_distances(const mavlink_message_t* msg, uint16_t *distances)
 {
-    return _MAV_RETURN_uint16_t_array(msg, distances, 72, 8);
+    return _MAV_RETURN_uint16_t_array(msg, distances, 72,  8);
 }
 
 /**
@@ -385,7 +387,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_get_distances(const mavlink
  */
 static inline uint8_t mavlink_msg_obstacle_distance_get_increment(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 157);
+    return _MAV_RETURN_uint8_t(msg,  157);
 }
 
 /**
@@ -395,7 +397,7 @@ static inline uint8_t mavlink_msg_obstacle_distance_get_increment(const mavlink_
  */
 static inline uint16_t mavlink_msg_obstacle_distance_get_min_distance(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 152);
+    return _MAV_RETURN_uint16_t(msg,  152);
 }
 
 /**
@@ -405,7 +407,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_get_min_distance(const mavl
  */
 static inline uint16_t mavlink_msg_obstacle_distance_get_max_distance(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 154);
+    return _MAV_RETURN_uint16_t(msg,  154);
 }
 
 /**
@@ -415,7 +417,7 @@ static inline uint16_t mavlink_msg_obstacle_distance_get_max_distance(const mavl
  */
 static inline float mavlink_msg_obstacle_distance_get_increment_f(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 158);
+    return _MAV_RETURN_float(msg,  158);
 }
 
 /**
@@ -425,7 +427,7 @@ static inline float mavlink_msg_obstacle_distance_get_increment_f(const mavlink_
  */
 static inline float mavlink_msg_obstacle_distance_get_angle_offset(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 162);
+    return _MAV_RETURN_float(msg,  162);
 }
 
 /**
@@ -435,7 +437,7 @@ static inline float mavlink_msg_obstacle_distance_get_angle_offset(const mavlink
  */
 static inline uint8_t mavlink_msg_obstacle_distance_get_frame(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 166);
+    return _MAV_RETURN_uint8_t(msg,  166);
 }
 
 /**
@@ -457,8 +459,8 @@ static inline void mavlink_msg_obstacle_distance_decode(const mavlink_message_t*
     obstacle_distance->angle_offset = mavlink_msg_obstacle_distance_get_angle_offset(msg);
     obstacle_distance->frame = mavlink_msg_obstacle_distance_get_frame(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN ? msg->len : MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN;
-    memset(obstacle_distance, 0, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN? msg->len : MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN;
+        memset(obstacle_distance, 0, MAVLINK_MSG_ID_OBSTACLE_DISTANCE_LEN);
     memcpy(obstacle_distance, _MAV_PAYLOAD(msg), len);
 #endif
 }

@@ -5,9 +5,9 @@
 
 MAVPACKED(
 typedef struct __mavlink_actuator_control_target_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    float controls[8]; /*<  Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.*/
-    uint8_t group_mlx; /*<  Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ float controls[8]; /*<  Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.*/
+ uint8_t group_mlx; /*<  Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.*/
 }) mavlink_actuator_control_target_t;
 
 #define MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN 41
@@ -41,6 +41,7 @@ typedef struct __mavlink_actuator_control_target_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a actuator_control_target message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -48,7 +49,7 @@ typedef struct __mavlink_actuator_control_target_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param group_mlx  Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.
  * @param controls  Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.
  * @return length of the complete message in bytes in the transmit buffer
@@ -78,34 +79,35 @@ static inline uint16_t mavlink_msg_actuator_control_target_pack_txbuf(char* mav_
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a actuator_control_target message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param group_mlx  Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.
  * @param controls  Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_actuator_control_target_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, uint8_t group_mlx, const float *controls)
+                               uint64_t time_usec, uint8_t group_mlx, const float *controls)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN];
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_uint8_t(buf, 40, group_mlx);
     _mav_put_float_array(buf, 8, controls, 8);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
 #else
     mavlink_actuator_control_target_t packet;
     packet.time_usec = time_usec;
     packet.group_mlx = group_mlx;
     mav_array_memcpy(packet.controls, controls, sizeof(float)*8);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET;
@@ -118,27 +120,27 @@ static inline uint16_t mavlink_msg_actuator_control_target_pack(uint8_t system_i
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param group_mlx  Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.
  * @param controls  Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_actuator_control_target_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, uint8_t group_mlx, const float *controls)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,uint8_t group_mlx,const float *controls)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN];
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_uint8_t(buf, 40, group_mlx);
     _mav_put_float_array(buf, 8, controls, 8);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
 #else
     mavlink_actuator_control_target_t packet;
     packet.time_usec = time_usec;
     packet.group_mlx = group_mlx;
     mav_array_memcpy(packet.controls, controls, sizeof(float)*8);
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET;
@@ -172,13 +174,13 @@ static inline uint16_t mavlink_msg_actuator_control_target_encode_chan(uint8_t s
     return mavlink_msg_actuator_control_target_pack_chan(system_id, component_id, chan, msg, actuator_control_target->time_usec, actuator_control_target->group_mlx, actuator_control_target->controls);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a actuator_control_target message
  * @param chan MAVLink channel to send the message
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param group_mlx  Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.
  * @param controls  Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.
  */
@@ -197,7 +199,7 @@ static inline void mavlink_msg_actuator_control_target_send(mavlink_channel_t ch
     packet.time_usec = time_usec;
     packet.group_mlx = group_mlx;
     mav_array_memcpy(packet.controls, controls, sizeof(float)*8);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, (const char*)&packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, (const char *)&packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
 #endif
 }
 
@@ -211,7 +213,7 @@ static inline void mavlink_msg_actuator_control_target_send_struct(mavlink_chann
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_actuator_control_target_send(chan, actuator_control_target->time_usec, actuator_control_target->group_mlx, actuator_control_target->controls);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, (const char*)actuator_control_target, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, (const char *)actuator_control_target, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
 #endif
 }
 
@@ -223,20 +225,20 @@ static inline void mavlink_msg_actuator_control_target_send_struct(mavlink_chann
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_actuator_control_target_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, uint8_t group_mlx, const float *controls)
+static inline void mavlink_msg_actuator_control_target_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, uint8_t group_mlx, const float *controls)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_uint8_t(buf, 40, group_mlx);
     _mav_put_float_array(buf, 8, controls, 8);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, buf, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
 #else
-    mavlink_actuator_control_target_t* packet = (mavlink_actuator_control_target_t*)msgbuf;
+    mavlink_actuator_control_target_t *packet = (mavlink_actuator_control_target_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->group_mlx = group_mlx;
     mav_array_memcpy(packet->controls, controls, sizeof(float)*8);
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, (const char*)packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET, (const char *)packet, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_MIN_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_CRC);
 #endif
 }
 #endif
@@ -249,11 +251,11 @@ static inline void mavlink_msg_actuator_control_target_send_buf(mavlink_message_
 /**
  * @brief Get field time_usec from actuator_control_target message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_actuator_control_target_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -263,7 +265,7 @@ static inline uint64_t mavlink_msg_actuator_control_target_get_time_usec(const m
  */
 static inline uint8_t mavlink_msg_actuator_control_target_get_group_mlx(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 40);
+    return _MAV_RETURN_uint8_t(msg,  40);
 }
 
 /**
@@ -273,7 +275,7 @@ static inline uint8_t mavlink_msg_actuator_control_target_get_group_mlx(const ma
  */
 static inline uint16_t mavlink_msg_actuator_control_target_get_controls(const mavlink_message_t* msg, float *controls)
 {
-    return _MAV_RETURN_float_array(msg, controls, 8, 8);
+    return _MAV_RETURN_float_array(msg, controls, 8,  8);
 }
 
 /**
@@ -289,8 +291,8 @@ static inline void mavlink_msg_actuator_control_target_decode(const mavlink_mess
     mavlink_msg_actuator_control_target_get_controls(msg, actuator_control_target->controls);
     actuator_control_target->group_mlx = mavlink_msg_actuator_control_target_get_group_mlx(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN ? msg->len : MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN;
-    memset(actuator_control_target, 0, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN? msg->len : MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN;
+        memset(actuator_control_target, 0, MAVLINK_MSG_ID_ACTUATOR_CONTROL_TARGET_LEN);
     memcpy(actuator_control_target, _MAV_PAYLOAD(msg), len);
 #endif
 }

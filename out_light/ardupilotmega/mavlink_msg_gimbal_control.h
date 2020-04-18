@@ -5,11 +5,11 @@
 
 MAVPACKED(
 typedef struct __mavlink_gimbal_control_t {
-    float demanded_rate_x; /*< [rad/s] Demanded angular rate X.*/
-    float demanded_rate_y; /*< [rad/s] Demanded angular rate Y.*/
-    float demanded_rate_z; /*< [rad/s] Demanded angular rate Z.*/
-    uint8_t target_system; /*<  System ID.*/
-    uint8_t target_component; /*<  Component ID.*/
+ float demanded_rate_x; /*< [rad/s] Demanded angular rate X.*/
+ float demanded_rate_y; /*< [rad/s] Demanded angular rate Y.*/
+ float demanded_rate_z; /*< [rad/s] Demanded angular rate Z.*/
+ uint8_t target_system; /*<  System ID.*/
+ uint8_t target_component; /*<  Component ID.*/
 }) mavlink_gimbal_control_t;
 
 #define MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN 14
@@ -47,6 +47,7 @@ typedef struct __mavlink_gimbal_control_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a gimbal_control message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -92,8 +93,9 @@ static inline uint16_t mavlink_msg_gimbal_control_pack_txbuf(char* mav_txbuf, ma
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_GIMBAL_CONTROL, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a gimbal_control message
  * @param system_id ID of this system
@@ -108,7 +110,7 @@ static inline uint16_t mavlink_msg_gimbal_control_pack_txbuf(char* mav_txbuf, ma
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gimbal_control_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint8_t target_system, uint8_t target_component, float demanded_rate_x, float demanded_rate_y, float demanded_rate_z)
+                               uint8_t target_system, uint8_t target_component, float demanded_rate_x, float demanded_rate_y, float demanded_rate_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN];
@@ -118,7 +120,7 @@ static inline uint16_t mavlink_msg_gimbal_control_pack(uint8_t system_id, uint8_
     _mav_put_uint8_t(buf, 12, target_system);
     _mav_put_uint8_t(buf, 13, target_component);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
 #else
     mavlink_gimbal_control_t packet;
     packet.demanded_rate_x = demanded_rate_x;
@@ -127,7 +129,7 @@ static inline uint16_t mavlink_msg_gimbal_control_pack(uint8_t system_id, uint8_
     packet.target_system = target_system;
     packet.target_component = target_component;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GIMBAL_CONTROL;
@@ -148,8 +150,8 @@ static inline uint16_t mavlink_msg_gimbal_control_pack(uint8_t system_id, uint8_
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gimbal_control_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint8_t target_system, uint8_t target_component, float demanded_rate_x, float demanded_rate_y, float demanded_rate_z)
+                               mavlink_message_t* msg,
+                                   uint8_t target_system,uint8_t target_component,float demanded_rate_x,float demanded_rate_y,float demanded_rate_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN];
@@ -159,7 +161,7 @@ static inline uint16_t mavlink_msg_gimbal_control_pack_chan(uint8_t system_id, u
     _mav_put_uint8_t(buf, 12, target_system);
     _mav_put_uint8_t(buf, 13, target_component);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
 #else
     mavlink_gimbal_control_t packet;
     packet.demanded_rate_x = demanded_rate_x;
@@ -168,7 +170,7 @@ static inline uint16_t mavlink_msg_gimbal_control_pack_chan(uint8_t system_id, u
     packet.target_system = target_system;
     packet.target_component = target_component;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GIMBAL_CONTROL;
@@ -202,7 +204,7 @@ static inline uint16_t mavlink_msg_gimbal_control_encode_chan(uint8_t system_id,
     return mavlink_msg_gimbal_control_pack_chan(system_id, component_id, chan, msg, gimbal_control->target_system, gimbal_control->target_component, gimbal_control->demanded_rate_x, gimbal_control->demanded_rate_y, gimbal_control->demanded_rate_z);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a gimbal_control message
@@ -235,7 +237,7 @@ static inline void mavlink_msg_gimbal_control_send(mavlink_channel_t chan, uint8
     packet.target_system = target_system;
     packet.target_component = target_component;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_CONTROL, (const char*)&packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_CONTROL, (const char *)&packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
 #endif
 }
 
@@ -249,7 +251,7 @@ static inline void mavlink_msg_gimbal_control_send_struct(mavlink_channel_t chan
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_gimbal_control_send(chan, gimbal_control->target_system, gimbal_control->target_component, gimbal_control->demanded_rate_x, gimbal_control->demanded_rate_y, gimbal_control->demanded_rate_z);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_CONTROL, (const char*)gimbal_control, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_CONTROL, (const char *)gimbal_control, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
 #endif
 }
 
@@ -261,10 +263,10 @@ static inline void mavlink_msg_gimbal_control_send_struct(mavlink_channel_t chan
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_gimbal_control_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint8_t target_system, uint8_t target_component, float demanded_rate_x, float demanded_rate_y, float demanded_rate_z)
+static inline void mavlink_msg_gimbal_control_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint8_t target_system, uint8_t target_component, float demanded_rate_x, float demanded_rate_y, float demanded_rate_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_float(buf, 0, demanded_rate_x);
     _mav_put_float(buf, 4, demanded_rate_y);
     _mav_put_float(buf, 8, demanded_rate_z);
@@ -273,14 +275,14 @@ static inline void mavlink_msg_gimbal_control_send_buf(mavlink_message_t* msgbuf
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_CONTROL, buf, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
 #else
-    mavlink_gimbal_control_t* packet = (mavlink_gimbal_control_t*)msgbuf;
+    mavlink_gimbal_control_t *packet = (mavlink_gimbal_control_t *)msgbuf;
     packet->demanded_rate_x = demanded_rate_x;
     packet->demanded_rate_y = demanded_rate_y;
     packet->demanded_rate_z = demanded_rate_z;
     packet->target_system = target_system;
     packet->target_component = target_component;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_CONTROL, (const char*)packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GIMBAL_CONTROL, (const char *)packet, MAVLINK_MSG_ID_GIMBAL_CONTROL_MIN_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN, MAVLINK_MSG_ID_GIMBAL_CONTROL_CRC);
 #endif
 }
 #endif
@@ -297,7 +299,7 @@ static inline void mavlink_msg_gimbal_control_send_buf(mavlink_message_t* msgbuf
  */
 static inline uint8_t mavlink_msg_gimbal_control_get_target_system(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 12);
+    return _MAV_RETURN_uint8_t(msg,  12);
 }
 
 /**
@@ -307,7 +309,7 @@ static inline uint8_t mavlink_msg_gimbal_control_get_target_system(const mavlink
  */
 static inline uint8_t mavlink_msg_gimbal_control_get_target_component(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 13);
+    return _MAV_RETURN_uint8_t(msg,  13);
 }
 
 /**
@@ -317,7 +319,7 @@ static inline uint8_t mavlink_msg_gimbal_control_get_target_component(const mavl
  */
 static inline float mavlink_msg_gimbal_control_get_demanded_rate_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 0);
+    return _MAV_RETURN_float(msg,  0);
 }
 
 /**
@@ -327,7 +329,7 @@ static inline float mavlink_msg_gimbal_control_get_demanded_rate_x(const mavlink
  */
 static inline float mavlink_msg_gimbal_control_get_demanded_rate_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 4);
+    return _MAV_RETURN_float(msg,  4);
 }
 
 /**
@@ -337,7 +339,7 @@ static inline float mavlink_msg_gimbal_control_get_demanded_rate_y(const mavlink
  */
 static inline float mavlink_msg_gimbal_control_get_demanded_rate_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -355,8 +357,8 @@ static inline void mavlink_msg_gimbal_control_decode(const mavlink_message_t* ms
     gimbal_control->target_system = mavlink_msg_gimbal_control_get_target_system(msg);
     gimbal_control->target_component = mavlink_msg_gimbal_control_get_target_component(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN ? msg->len : MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN;
-    memset(gimbal_control, 0, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN? msg->len : MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN;
+        memset(gimbal_control, 0, MAVLINK_MSG_ID_GIMBAL_CONTROL_LEN);
     memcpy(gimbal_control, _MAV_PAYLOAD(msg), len);
 #endif
 }

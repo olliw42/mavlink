@@ -5,9 +5,9 @@
 
 MAVPACKED(
 typedef struct __mavlink_wind_t {
-    float direction; /*< [deg] Wind direction (that wind is coming from).*/
-    float speed; /*< [m/s] Wind speed in ground plane.*/
-    float speed_z; /*< [m/s] Vertical wind speed.*/
+ float direction; /*< [deg] Wind direction (that wind is coming from).*/
+ float speed; /*< [m/s] Wind speed in ground plane.*/
+ float speed_z; /*< [m/s] Vertical wind speed.*/
 }) mavlink_wind_t;
 
 #define MAVLINK_MSG_ID_WIND_LEN 12
@@ -41,6 +41,7 @@ typedef struct __mavlink_wind_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a wind message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -80,8 +81,9 @@ static inline uint16_t mavlink_msg_wind_pack_txbuf(char* mav_txbuf, mavlink_stat
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_WIND, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a wind message
  * @param system_id ID of this system
@@ -94,7 +96,7 @@ static inline uint16_t mavlink_msg_wind_pack_txbuf(char* mav_txbuf, mavlink_stat
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_wind_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 float direction, float speed, float speed_z)
+                               float direction, float speed, float speed_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_WIND_LEN];
@@ -102,14 +104,14 @@ static inline uint16_t mavlink_msg_wind_pack(uint8_t system_id, uint8_t componen
     _mav_put_float(buf, 4, speed);
     _mav_put_float(buf, 8, speed_z);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_LEN);
 #else
     mavlink_wind_t packet;
     packet.direction = direction;
     packet.speed = speed;
     packet.speed_z = speed_z;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_WIND;
@@ -128,8 +130,8 @@ static inline uint16_t mavlink_msg_wind_pack(uint8_t system_id, uint8_t componen
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_wind_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                float direction, float speed, float speed_z)
+                               mavlink_message_t* msg,
+                                   float direction,float speed,float speed_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_WIND_LEN];
@@ -137,14 +139,14 @@ static inline uint16_t mavlink_msg_wind_pack_chan(uint8_t system_id, uint8_t com
     _mav_put_float(buf, 4, speed);
     _mav_put_float(buf, 8, speed_z);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_WIND_LEN);
 #else
     mavlink_wind_t packet;
     packet.direction = direction;
     packet.speed = speed;
     packet.speed_z = speed_z;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_WIND_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_WIND;
@@ -178,7 +180,7 @@ static inline uint16_t mavlink_msg_wind_encode_chan(uint8_t system_id, uint8_t c
     return mavlink_msg_wind_pack_chan(system_id, component_id, chan, msg, wind->direction, wind->speed, wind->speed_z);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a wind message
@@ -205,7 +207,7 @@ static inline void mavlink_msg_wind_send(mavlink_channel_t chan, float direction
     packet.speed = speed;
     packet.speed_z = speed_z;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND, (const char*)&packet, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND, (const char *)&packet, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
 #endif
 }
 
@@ -219,7 +221,7 @@ static inline void mavlink_msg_wind_send_struct(mavlink_channel_t chan, const ma
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_wind_send(chan, wind->direction, wind->speed, wind->speed_z);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND, (const char*)wind, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND, (const char *)wind, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
 #endif
 }
 
@@ -231,22 +233,22 @@ static inline void mavlink_msg_wind_send_struct(mavlink_channel_t chan, const ma
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_wind_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, float direction, float speed, float speed_z)
+static inline void mavlink_msg_wind_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  float direction, float speed, float speed_z)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_float(buf, 0, direction);
     _mav_put_float(buf, 4, speed);
     _mav_put_float(buf, 8, speed_z);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND, buf, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
 #else
-    mavlink_wind_t* packet = (mavlink_wind_t*)msgbuf;
+    mavlink_wind_t *packet = (mavlink_wind_t *)msgbuf;
     packet->direction = direction;
     packet->speed = speed;
     packet->speed_z = speed_z;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND, (const char*)packet, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_WIND, (const char *)packet, MAVLINK_MSG_ID_WIND_MIN_LEN, MAVLINK_MSG_ID_WIND_LEN, MAVLINK_MSG_ID_WIND_CRC);
 #endif
 }
 #endif
@@ -263,7 +265,7 @@ static inline void mavlink_msg_wind_send_buf(mavlink_message_t* msgbuf, mavlink_
  */
 static inline float mavlink_msg_wind_get_direction(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 0);
+    return _MAV_RETURN_float(msg,  0);
 }
 
 /**
@@ -273,7 +275,7 @@ static inline float mavlink_msg_wind_get_direction(const mavlink_message_t* msg)
  */
 static inline float mavlink_msg_wind_get_speed(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 4);
+    return _MAV_RETURN_float(msg,  4);
 }
 
 /**
@@ -283,7 +285,7 @@ static inline float mavlink_msg_wind_get_speed(const mavlink_message_t* msg)
  */
 static inline float mavlink_msg_wind_get_speed_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -299,8 +301,8 @@ static inline void mavlink_msg_wind_decode(const mavlink_message_t* msg, mavlink
     wind->speed = mavlink_msg_wind_get_speed(msg);
     wind->speed_z = mavlink_msg_wind_get_speed_z(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_WIND_LEN ? msg->len : MAVLINK_MSG_ID_WIND_LEN;
-    memset(wind, 0, MAVLINK_MSG_ID_WIND_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_WIND_LEN? msg->len : MAVLINK_MSG_ID_WIND_LEN;
+        memset(wind, 0, MAVLINK_MSG_ID_WIND_LEN);
     memcpy(wind, _MAV_PAYLOAD(msg), len);
 #endif
 }

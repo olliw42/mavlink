@@ -5,13 +5,13 @@
 
 MAVPACKED(
 typedef struct __mavlink_local_position_ned_system_global_offset_t {
-    uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
-    float x; /*< [m] X Position*/
-    float y; /*< [m] Y Position*/
-    float z; /*< [m] Z Position*/
-    float roll; /*< [rad] Roll*/
-    float pitch; /*< [rad] Pitch*/
-    float yaw; /*< [rad] Yaw*/
+ uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
+ float x; /*< [m] X Position*/
+ float y; /*< [m] Y Position*/
+ float z; /*< [m] Z Position*/
+ float roll; /*< [rad] Roll*/
+ float pitch; /*< [rad] Pitch*/
+ float yaw; /*< [rad] Yaw*/
 }) mavlink_local_position_ned_system_global_offset_t;
 
 #define MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN 28
@@ -53,6 +53,7 @@ typedef struct __mavlink_local_position_ned_system_global_offset_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a local_position_ned_system_global_offset message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -104,8 +105,9 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack_
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a local_position_ned_system_global_offset message
  * @param system_id ID of this system
@@ -122,7 +124,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack_
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint32_t time_boot_ms, float x, float y, float z, float roll, float pitch, float yaw)
+                               uint32_t time_boot_ms, float x, float y, float z, float roll, float pitch, float yaw)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN];
@@ -134,7 +136,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack(
     _mav_put_float(buf, 20, pitch);
     _mav_put_float(buf, 24, yaw);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
 #else
     mavlink_local_position_ned_system_global_offset_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -145,7 +147,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack(
     packet.pitch = pitch;
     packet.yaw = yaw;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET;
@@ -168,8 +170,8 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack(
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint32_t time_boot_ms, float x, float y, float z, float roll, float pitch, float yaw)
+                               mavlink_message_t* msg,
+                                   uint32_t time_boot_ms,float x,float y,float z,float roll,float pitch,float yaw)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN];
@@ -181,7 +183,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack_
     _mav_put_float(buf, 20, pitch);
     _mav_put_float(buf, 24, yaw);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
 #else
     mavlink_local_position_ned_system_global_offset_t packet;
     packet.time_boot_ms = time_boot_ms;
@@ -192,7 +194,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_pack_
     packet.pitch = pitch;
     packet.yaw = yaw;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET;
@@ -226,7 +228,7 @@ static inline uint16_t mavlink_msg_local_position_ned_system_global_offset_encod
     return mavlink_msg_local_position_ned_system_global_offset_pack_chan(system_id, component_id, chan, msg, local_position_ned_system_global_offset->time_boot_ms, local_position_ned_system_global_offset->x, local_position_ned_system_global_offset->y, local_position_ned_system_global_offset->z, local_position_ned_system_global_offset->roll, local_position_ned_system_global_offset->pitch, local_position_ned_system_global_offset->yaw);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a local_position_ned_system_global_offset message
@@ -265,7 +267,7 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_send(mavl
     packet.pitch = pitch;
     packet.yaw = yaw;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, (const char*)&packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, (const char *)&packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
 #endif
 }
 
@@ -279,7 +281,7 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_send_stru
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_local_position_ned_system_global_offset_send(chan, local_position_ned_system_global_offset->time_boot_ms, local_position_ned_system_global_offset->x, local_position_ned_system_global_offset->y, local_position_ned_system_global_offset->z, local_position_ned_system_global_offset->roll, local_position_ned_system_global_offset->pitch, local_position_ned_system_global_offset->yaw);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, (const char*)local_position_ned_system_global_offset, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, (const char *)local_position_ned_system_global_offset, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
 #endif
 }
 
@@ -291,10 +293,10 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_send_stru
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_local_position_ned_system_global_offset_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint32_t time_boot_ms, float x, float y, float z, float roll, float pitch, float yaw)
+static inline void mavlink_msg_local_position_ned_system_global_offset_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t time_boot_ms, float x, float y, float z, float roll, float pitch, float yaw)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint32_t(buf, 0, time_boot_ms);
     _mav_put_float(buf, 4, x);
     _mav_put_float(buf, 8, y);
@@ -305,7 +307,7 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_send_buf(
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, buf, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
 #else
-    mavlink_local_position_ned_system_global_offset_t* packet = (mavlink_local_position_ned_system_global_offset_t*)msgbuf;
+    mavlink_local_position_ned_system_global_offset_t *packet = (mavlink_local_position_ned_system_global_offset_t *)msgbuf;
     packet->time_boot_ms = time_boot_ms;
     packet->x = x;
     packet->y = y;
@@ -314,7 +316,7 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_send_buf(
     packet->pitch = pitch;
     packet->yaw = yaw;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, (const char*)packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET, (const char *)packet, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_MIN_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_CRC);
 #endif
 }
 #endif
@@ -331,7 +333,7 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_send_buf(
  */
 static inline uint32_t mavlink_msg_local_position_ned_system_global_offset_get_time_boot_ms(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 0);
+    return _MAV_RETURN_uint32_t(msg,  0);
 }
 
 /**
@@ -341,7 +343,7 @@ static inline uint32_t mavlink_msg_local_position_ned_system_global_offset_get_t
  */
 static inline float mavlink_msg_local_position_ned_system_global_offset_get_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 4);
+    return _MAV_RETURN_float(msg,  4);
 }
 
 /**
@@ -351,7 +353,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_x(co
  */
 static inline float mavlink_msg_local_position_ned_system_global_offset_get_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -361,7 +363,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_y(co
  */
 static inline float mavlink_msg_local_position_ned_system_global_offset_get_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -371,7 +373,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_z(co
  */
 static inline float mavlink_msg_local_position_ned_system_global_offset_get_roll(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 16);
+    return _MAV_RETURN_float(msg,  16);
 }
 
 /**
@@ -381,7 +383,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_roll
  */
 static inline float mavlink_msg_local_position_ned_system_global_offset_get_pitch(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 20);
+    return _MAV_RETURN_float(msg,  20);
 }
 
 /**
@@ -391,7 +393,7 @@ static inline float mavlink_msg_local_position_ned_system_global_offset_get_pitc
  */
 static inline float mavlink_msg_local_position_ned_system_global_offset_get_yaw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 24);
+    return _MAV_RETURN_float(msg,  24);
 }
 
 /**
@@ -411,8 +413,8 @@ static inline void mavlink_msg_local_position_ned_system_global_offset_decode(co
     local_position_ned_system_global_offset->pitch = mavlink_msg_local_position_ned_system_global_offset_get_pitch(msg);
     local_position_ned_system_global_offset->yaw = mavlink_msg_local_position_ned_system_global_offset_get_yaw(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN ? msg->len : MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN;
-    memset(local_position_ned_system_global_offset, 0, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN? msg->len : MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN;
+        memset(local_position_ned_system_global_offset, 0, MAVLINK_MSG_ID_LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET_LEN);
     memcpy(local_position_ned_system_global_offset, _MAV_PAYLOAD(msg), len);
 #endif
 }

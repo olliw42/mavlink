@@ -5,10 +5,10 @@
 
 MAVPACKED(
 typedef struct __mavlink_flight_information_t {
-    uint64_t arming_time_utc; /*< [us] Timestamp at arming (time since UNIX epoch) in UTC, 0 for unknown*/
-    uint64_t takeoff_time_utc; /*< [us] Timestamp at takeoff (time since UNIX epoch) in UTC, 0 for unknown*/
-    uint64_t flight_uuid; /*<  Universally unique identifier (UUID) of flight, should correspond to name of log files*/
-    uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
+ uint64_t arming_time_utc; /*< [us] Timestamp at arming (time since UNIX epoch) in UTC, 0 for unknown*/
+ uint64_t takeoff_time_utc; /*< [us] Timestamp at takeoff (time since UNIX epoch) in UTC, 0 for unknown*/
+ uint64_t flight_uuid; /*<  Universally unique identifier (UUID) of flight, should correspond to name of log files*/
+ uint32_t time_boot_ms; /*< [ms] Timestamp (time since system boot).*/
 }) mavlink_flight_information_t;
 
 #define MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN 28
@@ -44,6 +44,7 @@ typedef struct __mavlink_flight_information_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a flight_information message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -86,8 +87,9 @@ static inline uint16_t mavlink_msg_flight_information_pack_txbuf(char* mav_txbuf
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_FLIGHT_INFORMATION, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a flight_information message
  * @param system_id ID of this system
@@ -101,7 +103,7 @@ static inline uint16_t mavlink_msg_flight_information_pack_txbuf(char* mav_txbuf
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_flight_information_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint32_t time_boot_ms, uint64_t arming_time_utc, uint64_t takeoff_time_utc, uint64_t flight_uuid)
+                               uint32_t time_boot_ms, uint64_t arming_time_utc, uint64_t takeoff_time_utc, uint64_t flight_uuid)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN];
@@ -110,7 +112,7 @@ static inline uint16_t mavlink_msg_flight_information_pack(uint8_t system_id, ui
     _mav_put_uint64_t(buf, 16, flight_uuid);
     _mav_put_uint32_t(buf, 24, time_boot_ms);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
 #else
     mavlink_flight_information_t packet;
     packet.arming_time_utc = arming_time_utc;
@@ -118,7 +120,7 @@ static inline uint16_t mavlink_msg_flight_information_pack(uint8_t system_id, ui
     packet.flight_uuid = flight_uuid;
     packet.time_boot_ms = time_boot_ms;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_FLIGHT_INFORMATION;
@@ -138,8 +140,8 @@ static inline uint16_t mavlink_msg_flight_information_pack(uint8_t system_id, ui
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_flight_information_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint32_t time_boot_ms, uint64_t arming_time_utc, uint64_t takeoff_time_utc, uint64_t flight_uuid)
+                               mavlink_message_t* msg,
+                                   uint32_t time_boot_ms,uint64_t arming_time_utc,uint64_t takeoff_time_utc,uint64_t flight_uuid)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN];
@@ -148,7 +150,7 @@ static inline uint16_t mavlink_msg_flight_information_pack_chan(uint8_t system_i
     _mav_put_uint64_t(buf, 16, flight_uuid);
     _mav_put_uint32_t(buf, 24, time_boot_ms);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
 #else
     mavlink_flight_information_t packet;
     packet.arming_time_utc = arming_time_utc;
@@ -156,7 +158,7 @@ static inline uint16_t mavlink_msg_flight_information_pack_chan(uint8_t system_i
     packet.flight_uuid = flight_uuid;
     packet.time_boot_ms = time_boot_ms;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_FLIGHT_INFORMATION;
@@ -190,7 +192,7 @@ static inline uint16_t mavlink_msg_flight_information_encode_chan(uint8_t system
     return mavlink_msg_flight_information_pack_chan(system_id, component_id, chan, msg, flight_information->time_boot_ms, flight_information->arming_time_utc, flight_information->takeoff_time_utc, flight_information->flight_uuid);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a flight_information message
@@ -220,7 +222,7 @@ static inline void mavlink_msg_flight_information_send(mavlink_channel_t chan, u
     packet.flight_uuid = flight_uuid;
     packet.time_boot_ms = time_boot_ms;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_FLIGHT_INFORMATION, (const char*)&packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_FLIGHT_INFORMATION, (const char *)&packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
 #endif
 }
 
@@ -234,7 +236,7 @@ static inline void mavlink_msg_flight_information_send_struct(mavlink_channel_t 
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_flight_information_send(chan, flight_information->time_boot_ms, flight_information->arming_time_utc, flight_information->takeoff_time_utc, flight_information->flight_uuid);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_FLIGHT_INFORMATION, (const char*)flight_information, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_FLIGHT_INFORMATION, (const char *)flight_information, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
 #endif
 }
 
@@ -246,10 +248,10 @@ static inline void mavlink_msg_flight_information_send_struct(mavlink_channel_t 
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_flight_information_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint32_t time_boot_ms, uint64_t arming_time_utc, uint64_t takeoff_time_utc, uint64_t flight_uuid)
+static inline void mavlink_msg_flight_information_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t time_boot_ms, uint64_t arming_time_utc, uint64_t takeoff_time_utc, uint64_t flight_uuid)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, arming_time_utc);
     _mav_put_uint64_t(buf, 8, takeoff_time_utc);
     _mav_put_uint64_t(buf, 16, flight_uuid);
@@ -257,13 +259,13 @@ static inline void mavlink_msg_flight_information_send_buf(mavlink_message_t* ms
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_FLIGHT_INFORMATION, buf, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
 #else
-    mavlink_flight_information_t* packet = (mavlink_flight_information_t*)msgbuf;
+    mavlink_flight_information_t *packet = (mavlink_flight_information_t *)msgbuf;
     packet->arming_time_utc = arming_time_utc;
     packet->takeoff_time_utc = takeoff_time_utc;
     packet->flight_uuid = flight_uuid;
     packet->time_boot_ms = time_boot_ms;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_FLIGHT_INFORMATION, (const char*)packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_FLIGHT_INFORMATION, (const char *)packet, MAVLINK_MSG_ID_FLIGHT_INFORMATION_MIN_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN, MAVLINK_MSG_ID_FLIGHT_INFORMATION_CRC);
 #endif
 }
 #endif
@@ -280,7 +282,7 @@ static inline void mavlink_msg_flight_information_send_buf(mavlink_message_t* ms
  */
 static inline uint32_t mavlink_msg_flight_information_get_time_boot_ms(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 24);
+    return _MAV_RETURN_uint32_t(msg,  24);
 }
 
 /**
@@ -290,7 +292,7 @@ static inline uint32_t mavlink_msg_flight_information_get_time_boot_ms(const mav
  */
 static inline uint64_t mavlink_msg_flight_information_get_arming_time_utc(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -300,7 +302,7 @@ static inline uint64_t mavlink_msg_flight_information_get_arming_time_utc(const 
  */
 static inline uint64_t mavlink_msg_flight_information_get_takeoff_time_utc(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 8);
+    return _MAV_RETURN_uint64_t(msg,  8);
 }
 
 /**
@@ -310,7 +312,7 @@ static inline uint64_t mavlink_msg_flight_information_get_takeoff_time_utc(const
  */
 static inline uint64_t mavlink_msg_flight_information_get_flight_uuid(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 16);
+    return _MAV_RETURN_uint64_t(msg,  16);
 }
 
 /**
@@ -327,8 +329,8 @@ static inline void mavlink_msg_flight_information_decode(const mavlink_message_t
     flight_information->flight_uuid = mavlink_msg_flight_information_get_flight_uuid(msg);
     flight_information->time_boot_ms = mavlink_msg_flight_information_get_time_boot_ms(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN ? msg->len : MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN;
-    memset(flight_information, 0, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN? msg->len : MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN;
+        memset(flight_information, 0, MAVLINK_MSG_ID_FLIGHT_INFORMATION_LEN);
     memcpy(flight_information, _MAV_PAYLOAD(msg), len);
 #endif
 }

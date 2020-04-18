@@ -5,14 +5,14 @@
 
 MAVPACKED(
 typedef struct __mavlink_isbd_link_status_t {
-    uint64_t timestamp; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    uint64_t last_heartbeat; /*< [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    uint16_t failed_sessions; /*<  Number of failed SBD sessions.*/
-    uint16_t successful_sessions; /*<  Number of successful SBD sessions.*/
-    uint8_t signal_quality; /*<  Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.*/
-    uint8_t ring_pending; /*<  1: Ring call pending, 0: No call pending.*/
-    uint8_t tx_session_pending; /*<  1: Transmission session pending, 0: No transmission session pending.*/
-    uint8_t rx_session_pending; /*<  1: Receiving session pending, 0: No receiving session pending.*/
+ uint64_t timestamp; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ uint64_t last_heartbeat; /*< [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ uint16_t failed_sessions; /*<  Number of failed SBD sessions.*/
+ uint16_t successful_sessions; /*<  Number of successful SBD sessions.*/
+ uint8_t signal_quality; /*<  Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.*/
+ uint8_t ring_pending; /*<  1: Ring call pending, 0: No call pending.*/
+ uint8_t tx_session_pending; /*<  1: Transmission session pending, 0: No transmission session pending.*/
+ uint8_t rx_session_pending; /*<  1: Receiving session pending, 0: No receiving session pending.*/
 }) mavlink_isbd_link_status_t;
 
 #define MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN 24
@@ -56,6 +56,7 @@ typedef struct __mavlink_isbd_link_status_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a isbd_link_status message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -63,8 +64,8 @@ typedef struct __mavlink_isbd_link_status_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
- * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
+ * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param failed_sessions  Number of failed SBD sessions.
  * @param successful_sessions  Number of successful SBD sessions.
  * @param signal_quality  Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.
@@ -110,16 +111,17 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack_txbuf(char* mav_txbuf, 
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_ISBD_LINK_STATUS, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a isbd_link_status message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
- * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
+ * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param failed_sessions  Number of failed SBD sessions.
  * @param successful_sessions  Number of successful SBD sessions.
  * @param signal_quality  Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.
@@ -129,7 +131,7 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack_txbuf(char* mav_txbuf, 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_isbd_link_status_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t timestamp, uint64_t last_heartbeat, uint16_t failed_sessions, uint16_t successful_sessions, uint8_t signal_quality, uint8_t ring_pending, uint8_t tx_session_pending, uint8_t rx_session_pending)
+                               uint64_t timestamp, uint64_t last_heartbeat, uint16_t failed_sessions, uint16_t successful_sessions, uint8_t signal_quality, uint8_t ring_pending, uint8_t tx_session_pending, uint8_t rx_session_pending)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN];
@@ -142,7 +144,7 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack(uint8_t system_id, uint
     _mav_put_uint8_t(buf, 22, tx_session_pending);
     _mav_put_uint8_t(buf, 23, rx_session_pending);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
 #else
     mavlink_isbd_link_status_t packet;
     packet.timestamp = timestamp;
@@ -154,7 +156,7 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack(uint8_t system_id, uint
     packet.tx_session_pending = tx_session_pending;
     packet.rx_session_pending = rx_session_pending;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ISBD_LINK_STATUS;
@@ -167,8 +169,8 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack(uint8_t system_id, uint
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
- * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
+ * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param failed_sessions  Number of failed SBD sessions.
  * @param successful_sessions  Number of successful SBD sessions.
  * @param signal_quality  Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.
@@ -178,8 +180,8 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack(uint8_t system_id, uint
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_isbd_link_status_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t timestamp, uint64_t last_heartbeat, uint16_t failed_sessions, uint16_t successful_sessions, uint8_t signal_quality, uint8_t ring_pending, uint8_t tx_session_pending, uint8_t rx_session_pending)
+                               mavlink_message_t* msg,
+                                   uint64_t timestamp,uint64_t last_heartbeat,uint16_t failed_sessions,uint16_t successful_sessions,uint8_t signal_quality,uint8_t ring_pending,uint8_t tx_session_pending,uint8_t rx_session_pending)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN];
@@ -192,7 +194,7 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack_chan(uint8_t system_id,
     _mav_put_uint8_t(buf, 22, tx_session_pending);
     _mav_put_uint8_t(buf, 23, rx_session_pending);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
 #else
     mavlink_isbd_link_status_t packet;
     packet.timestamp = timestamp;
@@ -204,7 +206,7 @@ static inline uint16_t mavlink_msg_isbd_link_status_pack_chan(uint8_t system_id,
     packet.tx_session_pending = tx_session_pending;
     packet.rx_session_pending = rx_session_pending;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_ISBD_LINK_STATUS;
@@ -238,14 +240,14 @@ static inline uint16_t mavlink_msg_isbd_link_status_encode_chan(uint8_t system_i
     return mavlink_msg_isbd_link_status_pack_chan(system_id, component_id, chan, msg, isbd_link_status->timestamp, isbd_link_status->last_heartbeat, isbd_link_status->failed_sessions, isbd_link_status->successful_sessions, isbd_link_status->signal_quality, isbd_link_status->ring_pending, isbd_link_status->tx_session_pending, isbd_link_status->rx_session_pending);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a isbd_link_status message
  * @param chan MAVLink channel to send the message
  *
- * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
- * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param timestamp [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
+ * @param last_heartbeat [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param failed_sessions  Number of failed SBD sessions.
  * @param successful_sessions  Number of successful SBD sessions.
  * @param signal_quality  Signal quality equal to the number of bars displayed on the ISU signal strength indicator. Range is 0 to 5, where 0 indicates no signal and 5 indicates maximum signal strength.
@@ -280,7 +282,7 @@ static inline void mavlink_msg_isbd_link_status_send(mavlink_channel_t chan, uin
     packet.tx_session_pending = tx_session_pending;
     packet.rx_session_pending = rx_session_pending;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ISBD_LINK_STATUS, (const char*)&packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ISBD_LINK_STATUS, (const char *)&packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
 #endif
 }
 
@@ -294,7 +296,7 @@ static inline void mavlink_msg_isbd_link_status_send_struct(mavlink_channel_t ch
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_isbd_link_status_send(chan, isbd_link_status->timestamp, isbd_link_status->last_heartbeat, isbd_link_status->failed_sessions, isbd_link_status->successful_sessions, isbd_link_status->signal_quality, isbd_link_status->ring_pending, isbd_link_status->tx_session_pending, isbd_link_status->rx_session_pending);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ISBD_LINK_STATUS, (const char*)isbd_link_status, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ISBD_LINK_STATUS, (const char *)isbd_link_status, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
 #endif
 }
 
@@ -306,10 +308,10 @@ static inline void mavlink_msg_isbd_link_status_send_struct(mavlink_channel_t ch
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_isbd_link_status_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t timestamp, uint64_t last_heartbeat, uint16_t failed_sessions, uint16_t successful_sessions, uint8_t signal_quality, uint8_t ring_pending, uint8_t tx_session_pending, uint8_t rx_session_pending)
+static inline void mavlink_msg_isbd_link_status_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t timestamp, uint64_t last_heartbeat, uint16_t failed_sessions, uint16_t successful_sessions, uint8_t signal_quality, uint8_t ring_pending, uint8_t tx_session_pending, uint8_t rx_session_pending)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, timestamp);
     _mav_put_uint64_t(buf, 8, last_heartbeat);
     _mav_put_uint16_t(buf, 16, failed_sessions);
@@ -321,7 +323,7 @@ static inline void mavlink_msg_isbd_link_status_send_buf(mavlink_message_t* msgb
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ISBD_LINK_STATUS, buf, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
 #else
-    mavlink_isbd_link_status_t* packet = (mavlink_isbd_link_status_t*)msgbuf;
+    mavlink_isbd_link_status_t *packet = (mavlink_isbd_link_status_t *)msgbuf;
     packet->timestamp = timestamp;
     packet->last_heartbeat = last_heartbeat;
     packet->failed_sessions = failed_sessions;
@@ -331,7 +333,7 @@ static inline void mavlink_msg_isbd_link_status_send_buf(mavlink_message_t* msgb
     packet->tx_session_pending = tx_session_pending;
     packet->rx_session_pending = rx_session_pending;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ISBD_LINK_STATUS, (const char*)packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_ISBD_LINK_STATUS, (const char *)packet, MAVLINK_MSG_ID_ISBD_LINK_STATUS_MIN_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN, MAVLINK_MSG_ID_ISBD_LINK_STATUS_CRC);
 #endif
 }
 #endif
@@ -344,21 +346,21 @@ static inline void mavlink_msg_isbd_link_status_send_buf(mavlink_message_t* msgb
 /**
  * @brief Get field timestamp from isbd_link_status message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_isbd_link_status_get_timestamp(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
  * @brief Get field last_heartbeat from isbd_link_status message
  *
- * @return [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp of the last successful sbd session. The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_isbd_link_status_get_last_heartbeat(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 8);
+    return _MAV_RETURN_uint64_t(msg,  8);
 }
 
 /**
@@ -368,7 +370,7 @@ static inline uint64_t mavlink_msg_isbd_link_status_get_last_heartbeat(const mav
  */
 static inline uint16_t mavlink_msg_isbd_link_status_get_failed_sessions(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 16);
+    return _MAV_RETURN_uint16_t(msg,  16);
 }
 
 /**
@@ -378,7 +380,7 @@ static inline uint16_t mavlink_msg_isbd_link_status_get_failed_sessions(const ma
  */
 static inline uint16_t mavlink_msg_isbd_link_status_get_successful_sessions(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 18);
+    return _MAV_RETURN_uint16_t(msg,  18);
 }
 
 /**
@@ -388,7 +390,7 @@ static inline uint16_t mavlink_msg_isbd_link_status_get_successful_sessions(cons
  */
 static inline uint8_t mavlink_msg_isbd_link_status_get_signal_quality(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 20);
+    return _MAV_RETURN_uint8_t(msg,  20);
 }
 
 /**
@@ -398,7 +400,7 @@ static inline uint8_t mavlink_msg_isbd_link_status_get_signal_quality(const mavl
  */
 static inline uint8_t mavlink_msg_isbd_link_status_get_ring_pending(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 21);
+    return _MAV_RETURN_uint8_t(msg,  21);
 }
 
 /**
@@ -408,7 +410,7 @@ static inline uint8_t mavlink_msg_isbd_link_status_get_ring_pending(const mavlin
  */
 static inline uint8_t mavlink_msg_isbd_link_status_get_tx_session_pending(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 22);
+    return _MAV_RETURN_uint8_t(msg,  22);
 }
 
 /**
@@ -418,7 +420,7 @@ static inline uint8_t mavlink_msg_isbd_link_status_get_tx_session_pending(const 
  */
 static inline uint8_t mavlink_msg_isbd_link_status_get_rx_session_pending(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 23);
+    return _MAV_RETURN_uint8_t(msg,  23);
 }
 
 /**
@@ -439,8 +441,8 @@ static inline void mavlink_msg_isbd_link_status_decode(const mavlink_message_t* 
     isbd_link_status->tx_session_pending = mavlink_msg_isbd_link_status_get_tx_session_pending(msg);
     isbd_link_status->rx_session_pending = mavlink_msg_isbd_link_status_get_rx_session_pending(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN ? msg->len : MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN;
-    memset(isbd_link_status, 0, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN? msg->len : MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN;
+        memset(isbd_link_status, 0, MAVLINK_MSG_ID_ISBD_LINK_STATUS_LEN);
     memcpy(isbd_link_status, _MAV_PAYLOAD(msg), len);
 #endif
 }

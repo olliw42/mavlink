@@ -5,10 +5,10 @@
 
 MAVPACKED(
 typedef struct __mavlink_gps_global_origin_t {
-    int32_t latitude; /*< [degE7] Latitude (WGS84)*/
-    int32_t longitude; /*< [degE7] Longitude (WGS84)*/
-    int32_t altitude; /*< [mm] Altitude (MSL). Positive for up.*/
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
+ int32_t latitude; /*< [degE7] Latitude (WGS84)*/
+ int32_t longitude; /*< [degE7] Longitude (WGS84)*/
+ int32_t altitude; /*< [mm] Altitude (MSL). Positive for up.*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
 }) mavlink_gps_global_origin_t;
 
 #define MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN 20
@@ -44,6 +44,7 @@ typedef struct __mavlink_gps_global_origin_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a gps_global_origin message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -54,7 +55,7 @@ typedef struct __mavlink_gps_global_origin_t {
  * @param latitude [degE7] Latitude (WGS84)
  * @param longitude [degE7] Longitude (WGS84)
  * @param altitude [mm] Altitude (MSL). Positive for up.
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @return length of the complete message in bytes in the transmit buffer
  */
 static inline uint16_t mavlink_msg_gps_global_origin_pack_txbuf(char* mav_txbuf, mavlink_status_t* mav_status, uint8_t system_id, uint8_t component_id,
@@ -86,8 +87,9 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack_txbuf(char* mav_txbuf,
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a gps_global_origin message
  * @param system_id ID of this system
@@ -97,11 +99,11 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack_txbuf(char* mav_txbuf,
  * @param latitude [degE7] Latitude (WGS84)
  * @param longitude [degE7] Longitude (WGS84)
  * @param altitude [mm] Altitude (MSL). Positive for up.
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gps_global_origin_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 int32_t latitude, int32_t longitude, int32_t altitude, uint64_t time_usec)
+                               int32_t latitude, int32_t longitude, int32_t altitude, uint64_t time_usec)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN];
@@ -110,7 +112,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack(uint8_t system_id, uin
     _mav_put_int32_t(buf, 8, altitude);
     _mav_put_uint64_t(buf, 12, time_usec);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
 #else
     mavlink_gps_global_origin_t packet;
     packet.latitude = latitude;
@@ -118,7 +120,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack(uint8_t system_id, uin
     packet.altitude = altitude;
     packet.time_usec = time_usec;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN;
@@ -134,12 +136,12 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack(uint8_t system_id, uin
  * @param latitude [degE7] Latitude (WGS84)
  * @param longitude [degE7] Longitude (WGS84)
  * @param altitude [mm] Altitude (MSL). Positive for up.
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_gps_global_origin_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                int32_t latitude, int32_t longitude, int32_t altitude, uint64_t time_usec)
+                               mavlink_message_t* msg,
+                                   int32_t latitude,int32_t longitude,int32_t altitude,uint64_t time_usec)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN];
@@ -148,7 +150,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack_chan(uint8_t system_id
     _mav_put_int32_t(buf, 8, altitude);
     _mav_put_uint64_t(buf, 12, time_usec);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
 #else
     mavlink_gps_global_origin_t packet;
     packet.latitude = latitude;
@@ -156,7 +158,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_pack_chan(uint8_t system_id
     packet.altitude = altitude;
     packet.time_usec = time_usec;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN;
@@ -190,7 +192,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_encode_chan(uint8_t system_
     return mavlink_msg_gps_global_origin_pack_chan(system_id, component_id, chan, msg, gps_global_origin->latitude, gps_global_origin->longitude, gps_global_origin->altitude, gps_global_origin->time_usec);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a gps_global_origin message
@@ -199,7 +201,7 @@ static inline uint16_t mavlink_msg_gps_global_origin_encode_chan(uint8_t system_
  * @param latitude [degE7] Latitude (WGS84)
  * @param longitude [degE7] Longitude (WGS84)
  * @param altitude [mm] Altitude (MSL). Positive for up.
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
@@ -220,7 +222,7 @@ static inline void mavlink_msg_gps_global_origin_send(mavlink_channel_t chan, in
     packet.altitude = altitude;
     packet.time_usec = time_usec;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, (const char*)&packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, (const char *)&packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
 #endif
 }
 
@@ -234,7 +236,7 @@ static inline void mavlink_msg_gps_global_origin_send_struct(mavlink_channel_t c
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_gps_global_origin_send(chan, gps_global_origin->latitude, gps_global_origin->longitude, gps_global_origin->altitude, gps_global_origin->time_usec);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, (const char*)gps_global_origin, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, (const char *)gps_global_origin, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
 #endif
 }
 
@@ -246,10 +248,10 @@ static inline void mavlink_msg_gps_global_origin_send_struct(mavlink_channel_t c
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_gps_global_origin_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, int32_t latitude, int32_t longitude, int32_t altitude, uint64_t time_usec)
+static inline void mavlink_msg_gps_global_origin_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int32_t latitude, int32_t longitude, int32_t altitude, uint64_t time_usec)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_int32_t(buf, 0, latitude);
     _mav_put_int32_t(buf, 4, longitude);
     _mav_put_int32_t(buf, 8, altitude);
@@ -257,13 +259,13 @@ static inline void mavlink_msg_gps_global_origin_send_buf(mavlink_message_t* msg
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, buf, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
 #else
-    mavlink_gps_global_origin_t* packet = (mavlink_gps_global_origin_t*)msgbuf;
+    mavlink_gps_global_origin_t *packet = (mavlink_gps_global_origin_t *)msgbuf;
     packet->latitude = latitude;
     packet->longitude = longitude;
     packet->altitude = altitude;
     packet->time_usec = time_usec;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, (const char*)packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN, (const char *)packet, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_MIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_CRC);
 #endif
 }
 #endif
@@ -280,7 +282,7 @@ static inline void mavlink_msg_gps_global_origin_send_buf(mavlink_message_t* msg
  */
 static inline int32_t mavlink_msg_gps_global_origin_get_latitude(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 0);
+    return _MAV_RETURN_int32_t(msg,  0);
 }
 
 /**
@@ -290,7 +292,7 @@ static inline int32_t mavlink_msg_gps_global_origin_get_latitude(const mavlink_m
  */
 static inline int32_t mavlink_msg_gps_global_origin_get_longitude(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 4);
+    return _MAV_RETURN_int32_t(msg,  4);
 }
 
 /**
@@ -300,17 +302,17 @@ static inline int32_t mavlink_msg_gps_global_origin_get_longitude(const mavlink_
  */
 static inline int32_t mavlink_msg_gps_global_origin_get_altitude(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int32_t(msg, 8);
+    return _MAV_RETURN_int32_t(msg,  8);
 }
 
 /**
  * @brief Get field time_usec from gps_global_origin message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_gps_global_origin_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 12);
+    return _MAV_RETURN_uint64_t(msg,  12);
 }
 
 /**
@@ -327,8 +329,8 @@ static inline void mavlink_msg_gps_global_origin_decode(const mavlink_message_t*
     gps_global_origin->altitude = mavlink_msg_gps_global_origin_get_altitude(msg);
     gps_global_origin->time_usec = mavlink_msg_gps_global_origin_get_time_usec(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN ? msg->len : MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN;
-    memset(gps_global_origin, 0, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN? msg->len : MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN;
+        memset(gps_global_origin, 0, MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN_LEN);
     memcpy(gps_global_origin, _MAV_PAYLOAD(msg), len);
 #endif
 }

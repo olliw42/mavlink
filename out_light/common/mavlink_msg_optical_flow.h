@@ -5,16 +5,16 @@
 
 MAVPACKED(
 typedef struct __mavlink_optical_flow_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    float flow_comp_m_x; /*< [m/s] Flow in x-sensor direction, angular-speed compensated*/
-    float flow_comp_m_y; /*< [m/s] Flow in y-sensor direction, angular-speed compensated*/
-    float ground_distance; /*< [m] Ground distance. Positive value: distance known. Negative value: Unknown distance*/
-    int16_t flow_x; /*< [dpix] Flow in x-sensor direction*/
-    int16_t flow_y; /*< [dpix] Flow in y-sensor direction*/
-    uint8_t sensor_id; /*<  Sensor ID*/
-    uint8_t quality; /*<  Optical flow quality / confidence. 0: bad, 255: maximum quality*/
-    float flow_rate_x; /*< [rad/s] Flow rate about X axis*/
-    float flow_rate_y; /*< [rad/s] Flow rate about Y axis*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ float flow_comp_m_x; /*< [m/s] Flow in x-sensor direction, angular-speed compensated*/
+ float flow_comp_m_y; /*< [m/s] Flow in y-sensor direction, angular-speed compensated*/
+ float ground_distance; /*< [m] Ground distance. Positive value: distance known. Negative value: Unknown distance*/
+ int16_t flow_x; /*< [dpix] Flow in x-sensor direction*/
+ int16_t flow_y; /*< [dpix] Flow in y-sensor direction*/
+ uint8_t sensor_id; /*<  Sensor ID*/
+ uint8_t quality; /*<  Optical flow quality / confidence. 0: bad, 255: maximum quality*/
+ float flow_rate_x; /*< [rad/s] Flow rate about X axis*/
+ float flow_rate_y; /*< [rad/s] Flow rate about Y axis*/
 }) mavlink_optical_flow_t;
 
 #define MAVLINK_MSG_ID_OPTICAL_FLOW_LEN 34
@@ -62,6 +62,7 @@ typedef struct __mavlink_optical_flow_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a optical_flow message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -69,7 +70,7 @@ typedef struct __mavlink_optical_flow_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
@@ -122,15 +123,16 @@ static inline uint16_t mavlink_msg_optical_flow_pack_txbuf(char* mav_txbuf, mavl
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_OPTICAL_FLOW, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a optical_flow message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
@@ -143,7 +145,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack_txbuf(char* mav_txbuf, mavl
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_optical_flow_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, uint8_t sensor_id, int16_t flow_x, int16_t flow_y, float flow_comp_m_x, float flow_comp_m_y, uint8_t quality, float ground_distance, float flow_rate_x, float flow_rate_y)
+                               uint64_t time_usec, uint8_t sensor_id, int16_t flow_x, int16_t flow_y, float flow_comp_m_x, float flow_comp_m_y, uint8_t quality, float ground_distance, float flow_rate_x, float flow_rate_y)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_OPTICAL_FLOW_LEN];
@@ -158,7 +160,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack(uint8_t system_id, uint8_t 
     _mav_put_float(buf, 26, flow_rate_x);
     _mav_put_float(buf, 30, flow_rate_y);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
 #else
     mavlink_optical_flow_t packet;
     packet.time_usec = time_usec;
@@ -172,7 +174,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack(uint8_t system_id, uint8_t 
     packet.flow_rate_x = flow_rate_x;
     packet.flow_rate_y = flow_rate_y;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_OPTICAL_FLOW;
@@ -185,7 +187,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack(uint8_t system_id, uint8_t 
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
@@ -198,8 +200,8 @@ static inline uint16_t mavlink_msg_optical_flow_pack(uint8_t system_id, uint8_t 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_optical_flow_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, uint8_t sensor_id, int16_t flow_x, int16_t flow_y, float flow_comp_m_x, float flow_comp_m_y, uint8_t quality, float ground_distance, float flow_rate_x, float flow_rate_y)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,uint8_t sensor_id,int16_t flow_x,int16_t flow_y,float flow_comp_m_x,float flow_comp_m_y,uint8_t quality,float ground_distance,float flow_rate_x,float flow_rate_y)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_OPTICAL_FLOW_LEN];
@@ -214,7 +216,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack_chan(uint8_t system_id, uin
     _mav_put_float(buf, 26, flow_rate_x);
     _mav_put_float(buf, 30, flow_rate_y);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
 #else
     mavlink_optical_flow_t packet;
     packet.time_usec = time_usec;
@@ -228,7 +230,7 @@ static inline uint16_t mavlink_msg_optical_flow_pack_chan(uint8_t system_id, uin
     packet.flow_rate_x = flow_rate_x;
     packet.flow_rate_y = flow_rate_y;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_OPTICAL_FLOW;
@@ -262,13 +264,13 @@ static inline uint16_t mavlink_msg_optical_flow_encode_chan(uint8_t system_id, u
     return mavlink_msg_optical_flow_pack_chan(system_id, component_id, chan, msg, optical_flow->time_usec, optical_flow->sensor_id, optical_flow->flow_x, optical_flow->flow_y, optical_flow->flow_comp_m_x, optical_flow->flow_comp_m_y, optical_flow->quality, optical_flow->ground_distance, optical_flow->flow_rate_x, optical_flow->flow_rate_y);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a optical_flow message
  * @param chan MAVLink channel to send the message
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param sensor_id  Sensor ID
  * @param flow_x [dpix] Flow in x-sensor direction
  * @param flow_y [dpix] Flow in y-sensor direction
@@ -310,7 +312,7 @@ static inline void mavlink_msg_optical_flow_send(mavlink_channel_t chan, uint64_
     packet.flow_rate_x = flow_rate_x;
     packet.flow_rate_y = flow_rate_y;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPTICAL_FLOW, (const char*)&packet, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPTICAL_FLOW, (const char *)&packet, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
 #endif
 }
 
@@ -324,7 +326,7 @@ static inline void mavlink_msg_optical_flow_send_struct(mavlink_channel_t chan, 
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_optical_flow_send(chan, optical_flow->time_usec, optical_flow->sensor_id, optical_flow->flow_x, optical_flow->flow_y, optical_flow->flow_comp_m_x, optical_flow->flow_comp_m_y, optical_flow->quality, optical_flow->ground_distance, optical_flow->flow_rate_x, optical_flow->flow_rate_y);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPTICAL_FLOW, (const char*)optical_flow, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPTICAL_FLOW, (const char *)optical_flow, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
 #endif
 }
 
@@ -336,10 +338,10 @@ static inline void mavlink_msg_optical_flow_send_struct(mavlink_channel_t chan, 
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_optical_flow_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, uint8_t sensor_id, int16_t flow_x, int16_t flow_y, float flow_comp_m_x, float flow_comp_m_y, uint8_t quality, float ground_distance, float flow_rate_x, float flow_rate_y)
+static inline void mavlink_msg_optical_flow_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, uint8_t sensor_id, int16_t flow_x, int16_t flow_y, float flow_comp_m_x, float flow_comp_m_y, uint8_t quality, float ground_distance, float flow_rate_x, float flow_rate_y)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_float(buf, 8, flow_comp_m_x);
     _mav_put_float(buf, 12, flow_comp_m_y);
@@ -353,7 +355,7 @@ static inline void mavlink_msg_optical_flow_send_buf(mavlink_message_t* msgbuf, 
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPTICAL_FLOW, buf, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
 #else
-    mavlink_optical_flow_t* packet = (mavlink_optical_flow_t*)msgbuf;
+    mavlink_optical_flow_t *packet = (mavlink_optical_flow_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->flow_comp_m_x = flow_comp_m_x;
     packet->flow_comp_m_y = flow_comp_m_y;
@@ -365,7 +367,7 @@ static inline void mavlink_msg_optical_flow_send_buf(mavlink_message_t* msgbuf, 
     packet->flow_rate_x = flow_rate_x;
     packet->flow_rate_y = flow_rate_y;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPTICAL_FLOW, (const char*)packet, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_OPTICAL_FLOW, (const char *)packet, MAVLINK_MSG_ID_OPTICAL_FLOW_MIN_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN, MAVLINK_MSG_ID_OPTICAL_FLOW_CRC);
 #endif
 }
 #endif
@@ -378,11 +380,11 @@ static inline void mavlink_msg_optical_flow_send_buf(mavlink_message_t* msgbuf, 
 /**
  * @brief Get field time_usec from optical_flow message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_optical_flow_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -392,7 +394,7 @@ static inline uint64_t mavlink_msg_optical_flow_get_time_usec(const mavlink_mess
  */
 static inline uint8_t mavlink_msg_optical_flow_get_sensor_id(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 24);
+    return _MAV_RETURN_uint8_t(msg,  24);
 }
 
 /**
@@ -402,7 +404,7 @@ static inline uint8_t mavlink_msg_optical_flow_get_sensor_id(const mavlink_messa
  */
 static inline int16_t mavlink_msg_optical_flow_get_flow_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int16_t(msg, 20);
+    return _MAV_RETURN_int16_t(msg,  20);
 }
 
 /**
@@ -412,7 +414,7 @@ static inline int16_t mavlink_msg_optical_flow_get_flow_x(const mavlink_message_
  */
 static inline int16_t mavlink_msg_optical_flow_get_flow_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int16_t(msg, 22);
+    return _MAV_RETURN_int16_t(msg,  22);
 }
 
 /**
@@ -422,7 +424,7 @@ static inline int16_t mavlink_msg_optical_flow_get_flow_y(const mavlink_message_
  */
 static inline float mavlink_msg_optical_flow_get_flow_comp_m_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -432,7 +434,7 @@ static inline float mavlink_msg_optical_flow_get_flow_comp_m_x(const mavlink_mes
  */
 static inline float mavlink_msg_optical_flow_get_flow_comp_m_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -442,7 +444,7 @@ static inline float mavlink_msg_optical_flow_get_flow_comp_m_y(const mavlink_mes
  */
 static inline uint8_t mavlink_msg_optical_flow_get_quality(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 25);
+    return _MAV_RETURN_uint8_t(msg,  25);
 }
 
 /**
@@ -452,7 +454,7 @@ static inline uint8_t mavlink_msg_optical_flow_get_quality(const mavlink_message
  */
 static inline float mavlink_msg_optical_flow_get_ground_distance(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 16);
+    return _MAV_RETURN_float(msg,  16);
 }
 
 /**
@@ -462,7 +464,7 @@ static inline float mavlink_msg_optical_flow_get_ground_distance(const mavlink_m
  */
 static inline float mavlink_msg_optical_flow_get_flow_rate_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 26);
+    return _MAV_RETURN_float(msg,  26);
 }
 
 /**
@@ -472,7 +474,7 @@ static inline float mavlink_msg_optical_flow_get_flow_rate_x(const mavlink_messa
  */
 static inline float mavlink_msg_optical_flow_get_flow_rate_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 30);
+    return _MAV_RETURN_float(msg,  30);
 }
 
 /**
@@ -495,8 +497,8 @@ static inline void mavlink_msg_optical_flow_decode(const mavlink_message_t* msg,
     optical_flow->flow_rate_x = mavlink_msg_optical_flow_get_flow_rate_x(msg);
     optical_flow->flow_rate_y = mavlink_msg_optical_flow_get_flow_rate_y(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_OPTICAL_FLOW_LEN ? msg->len : MAVLINK_MSG_ID_OPTICAL_FLOW_LEN;
-    memset(optical_flow, 0, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_OPTICAL_FLOW_LEN? msg->len : MAVLINK_MSG_ID_OPTICAL_FLOW_LEN;
+        memset(optical_flow, 0, MAVLINK_MSG_ID_OPTICAL_FLOW_LEN);
     memcpy(optical_flow, _MAV_PAYLOAD(msg), len);
 #endif
 }

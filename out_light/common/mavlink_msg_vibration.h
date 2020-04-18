@@ -5,13 +5,13 @@
 
 MAVPACKED(
 typedef struct __mavlink_vibration_t {
-    uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    float vibration_x; /*<  Vibration levels on X-axis*/
-    float vibration_y; /*<  Vibration levels on Y-axis*/
-    float vibration_z; /*<  Vibration levels on Z-axis*/
-    uint32_t clipping_0; /*<  first accelerometer clipping count*/
-    uint32_t clipping_1; /*<  second accelerometer clipping count*/
-    uint32_t clipping_2; /*<  third accelerometer clipping count*/
+ uint64_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ float vibration_x; /*<  Vibration levels on X-axis*/
+ float vibration_y; /*<  Vibration levels on Y-axis*/
+ float vibration_z; /*<  Vibration levels on Z-axis*/
+ uint32_t clipping_0; /*<  first accelerometer clipping count*/
+ uint32_t clipping_1; /*<  second accelerometer clipping count*/
+ uint32_t clipping_2; /*<  third accelerometer clipping count*/
 }) mavlink_vibration_t;
 
 #define MAVLINK_MSG_ID_VIBRATION_LEN 32
@@ -53,6 +53,7 @@ typedef struct __mavlink_vibration_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a vibration message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -60,7 +61,7 @@ typedef struct __mavlink_vibration_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param vibration_x  Vibration levels on X-axis
  * @param vibration_y  Vibration levels on Y-axis
  * @param vibration_z  Vibration levels on Z-axis
@@ -104,15 +105,16 @@ static inline uint16_t mavlink_msg_vibration_pack_txbuf(char* mav_txbuf, mavlink
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_VIBRATION, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a vibration message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param vibration_x  Vibration levels on X-axis
  * @param vibration_y  Vibration levels on Y-axis
  * @param vibration_z  Vibration levels on Z-axis
@@ -122,7 +124,7 @@ static inline uint16_t mavlink_msg_vibration_pack_txbuf(char* mav_txbuf, mavlink
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_vibration_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint64_t time_usec, float vibration_x, float vibration_y, float vibration_z, uint32_t clipping_0, uint32_t clipping_1, uint32_t clipping_2)
+                               uint64_t time_usec, float vibration_x, float vibration_y, float vibration_z, uint32_t clipping_0, uint32_t clipping_1, uint32_t clipping_2)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_VIBRATION_LEN];
@@ -134,7 +136,7 @@ static inline uint16_t mavlink_msg_vibration_pack(uint8_t system_id, uint8_t com
     _mav_put_uint32_t(buf, 24, clipping_1);
     _mav_put_uint32_t(buf, 28, clipping_2);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VIBRATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VIBRATION_LEN);
 #else
     mavlink_vibration_t packet;
     packet.time_usec = time_usec;
@@ -145,7 +147,7 @@ static inline uint16_t mavlink_msg_vibration_pack(uint8_t system_id, uint8_t com
     packet.clipping_1 = clipping_1;
     packet.clipping_2 = clipping_2;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VIBRATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VIBRATION_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_VIBRATION;
@@ -158,7 +160,7 @@ static inline uint16_t mavlink_msg_vibration_pack(uint8_t system_id, uint8_t com
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param vibration_x  Vibration levels on X-axis
  * @param vibration_y  Vibration levels on Y-axis
  * @param vibration_z  Vibration levels on Z-axis
@@ -168,8 +170,8 @@ static inline uint16_t mavlink_msg_vibration_pack(uint8_t system_id, uint8_t com
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_vibration_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint64_t time_usec, float vibration_x, float vibration_y, float vibration_z, uint32_t clipping_0, uint32_t clipping_1, uint32_t clipping_2)
+                               mavlink_message_t* msg,
+                                   uint64_t time_usec,float vibration_x,float vibration_y,float vibration_z,uint32_t clipping_0,uint32_t clipping_1,uint32_t clipping_2)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_VIBRATION_LEN];
@@ -181,7 +183,7 @@ static inline uint16_t mavlink_msg_vibration_pack_chan(uint8_t system_id, uint8_
     _mav_put_uint32_t(buf, 24, clipping_1);
     _mav_put_uint32_t(buf, 28, clipping_2);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VIBRATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_VIBRATION_LEN);
 #else
     mavlink_vibration_t packet;
     packet.time_usec = time_usec;
@@ -192,7 +194,7 @@ static inline uint16_t mavlink_msg_vibration_pack_chan(uint8_t system_id, uint8_
     packet.clipping_1 = clipping_1;
     packet.clipping_2 = clipping_2;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VIBRATION_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_VIBRATION_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_VIBRATION;
@@ -226,13 +228,13 @@ static inline uint16_t mavlink_msg_vibration_encode_chan(uint8_t system_id, uint
     return mavlink_msg_vibration_pack_chan(system_id, component_id, chan, msg, vibration->time_usec, vibration->vibration_x, vibration->vibration_y, vibration->vibration_z, vibration->clipping_0, vibration->clipping_1, vibration->clipping_2);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a vibration message
  * @param chan MAVLink channel to send the message
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param vibration_x  Vibration levels on X-axis
  * @param vibration_y  Vibration levels on Y-axis
  * @param vibration_z  Vibration levels on Z-axis
@@ -265,7 +267,7 @@ static inline void mavlink_msg_vibration_send(mavlink_channel_t chan, uint64_t t
     packet.clipping_1 = clipping_1;
     packet.clipping_2 = clipping_2;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_VIBRATION, (const char*)&packet, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_VIBRATION, (const char *)&packet, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
 #endif
 }
 
@@ -279,7 +281,7 @@ static inline void mavlink_msg_vibration_send_struct(mavlink_channel_t chan, con
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_vibration_send(chan, vibration->time_usec, vibration->vibration_x, vibration->vibration_y, vibration->vibration_z, vibration->clipping_0, vibration->clipping_1, vibration->clipping_2);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_VIBRATION, (const char*)vibration, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_VIBRATION, (const char *)vibration, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
 #endif
 }
 
@@ -291,10 +293,10 @@ static inline void mavlink_msg_vibration_send_struct(mavlink_channel_t chan, con
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_vibration_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint64_t time_usec, float vibration_x, float vibration_y, float vibration_z, uint32_t clipping_0, uint32_t clipping_1, uint32_t clipping_2)
+static inline void mavlink_msg_vibration_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint64_t time_usec, float vibration_x, float vibration_y, float vibration_z, uint32_t clipping_0, uint32_t clipping_1, uint32_t clipping_2)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint64_t(buf, 0, time_usec);
     _mav_put_float(buf, 8, vibration_x);
     _mav_put_float(buf, 12, vibration_y);
@@ -305,7 +307,7 @@ static inline void mavlink_msg_vibration_send_buf(mavlink_message_t* msgbuf, mav
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_VIBRATION, buf, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
 #else
-    mavlink_vibration_t* packet = (mavlink_vibration_t*)msgbuf;
+    mavlink_vibration_t *packet = (mavlink_vibration_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->vibration_x = vibration_x;
     packet->vibration_y = vibration_y;
@@ -314,7 +316,7 @@ static inline void mavlink_msg_vibration_send_buf(mavlink_message_t* msgbuf, mav
     packet->clipping_1 = clipping_1;
     packet->clipping_2 = clipping_2;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_VIBRATION, (const char*)packet, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_VIBRATION, (const char *)packet, MAVLINK_MSG_ID_VIBRATION_MIN_LEN, MAVLINK_MSG_ID_VIBRATION_LEN, MAVLINK_MSG_ID_VIBRATION_CRC);
 #endif
 }
 #endif
@@ -327,11 +329,11 @@ static inline void mavlink_msg_vibration_send_buf(mavlink_message_t* msgbuf, mav
 /**
  * @brief Get field time_usec from vibration message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint64_t mavlink_msg_vibration_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint64_t(msg, 0);
+    return _MAV_RETURN_uint64_t(msg,  0);
 }
 
 /**
@@ -341,7 +343,7 @@ static inline uint64_t mavlink_msg_vibration_get_time_usec(const mavlink_message
  */
 static inline float mavlink_msg_vibration_get_vibration_x(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 8);
+    return _MAV_RETURN_float(msg,  8);
 }
 
 /**
@@ -351,7 +353,7 @@ static inline float mavlink_msg_vibration_get_vibration_x(const mavlink_message_
  */
 static inline float mavlink_msg_vibration_get_vibration_y(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 12);
+    return _MAV_RETURN_float(msg,  12);
 }
 
 /**
@@ -361,7 +363,7 @@ static inline float mavlink_msg_vibration_get_vibration_y(const mavlink_message_
  */
 static inline float mavlink_msg_vibration_get_vibration_z(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_float(msg, 16);
+    return _MAV_RETURN_float(msg,  16);
 }
 
 /**
@@ -371,7 +373,7 @@ static inline float mavlink_msg_vibration_get_vibration_z(const mavlink_message_
  */
 static inline uint32_t mavlink_msg_vibration_get_clipping_0(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 20);
+    return _MAV_RETURN_uint32_t(msg,  20);
 }
 
 /**
@@ -381,7 +383,7 @@ static inline uint32_t mavlink_msg_vibration_get_clipping_0(const mavlink_messag
  */
 static inline uint32_t mavlink_msg_vibration_get_clipping_1(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 24);
+    return _MAV_RETURN_uint32_t(msg,  24);
 }
 
 /**
@@ -391,7 +393,7 @@ static inline uint32_t mavlink_msg_vibration_get_clipping_1(const mavlink_messag
  */
 static inline uint32_t mavlink_msg_vibration_get_clipping_2(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 28);
+    return _MAV_RETURN_uint32_t(msg,  28);
 }
 
 /**
@@ -411,8 +413,8 @@ static inline void mavlink_msg_vibration_decode(const mavlink_message_t* msg, ma
     vibration->clipping_1 = mavlink_msg_vibration_get_clipping_1(msg);
     vibration->clipping_2 = mavlink_msg_vibration_get_clipping_2(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_VIBRATION_LEN ? msg->len : MAVLINK_MSG_ID_VIBRATION_LEN;
-    memset(vibration, 0, MAVLINK_MSG_ID_VIBRATION_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_VIBRATION_LEN? msg->len : MAVLINK_MSG_ID_VIBRATION_LEN;
+        memset(vibration, 0, MAVLINK_MSG_ID_VIBRATION_LEN);
     memcpy(vibration, _MAV_PAYLOAD(msg), len);
 #endif
 }

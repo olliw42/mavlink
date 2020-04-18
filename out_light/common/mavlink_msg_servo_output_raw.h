@@ -5,24 +5,24 @@
 
 MAVPACKED(
 typedef struct __mavlink_servo_output_raw_t {
-    uint32_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.*/
-    uint16_t servo1_raw; /*< [us] Servo output 1 value*/
-    uint16_t servo2_raw; /*< [us] Servo output 2 value*/
-    uint16_t servo3_raw; /*< [us] Servo output 3 value*/
-    uint16_t servo4_raw; /*< [us] Servo output 4 value*/
-    uint16_t servo5_raw; /*< [us] Servo output 5 value*/
-    uint16_t servo6_raw; /*< [us] Servo output 6 value*/
-    uint16_t servo7_raw; /*< [us] Servo output 7 value*/
-    uint16_t servo8_raw; /*< [us] Servo output 8 value*/
-    uint8_t port; /*<  Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.*/
-    uint16_t servo9_raw; /*< [us] Servo output 9 value*/
-    uint16_t servo10_raw; /*< [us] Servo output 10 value*/
-    uint16_t servo11_raw; /*< [us] Servo output 11 value*/
-    uint16_t servo12_raw; /*< [us] Servo output 12 value*/
-    uint16_t servo13_raw; /*< [us] Servo output 13 value*/
-    uint16_t servo14_raw; /*< [us] Servo output 14 value*/
-    uint16_t servo15_raw; /*< [us] Servo output 15 value*/
-    uint16_t servo16_raw; /*< [us] Servo output 16 value*/
+ uint32_t time_usec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+ uint16_t servo1_raw; /*< [us] Servo output 1 value*/
+ uint16_t servo2_raw; /*< [us] Servo output 2 value*/
+ uint16_t servo3_raw; /*< [us] Servo output 3 value*/
+ uint16_t servo4_raw; /*< [us] Servo output 4 value*/
+ uint16_t servo5_raw; /*< [us] Servo output 5 value*/
+ uint16_t servo6_raw; /*< [us] Servo output 6 value*/
+ uint16_t servo7_raw; /*< [us] Servo output 7 value*/
+ uint16_t servo8_raw; /*< [us] Servo output 8 value*/
+ uint8_t port; /*<  Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.*/
+ uint16_t servo9_raw; /*< [us] Servo output 9 value*/
+ uint16_t servo10_raw; /*< [us] Servo output 10 value*/
+ uint16_t servo11_raw; /*< [us] Servo output 11 value*/
+ uint16_t servo12_raw; /*< [us] Servo output 12 value*/
+ uint16_t servo13_raw; /*< [us] Servo output 13 value*/
+ uint16_t servo14_raw; /*< [us] Servo output 14 value*/
+ uint16_t servo15_raw; /*< [us] Servo output 15 value*/
+ uint16_t servo16_raw; /*< [us] Servo output 16 value*/
 }) mavlink_servo_output_raw_t;
 
 #define MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN 37
@@ -86,6 +86,7 @@ typedef struct __mavlink_servo_output_raw_t {
 }
 #endif
 
+//OW
 /**
  * @brief Pack a servo_output_raw message into a transmit buffer
  * @param mav_txbuf The transmit buffer
@@ -93,7 +94,7 @@ typedef struct __mavlink_servo_output_raw_t {
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param port  Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.
  * @param servo1_raw [us] Servo output 1 value
  * @param servo2_raw [us] Servo output 2 value
@@ -170,15 +171,16 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack_txbuf(char* mav_txbuf, 
     return mavlink_finalize_message_txbuf(mav_txbuf, mav_status, system_id, component_id,
                                           MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
 }
+//OWEND
 
-#ifdef MAVLINK_USE_CHAN_FUNCTIONS
+#ifdef MAVLINK_USE_CHAN_FUNCTIONS //OW
 /**
  * @brief Pack a servo_output_raw message
  * @param system_id ID of this system
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param msg The MAVLink message to compress the data into
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param port  Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.
  * @param servo1_raw [us] Servo output 1 value
  * @param servo2_raw [us] Servo output 2 value
@@ -199,7 +201,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack_txbuf(char* mav_txbuf, 
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_servo_output_raw_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                                 uint32_t time_usec, uint8_t port, uint16_t servo1_raw, uint16_t servo2_raw, uint16_t servo3_raw, uint16_t servo4_raw, uint16_t servo5_raw, uint16_t servo6_raw, uint16_t servo7_raw, uint16_t servo8_raw, uint16_t servo9_raw, uint16_t servo10_raw, uint16_t servo11_raw, uint16_t servo12_raw, uint16_t servo13_raw, uint16_t servo14_raw, uint16_t servo15_raw, uint16_t servo16_raw)
+                               uint32_t time_usec, uint8_t port, uint16_t servo1_raw, uint16_t servo2_raw, uint16_t servo3_raw, uint16_t servo4_raw, uint16_t servo5_raw, uint16_t servo6_raw, uint16_t servo7_raw, uint16_t servo8_raw, uint16_t servo9_raw, uint16_t servo10_raw, uint16_t servo11_raw, uint16_t servo12_raw, uint16_t servo13_raw, uint16_t servo14_raw, uint16_t servo15_raw, uint16_t servo16_raw)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN];
@@ -222,7 +224,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack(uint8_t system_id, uint
     _mav_put_uint16_t(buf, 33, servo15_raw);
     _mav_put_uint16_t(buf, 35, servo16_raw);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
 #else
     mavlink_servo_output_raw_t packet;
     packet.time_usec = time_usec;
@@ -244,7 +246,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack(uint8_t system_id, uint
     packet.servo15_raw = servo15_raw;
     packet.servo16_raw = servo16_raw;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_SERVO_OUTPUT_RAW;
@@ -257,7 +259,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack(uint8_t system_id, uint
  * @param component_id ID of this component (e.g. 200 for IMU)
  * @param chan The MAVLink channel this message will be sent over
  * @param msg The MAVLink message to compress the data into
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param port  Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.
  * @param servo1_raw [us] Servo output 1 value
  * @param servo2_raw [us] Servo output 2 value
@@ -278,8 +280,8 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack(uint8_t system_id, uint
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_servo_output_raw_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
-                                mavlink_message_t* msg,
-                                uint32_t time_usec, uint8_t port, uint16_t servo1_raw, uint16_t servo2_raw, uint16_t servo3_raw, uint16_t servo4_raw, uint16_t servo5_raw, uint16_t servo6_raw, uint16_t servo7_raw, uint16_t servo8_raw, uint16_t servo9_raw, uint16_t servo10_raw, uint16_t servo11_raw, uint16_t servo12_raw, uint16_t servo13_raw, uint16_t servo14_raw, uint16_t servo15_raw, uint16_t servo16_raw)
+                               mavlink_message_t* msg,
+                                   uint32_t time_usec,uint8_t port,uint16_t servo1_raw,uint16_t servo2_raw,uint16_t servo3_raw,uint16_t servo4_raw,uint16_t servo5_raw,uint16_t servo6_raw,uint16_t servo7_raw,uint16_t servo8_raw,uint16_t servo9_raw,uint16_t servo10_raw,uint16_t servo11_raw,uint16_t servo12_raw,uint16_t servo13_raw,uint16_t servo14_raw,uint16_t servo15_raw,uint16_t servo16_raw)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN];
@@ -302,7 +304,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack_chan(uint8_t system_id,
     _mav_put_uint16_t(buf, 33, servo15_raw);
     _mav_put_uint16_t(buf, 35, servo16_raw);
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
 #else
     mavlink_servo_output_raw_t packet;
     packet.time_usec = time_usec;
@@ -324,7 +326,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_pack_chan(uint8_t system_id,
     packet.servo15_raw = servo15_raw;
     packet.servo16_raw = servo16_raw;
 
-    memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
+        memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
 #endif
 
     msg->msgid = MAVLINK_MSG_ID_SERVO_OUTPUT_RAW;
@@ -358,13 +360,13 @@ static inline uint16_t mavlink_msg_servo_output_raw_encode_chan(uint8_t system_i
     return mavlink_msg_servo_output_raw_pack_chan(system_id, component_id, chan, msg, servo_output_raw->time_usec, servo_output_raw->port, servo_output_raw->servo1_raw, servo_output_raw->servo2_raw, servo_output_raw->servo3_raw, servo_output_raw->servo4_raw, servo_output_raw->servo5_raw, servo_output_raw->servo6_raw, servo_output_raw->servo7_raw, servo_output_raw->servo8_raw, servo_output_raw->servo9_raw, servo_output_raw->servo10_raw, servo_output_raw->servo11_raw, servo_output_raw->servo12_raw, servo_output_raw->servo13_raw, servo_output_raw->servo14_raw, servo_output_raw->servo15_raw, servo_output_raw->servo16_raw);
 }
 
-#endif
+#endif //OW
 
 /**
  * @brief Send a servo_output_raw message
  * @param chan MAVLink channel to send the message
  *
- * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @param time_usec [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  * @param port  Servo output port (set of 8 outputs = 1 port). Flight stacks running on Pixhawk should use: 0 = MAIN, 1 = AUX.
  * @param servo1_raw [us] Servo output 1 value
  * @param servo2_raw [us] Servo output 2 value
@@ -430,7 +432,7 @@ static inline void mavlink_msg_servo_output_raw_send(mavlink_channel_t chan, uin
     packet.servo15_raw = servo15_raw;
     packet.servo16_raw = servo16_raw;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, (const char*)&packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, (const char *)&packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
 #endif
 }
 
@@ -444,7 +446,7 @@ static inline void mavlink_msg_servo_output_raw_send_struct(mavlink_channel_t ch
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     mavlink_msg_servo_output_raw_send(chan, servo_output_raw->time_usec, servo_output_raw->port, servo_output_raw->servo1_raw, servo_output_raw->servo2_raw, servo_output_raw->servo3_raw, servo_output_raw->servo4_raw, servo_output_raw->servo5_raw, servo_output_raw->servo6_raw, servo_output_raw->servo7_raw, servo_output_raw->servo8_raw, servo_output_raw->servo9_raw, servo_output_raw->servo10_raw, servo_output_raw->servo11_raw, servo_output_raw->servo12_raw, servo_output_raw->servo13_raw, servo_output_raw->servo14_raw, servo_output_raw->servo15_raw, servo_output_raw->servo16_raw);
 #else
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, (const char*)servo_output_raw, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, (const char *)servo_output_raw, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
 #endif
 }
 
@@ -456,10 +458,10 @@ static inline void mavlink_msg_servo_output_raw_send_struct(mavlink_channel_t ch
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_servo_output_raw_send_buf(mavlink_message_t* msgbuf, mavlink_channel_t chan, uint32_t time_usec, uint8_t port, uint16_t servo1_raw, uint16_t servo2_raw, uint16_t servo3_raw, uint16_t servo4_raw, uint16_t servo5_raw, uint16_t servo6_raw, uint16_t servo7_raw, uint16_t servo8_raw, uint16_t servo9_raw, uint16_t servo10_raw, uint16_t servo11_raw, uint16_t servo12_raw, uint16_t servo13_raw, uint16_t servo14_raw, uint16_t servo15_raw, uint16_t servo16_raw)
+static inline void mavlink_msg_servo_output_raw_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  uint32_t time_usec, uint8_t port, uint16_t servo1_raw, uint16_t servo2_raw, uint16_t servo3_raw, uint16_t servo4_raw, uint16_t servo5_raw, uint16_t servo6_raw, uint16_t servo7_raw, uint16_t servo8_raw, uint16_t servo9_raw, uint16_t servo10_raw, uint16_t servo11_raw, uint16_t servo12_raw, uint16_t servo13_raw, uint16_t servo14_raw, uint16_t servo15_raw, uint16_t servo16_raw)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    char *buf = (char*)msgbuf;
+    char *buf = (char *)msgbuf;
     _mav_put_uint32_t(buf, 0, time_usec);
     _mav_put_uint16_t(buf, 4, servo1_raw);
     _mav_put_uint16_t(buf, 6, servo2_raw);
@@ -481,7 +483,7 @@ static inline void mavlink_msg_servo_output_raw_send_buf(mavlink_message_t* msgb
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, buf, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
 #else
-    mavlink_servo_output_raw_t* packet = (mavlink_servo_output_raw_t*)msgbuf;
+    mavlink_servo_output_raw_t *packet = (mavlink_servo_output_raw_t *)msgbuf;
     packet->time_usec = time_usec;
     packet->servo1_raw = servo1_raw;
     packet->servo2_raw = servo2_raw;
@@ -501,7 +503,7 @@ static inline void mavlink_msg_servo_output_raw_send_buf(mavlink_message_t* msgb
     packet->servo15_raw = servo15_raw;
     packet->servo16_raw = servo16_raw;
 
-    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, (const char*)packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
+    _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW, (const char *)packet, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_MIN_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_CRC);
 #endif
 }
 #endif
@@ -514,11 +516,11 @@ static inline void mavlink_msg_servo_output_raw_send_buf(mavlink_message_t* msgb
 /**
  * @brief Get field time_usec from servo_output_raw message
  *
- * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude the number.
+ * @return [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.
  */
 static inline uint32_t mavlink_msg_servo_output_raw_get_time_usec(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint32_t(msg, 0);
+    return _MAV_RETURN_uint32_t(msg,  0);
 }
 
 /**
@@ -528,7 +530,7 @@ static inline uint32_t mavlink_msg_servo_output_raw_get_time_usec(const mavlink_
  */
 static inline uint8_t mavlink_msg_servo_output_raw_get_port(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint8_t(msg, 20);
+    return _MAV_RETURN_uint8_t(msg,  20);
 }
 
 /**
@@ -538,7 +540,7 @@ static inline uint8_t mavlink_msg_servo_output_raw_get_port(const mavlink_messag
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo1_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 4);
+    return _MAV_RETURN_uint16_t(msg,  4);
 }
 
 /**
@@ -548,7 +550,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo1_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo2_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 6);
+    return _MAV_RETURN_uint16_t(msg,  6);
 }
 
 /**
@@ -558,7 +560,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo2_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo3_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 8);
+    return _MAV_RETURN_uint16_t(msg,  8);
 }
 
 /**
@@ -568,7 +570,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo3_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo4_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 10);
+    return _MAV_RETURN_uint16_t(msg,  10);
 }
 
 /**
@@ -578,7 +580,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo4_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo5_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 12);
+    return _MAV_RETURN_uint16_t(msg,  12);
 }
 
 /**
@@ -588,7 +590,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo5_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo6_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 14);
+    return _MAV_RETURN_uint16_t(msg,  14);
 }
 
 /**
@@ -598,7 +600,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo6_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo7_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 16);
+    return _MAV_RETURN_uint16_t(msg,  16);
 }
 
 /**
@@ -608,7 +610,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo7_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo8_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 18);
+    return _MAV_RETURN_uint16_t(msg,  18);
 }
 
 /**
@@ -618,7 +620,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo8_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo9_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 21);
+    return _MAV_RETURN_uint16_t(msg,  21);
 }
 
 /**
@@ -628,7 +630,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo9_raw(const mavlink
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo10_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 23);
+    return _MAV_RETURN_uint16_t(msg,  23);
 }
 
 /**
@@ -638,7 +640,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo10_raw(const mavlin
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo11_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 25);
+    return _MAV_RETURN_uint16_t(msg,  25);
 }
 
 /**
@@ -648,7 +650,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo11_raw(const mavlin
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo12_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 27);
+    return _MAV_RETURN_uint16_t(msg,  27);
 }
 
 /**
@@ -658,7 +660,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo12_raw(const mavlin
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo13_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 29);
+    return _MAV_RETURN_uint16_t(msg,  29);
 }
 
 /**
@@ -668,7 +670,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo13_raw(const mavlin
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo14_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 31);
+    return _MAV_RETURN_uint16_t(msg,  31);
 }
 
 /**
@@ -678,7 +680,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo14_raw(const mavlin
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo15_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 33);
+    return _MAV_RETURN_uint16_t(msg,  33);
 }
 
 /**
@@ -688,7 +690,7 @@ static inline uint16_t mavlink_msg_servo_output_raw_get_servo15_raw(const mavlin
  */
 static inline uint16_t mavlink_msg_servo_output_raw_get_servo16_raw(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg, 35);
+    return _MAV_RETURN_uint16_t(msg,  35);
 }
 
 /**
@@ -719,8 +721,8 @@ static inline void mavlink_msg_servo_output_raw_decode(const mavlink_message_t* 
     servo_output_raw->servo15_raw = mavlink_msg_servo_output_raw_get_servo15_raw(msg);
     servo_output_raw->servo16_raw = mavlink_msg_servo_output_raw_get_servo16_raw(msg);
 #else
-    uint8_t len = msg->len < MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN ? msg->len : MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN;
-    memset(servo_output_raw, 0, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
+        uint8_t len = msg->len < MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN? msg->len : MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN;
+        memset(servo_output_raw, 0, MAVLINK_MSG_ID_SERVO_OUTPUT_RAW_LEN);
     memcpy(servo_output_raw, _MAV_PAYLOAD(msg), len);
 #endif
 }
