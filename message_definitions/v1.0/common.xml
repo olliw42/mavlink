@@ -1305,7 +1305,7 @@
       </entry>
     </enum>
     <!-- The MAV_CMD enum entries describe either: -->
-    <!--  * the data payload of mission items (as used in the MISSION_ITEM and MISSION_ITEM_INT messages) -->
+    <!--  * the data payload of mission items (as used in the MISSION_ITEM_INT message) -->
     <!--  * the data payload of mavlink commands (as used in the COMMAND_INT and COMMAND_LONG messages) -->
     <!-- ALL the entries in the MAV_CMD enum have a maximum of 7 parameters -->
     <enum name="MAV_CMD">
@@ -1324,7 +1324,7 @@
         <description>Loiter around this waypoint an unlimited amount of time</description>
         <param index="1">Empty</param>
         <param index="2">Empty</param>
-        <param index="3" label="Radius" units="m">Radius around waypoint. If positive loiter clockwise, else counter-clockwise</param>
+        <param index="3" label="Radius" units="m">Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, else counter-clockwise</param>
         <param index="4" label="Yaw" units="deg">Desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).</param>
         <param index="5" label="Latitude">Latitude</param>
         <param index="6" label="Longitude">Longitude</param>
@@ -1333,19 +1333,19 @@
       <entry value="18" name="MAV_CMD_NAV_LOITER_TURNS" hasLocation="true" isDestination="true">
         <description>Loiter around this waypoint for X turns</description>
         <param index="1" label="Turns" minValue="0">Number of turns.</param>
-        <param index="2">Empty</param>
-        <param index="3" label="Radius" units="m">Radius around waypoint. If positive loiter clockwise, else counter-clockwise</param>
-        <param index="4" label="Xtrack Location">Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).</param>
+        <param index="2" label="Heading Required" minValue="0" maxValue="1" increment="1">Leave loiter circle only once heading towards the next waypoint (0 = False)</param>
+        <param index="3" label="Radius" units="m">Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, else counter-clockwise</param>
+        <param index="4" label="Xtrack Location">Loiter circle exit location and/or path to next waypoint ("xtrack") for forward-only moving vehicles (not multicopters). 0 for the vehicle to converge towards the center xtrack when it leaves the loiter (the line between the centers of the current and next waypoint), 1 to converge to the direct line between the location that the vehicle exits the loiter radius and the next waypoint. Otherwise the angle (in degrees) between the tangent of the loiter circle and the center xtrack at which the vehicle must leave the loiter (and converge to the center xtrack). NaN to use the current system default xtrack behaviour.</param>
         <param index="5" label="Latitude">Latitude</param>
         <param index="6" label="Longitude">Longitude</param>
         <param index="7" label="Altitude" units="m">Altitude</param>
       </entry>
       <entry value="19" name="MAV_CMD_NAV_LOITER_TIME" hasLocation="true" isDestination="true">
-        <description>Loiter at the specified latitude, longitude and altitude for a certain amount of time. Multicopter vehicles stop at the point (within a vehicle-specific acceptance radius). Forward-moving vehicles (e.g. fixed-wing) circle the point with the specified radius/direction. If the Heading Required parameter (2) is non-zero forward moving aircraft will only leave the loiter circle once heading towards the next waypoint.</description>
+        <description>Loiter at the specified latitude, longitude and altitude for a certain amount of time. Multicopter vehicles stop at the point (within a vehicle-specific acceptance radius). Forward-only moving vehicles (e.g. fixed-wing) circle the point with the specified radius/direction. If the Heading Required parameter (2) is non-zero forward moving aircraft will only leave the loiter circle once heading towards the next waypoint.</description>
         <param index="1" label="Time" units="s" minValue="0">Loiter time (only starts once Lat, Lon and Alt is reached).</param>
         <param index="2" label="Heading Required" minValue="0" maxValue="1" increment="1">Leave loiter circle only once heading towards the next waypoint (0 = False)</param>
-        <param index="3" label="Radius" units="m">Loiter radius around waypoint for forward-moving vehicles. If positive loiter clockwise, else counter-clockwise.</param>
-        <param index="4" label="Xtrack Location">For forward-moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle. NaN to use the current system yaw heading mode (e.g. yaw towards next waypoint, yaw to home, etc.).</param>
+        <param index="3" label="Radius" units="m">Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, else counter-clockwise.</param>
+        <param index="4" label="Xtrack Location">Loiter circle exit location and/or path to next waypoint ("xtrack") for forward-only moving vehicles (not multicopters). 0 for the vehicle to converge towards the center xtrack when it leaves the loiter (the line between the centers of the current and next waypoint), 1 to converge to the direct line between the location that the vehicle exits the loiter radius and the next waypoint. Otherwise the angle (in degrees) between the tangent of the loiter circle and the center xtrack at which the vehicle must leave the loiter (and converge to the center xtrack). NaN to use the current system default xtrack behaviour.</param>
         <param index="5" label="Latitude">Latitude</param>
         <param index="6" label="Longitude">Longitude</param>
         <param index="7" label="Altitude" units="m">Altitude</param>
@@ -1421,11 +1421,11 @@
         <param index="7" label="Altitude" units="m">Desired altitude</param>
       </entry>
       <entry value="31" name="MAV_CMD_NAV_LOITER_TO_ALT" hasLocation="true" isDestination="true">
-        <description>Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached.  Additionally, if the Heading Required parameter is non-zero the  aircraft will not leave the loiter until heading toward the next waypoint.</description>
-        <param index="1" label="Heading Required" minValue="0" maxValue="1" increment="1">Heading Required (0 = False)</param>
-        <param index="2" label="Radius" units="m">Radius. If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.</param>
+        <description>Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached. Additionally, if the Heading Required parameter is non-zero the aircraft will not leave the loiter until heading toward the next waypoint.</description>
+        <param index="1" label="Heading Required" minValue="0" maxValue="1" increment="1">Leave loiter circle only once heading towards the next waypoint (0 = False)</param>
+        <param index="2" label="Radius" units="m">Loiter radius around waypoint for forward-only moving vehicles (not multicopters). If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.</param>
         <param index="3">Empty</param>
-        <param index="4" label="Xtrack Location" minValue="0" maxValue="1" increment="1">Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location</param>
+        <param index="4" label="Xtrack Location" minValue="0" maxValue="1" increment="1">Loiter circle exit location and/or path to next waypoint ("xtrack") for forward-only moving vehicles (not multicopters). 0 for the vehicle to converge towards the center xtrack when it leaves the loiter (the line between the centers of the current and next waypoint), 1 to converge to the direct line between the location that the vehicle exits the loiter radius and the next waypoint. Otherwise the angle (in degrees) between the tangent of the loiter circle and the center xtrack at which the vehicle must leave the loiter (and converge to the center xtrack). NaN to use the current system default xtrack behaviour.</param>
         <param index="5" label="Latitude">Latitude</param>
         <param index="6" label="Longitude">Longitude</param>
         <param index="7" label="Altitude" units="m">Altitude</param>
@@ -1899,7 +1899,7 @@
         <param index="7">Empty</param>
       </entry>
       <entry value="208" name="MAV_CMD_DO_PARACHUTE" hasLocation="false" isDestination="false">
-        <description>Mission command to trigger a parachute</description>
+        <description>Mission item/command to release a parachute or enable/disable auto release.</description>
         <param index="1" label="Action" enum="PARACHUTE_ACTION">Action</param>
         <param index="2">Empty</param>
         <param index="3">Empty</param>
@@ -2064,10 +2064,10 @@
       </entry>
       <entry value="247" name="MAV_CMD_DO_UPGRADE" hasLocation="false" isDestination="false">
         <wip/>
-        <description>Request a target system to start, cancel, or restart upgrade of one (or all) of its components. For example, the command might be sent to a companion computer to cause it to upgrade a connected flight controller. The system doing the upgrade will report progress using the normal command protocol sequence (COMMAND_ACK regularly sent with result=MAV_RESULT_IN_PROGRESS, followed by a final result of MAV_RESULT_ACCEPTED or MAV_RESULT_FAILED). The operation can be cancelled, in which case the updating system would send COMMAND_ACK with MAV_RESULT_ACCEPTED. The operation can be restarted, in which case the updating system should respond with progress updates (as though it had a new message).</description>
+        <description>Request a target system to start an upgrade of one (or all) of its components. For example, the command might be sent to a companion computer to cause it to upgrade a connected flight controller. The system doing the upgrade will report progress using the normal command protocol sequence for a long running operation. Command protocol information: https://mavlink.io/en/services/command.html.</description>
         <param index="1" label="Component ID" enum="MAV_COMPONENT">Component id of the component to be upgraded. If set to 0, all components should be upgraded.</param>
-        <param index="2" label="Action" minValue="0" maxValue="2" increment="1">0: Start component upgrade, 1: Cancel component upgrade, 2: Restart component upgrade.</param>
-        <param index="3" label="Reboot" minValue="0" maxValue="1" increment="1">0: Do not reboot component after the action is executed, 1: Reboot component after the action is executed.</param>
+        <param index="2" label="Reboot" minValue="0" maxValue="1" increment="1">0: Do not reboot component after the action is executed, 1: Reboot component after the action is executed.</param>
+        <param index="3">Reserved</param>
         <param index="4">Reserved</param>
         <param index="5">Reserved</param>
         <param index="6">Reserved</param>
@@ -2235,14 +2235,14 @@
         <param index="1" label="Tag" minValue="0" increment="1">Target tag to jump to.</param>
         <param index="2" label="Repeat" minValue="0" increment="1">Repeat count.</param>
       </entry>
-      <entry value="1000" name="MAV_CMD_DO_GIMBAL_MANAGER_ATTITUDE" hasLocation="false" isDestination="false">
+      <entry value="1000" name="MAV_CMD_DO_GIMBAL_MANAGER_TILTPAN" hasLocation="false" isDestination="false">
         <wip/>
         <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
         <description>High level setpoint to be sent to a gimbal manager to set a gimbal attitude. It is possible to set combinations of the values below. E.g. an angle as well as a desired angular rate can be used to get to this angle at a certain angular rate, or an angular rate only will result in continuous turning. NaN is to be used to signal unset. Note: a gimbal is never to react to this command but only the gimbal manager.</description>
-        <param index="1" label="Tilt angular velocity" units="deg/s">Tilt/pitch angular velocity (positive to point up).</param>
-        <param index="2" label="Pan angular velocity" units="deg/s">Pan/yaw angular velocity (positive to pan to the right).</param>
-        <param index="3" label="Tilt angle" units="deg" minValue="-180" maxValue="180">Pitch/tilt angle relative to world horizon (negative is to tilt down, positive to tilt up).</param>
-        <param index="4" label="Pan angle" units="deg" minValue="-180" maxValue="180">Yaw/pan angle (positive is pan to the right, relative to vehicle for PAN mode, absolute to North for HOLD mode) </param>
+        <param index="1" label="Tilt rate" units="deg/s">Tilt/pitch rate (positive to tilt up).</param>
+        <param index="2" label="Pan rate" units="deg/s">Pan/yaw rate (positive to pan to the right).</param>
+        <param index="3" label="Tilt angle" units="deg" minValue="-180" maxValue="180">Tilt/pitch angle (positive to tilt up, relative to vehicle for PAN mode, relative to world horizon for HOLD mode).</param>
+        <param index="4" label="Pan angle" units="deg" minValue="-180" maxValue="180">Pan/yaw angle (positive to pan to the right, relative to vehicle for PAN mode, absolute to North for HOLD mode).</param>
         <param index="5" label="Gimbal manager flags" enum="GIMBAL_MANAGER_FLAGS">Gimbal manager flags to use.</param>
         <param index="7" label="Gimbal device ID">Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. (Send command multiple times for more than one but not all gimbals.)</param>
       </entry>
@@ -2509,8 +2509,8 @@
         <param index="2" label="Approach Vector" units="deg" minValue="-1" maxValue="360">Desired approach vector in compass heading. A negative value indicates the system can define the approach vector at will.</param>
         <param index="3" label="Ground Speed" minValue="-1">Desired ground speed at release time. This can be overridden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.</param>
         <param index="4" label="Altitude Clearance" units="m" minValue="-1">Minimum altitude clearance to the release position. A negative value indicates the system can define the clearance at will.</param>
-        <param index="5" label="Latitude">Latitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT</param>
-        <param index="6" label="Longitude">Longitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT</param>
+        <param index="5" label="Latitude" units="degE7">Latitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)</param>
+        <param index="6" label="Longitude" units="degE7">Longitude. Note, if used in MISSION_ITEM (deprecated) the units are degrees (unscaled)</param>
         <param index="7" label="Altitude" units="m">Altitude (MSL)</param>
       </entry>
       <entry value="30002" name="MAV_CMD_PAYLOAD_CONTROL_DEPLOY" hasLocation="false" isDestination="false">
@@ -2848,7 +2848,10 @@
         <description>Command is valid, but execution has failed. This is used to indicate any non-temporary or unexpected problem, i.e. any problem that must be fixed before the command can succeed/be retried. For example, attempting to write a file when out of memory, attempting to arm when sensors are not calibrated, etc.</description>
       </entry>
       <entry value="5" name="MAV_RESULT_IN_PROGRESS">
-        <description>Command is valid and is being executed. This will be followed by further progress updates, i.e. the component may send further COMMAND_ACK messages with result MAV_RESULT_IN_PROGRESS (at a rate decided by the implementation), and must terminate by sending a COMMAND_ACK message with final result of the operation. The COMMAND_ACK.progress field can be used to indicate the progress of the operation. There is no need for the sender to retry the command, but if done during execution, the component will return MAV_RESULT_IN_PROGRESS with an updated progress.</description>
+        <description>Command is valid and is being executed. This will be followed by further progress updates, i.e. the component may send further COMMAND_ACK messages with result MAV_RESULT_IN_PROGRESS (at a rate decided by the implementation), and must terminate by sending a COMMAND_ACK message with final result of the operation. The COMMAND_ACK.progress field can be used to indicate the progress of the operation.</description>
+      </entry>
+      <entry value="6" name="MAV_RESULT_CANCELLED">
+        <description>Command has been cancelled (as a result of receiving a COMMAND_CANCEL message).</description>
       </entry>
     </enum>
     <enum name="MAV_MISSION_RESULT">
@@ -3175,7 +3178,8 @@
         <description>Autopilot supports the new param float message type.</description>
       </entry>
       <entry value="4" name="MAV_PROTOCOL_CAPABILITY_MISSION_INT">
-        <description>Autopilot supports MISSION_INT scaled integer message type.</description>
+        <deprecated since="2020-06" replaced_by="">This flag must always be set if missions are supported, because missions must always use MISSION_ITEM_INT (rather than MISSION_ITEM, which is deprecated).</deprecated>
+        <description>Autopilot supports MISSION_ITEM_INT scaled integer message type.</description>
       </entry>
       <entry value="8" name="MAV_PROTOCOL_CAPABILITY_COMMAND_INT">
         <description>Autopilot supports COMMAND_INT scaled integer message type.</description>
@@ -3349,61 +3353,70 @@
         <description>Under-temperature fault.</description>
       </entry>
     </enum>
-    <enum name="GENERATOR_STATUS_FLAG" bitmask="true">
+    <enum name="MAV_GENERATOR_STATUS_FLAG" bitmask="true">
       <description>Flags to report status/failure cases for a power generator (used in GENERATOR_STATUS). Note that FAULTS are conditions that cause the generator to fail. Warnings are conditions that require attention before the next use (they indicate the system is not operating properly).</description>
-      <entry value="1" name="GENERATOR_STATUS_FLAG_OFF">
+      <entry value="1" name="MAV_GENERATOR_STATUS_FLAG_OFF">
         <description>Generator is off.</description>
       </entry>
-      <entry value="2" name="GENERATOR_STATUS_FLAG_READY">
+      <entry value="2" name="MAV_GENERATOR_STATUS_FLAG_READY">
         <description>Generator is ready to start generating power.</description>
       </entry>
-      <entry value="4" name="GENERATOR_STATUS_FLAG_GENERATING">
+      <entry value="4" name="MAV_GENERATOR_STATUS_FLAG_GENERATING">
         <description>Generator is generating power.</description>
       </entry>
-      <entry value="8" name="GENERATOR_STATUS_FLAG_CHARGING">
+      <entry value="8" name="MAV_GENERATOR_STATUS_FLAG_CHARGING">
         <description>Generator is charging the batteries (generating enough power to charge and provide the load).</description>
       </entry>
-      <entry value="16" name="GENERATOR_STATUS_FLAG_REDUCED_POWER">
+      <entry value="16" name="MAV_GENERATOR_STATUS_FLAG_REDUCED_POWER">
         <description>Generator is operating at a reduced maximum power.</description>
       </entry>
-      <entry value="32" name="GENERATOR_STATUS_FLAG_MAXPOWER">
+      <entry value="32" name="MAV_GENERATOR_STATUS_FLAG_MAXPOWER">
         <description>Generator is providing the maximum output.</description>
       </entry>
-      <entry value="64" name="GENERATOR_STATUS_FLAG_OVERTEMP_WARNING">
+      <entry value="64" name="MAV_GENERATOR_STATUS_FLAG_OVERTEMP_WARNING">
         <description>Generator is near the maximum operating temperature, cooling is insufficient.</description>
       </entry>
-      <entry value="128" name="GENERATOR_STATUS_FLAG_OVERTEMP_FAULT">
+      <entry value="128" name="MAV_GENERATOR_STATUS_FLAG_OVERTEMP_FAULT">
         <description>Generator hit the maximum operating temperature and shutdown.</description>
       </entry>
-      <entry value="256" name="GENERATOR_STATUS_FLAG_ELECTRONICS_OVERTEMP_WARNING">
+      <entry value="256" name="MAV_GENERATOR_STATUS_FLAG_ELECTRONICS_OVERTEMP_WARNING">
         <description>Power electronics are near the maximum operating temperature, cooling is insufficient.</description>
       </entry>
-      <entry value="512" name="GENERATOR_STATUS_FLAG_ELECTRONICS_OVERTEMP_FAULT">
+      <entry value="512" name="MAV_GENERATOR_STATUS_FLAG_ELECTRONICS_OVERTEMP_FAULT">
         <description>Power electronics hit the maximum operating temperature and shutdown.</description>
       </entry>
-      <entry value="1024" name="GENERATOR_STATUS_FLAG_ELECTRONICS_FAULT">
+      <entry value="1024" name="MAV_GENERATOR_STATUS_FLAG_ELECTRONICS_FAULT">
         <description>Power electronics experienced a fault and shutdown.</description>
       </entry>
-      <entry value="2048" name="GENERATOR_STATUS_FLAG_POWERSOURCE_FAULT">
+      <entry value="2048" name="MAV_GENERATOR_STATUS_FLAG_POWERSOURCE_FAULT">
         <description>The power source supplying the generator failed e.g. mechanical generator stopped, tether is no longer providing power, solar cell is in shade, hydrogen reaction no longer happening.</description>
       </entry>
-      <entry value="4096" name="GENERATOR_STATUS_FLAG_COMMUNICATION_WARNING">
+      <entry value="4096" name="MAV_GENERATOR_STATUS_FLAG_COMMUNICATION_WARNING">
         <description>Generator controller having communication problems.</description>
       </entry>
-      <entry value="8192" name="GENERATOR_STATUS_FLAG_COOLING_WARNING">
+      <entry value="8192" name="MAV_GENERATOR_STATUS_FLAG_COOLING_WARNING">
         <description>Power electronic or generator cooling system error.</description>
       </entry>
-      <entry value="16384" name="GENERATOR_STATUS_FLAG_POWER_RAIL_FAULT">
+      <entry value="16384" name="MAV_GENERATOR_STATUS_FLAG_POWER_RAIL_FAULT">
         <description>Generator controller power rail experienced a fault.</description>
       </entry>
-      <entry value="32768" name="GENERATOR_STATUS_FLAG_OVERCURRENT_FAULT">
+      <entry value="32768" name="MAV_GENERATOR_STATUS_FLAG_OVERCURRENT_FAULT">
         <description>Generator controller exceeded the overcurrent threshold and shutdown to prevent damage.</description>
       </entry>
-      <entry value="65536" name="GENERATOR_STATUS_FLAG_BATTERY_OVERCHARGE_CURRENT_FAULT">
+      <entry value="65536" name="MAV_GENERATOR_STATUS_FLAG_BATTERY_OVERCHARGE_CURRENT_FAULT">
         <description>Generator controller detected a high current going into the batteries and shutdown to prevent battery damage.</description>
       </entry>
-      <entry value="131072" name="GENERATOR_STATUS_FLAG_OVERVOLTAGE_FAULT">
+      <entry value="131072" name="MAV_GENERATOR_STATUS_FLAG_OVERVOLTAGE_FAULT">
         <description>Generator controller exceeded it's overvoltage threshold and shutdown to prevent it exceeding the voltage rating.</description>
+      </entry>
+      <entry value="262144" name="MAV_GENERATOR_STATUS_FLAG_BATTERY_UNDERVOLT_FAULT">
+        <description>Batteries are under voltage (generator will not start).</description>
+      </entry>
+      <entry value="524288" name="MAV_GENERATOR_STATUS_FLAG_START_INHIBITED">
+        <description>Generator start is inhibited by e.g. a safety switch.</description>
+      </entry>
+      <entry value="1048576" name="MAV_GENERATOR_STATUS_FLAG_MAINTENANCE_REQUIRED">
+        <description>Generator requires maintenance.</description>
       </entry>
     </enum>
     <enum name="MAV_VTOL_STATE">
@@ -3956,14 +3969,15 @@
     </enum>
     <!-- parachute action enum -->
     <enum name="PARACHUTE_ACTION">
+      <description>Parachute actions. Trigger release and enable/disable auto-release.</description>
       <entry value="0" name="PARACHUTE_DISABLE">
-        <description>Disable parachute release.</description>
+        <description>Disable auto-release of parachute (i.e. release triggered by crash detectors).</description>
       </entry>
       <entry value="1" name="PARACHUTE_ENABLE">
-        <description>Enable parachute release.</description>
+        <description>Enable auto-release of parachute.</description>
       </entry>
       <entry value="2" name="PARACHUTE_RELEASE">
-        <description>Release parachute.</description>
+        <description>Release parachute and kill motors.</description>
       </entry>
     </enum>
     <enum name="MAV_TUNNEL_PAYLOAD_TYPE">
@@ -4845,6 +4859,7 @@
       <field type="uint8_t" name="mission_type" enum="MAV_MISSION_TYPE">Mission type.</field>
     </message>
     <message id="39" name="MISSION_ITEM">
+      <deprecated since="2020-06" replaced_by="MISSION_ITEM_INT"/>
       <description>Message encoding a mission item. This message is emitted to announce
                 the presence of a mission item and to set a mission item on the system. The mission item can be either in x, y, z meters (type: LOCAL) or x:lat, y:lon, z:altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU). NaN may be used to indicate an optional/default value (e.g. to use the system's current latitude or yaw rather than a specific value). See also https://mavlink.io/en/services/mission.html.</description>
       <field type="uint8_t" name="target_system">System ID</field>
@@ -4865,6 +4880,7 @@
       <field type="uint8_t" name="mission_type" enum="MAV_MISSION_TYPE">Mission type.</field>
     </message>
     <message id="40" name="MISSION_REQUEST">
+      <deprecated since="2020-06" replaced_by="MISSION_REQUEST_INT">A system that gets this request should respond with MISSION_ITEM_INT (as though MISSION_REQUEST_INT was received).</deprecated>
       <description>Request the information of the mission item with the sequence number seq. The response of the system to this message should be a MISSION_ITEM message. https://mavlink.io/en/services/mission.html</description>
       <field type="uint8_t" name="target_system">System ID</field>
       <field type="uint8_t" name="target_component">Component ID</field>
@@ -5174,6 +5190,14 @@
       <field type="int32_t" name="result_param2">WIP: Additional parameter of the result, example: which parameter of MAV_CMD_NAV_WAYPOINT caused it to be denied.</field>
       <field type="uint8_t" name="target_system">WIP: System which requested the command to be executed</field>
       <field type="uint8_t" name="target_component">WIP: Component which requested the command to be executed</field>
+    </message>
+    <message id="80" name="COMMAND_CANCEL">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>Cancel a long running command. The target system should respond with a COMMAND_ACK to the original command with result=MAV_RESULT_CANCELLED if the long running process was cancelled. If it has already completed, the cancel action can be ignored. The cancel action can be retried until some sort of acknowledgement to the original command has been received. The command microservice is documented at https://mavlink.io/en/services/command.html</description>
+      <field type="uint8_t" name="target_system">System executing long running command. Should not be broadcast (0).</field>
+      <field type="uint8_t" name="target_component">Component executing long running command.</field>
+      <field type="uint16_t" name="command" enum="MAV_CMD">Command ID (of command to cancel).</field>
     </message>
     <message id="81" name="MANUAL_SETPOINT">
       <description>Setpoint in roll, pitch, yaw and thrust from the operator</description>
@@ -6406,6 +6430,19 @@
       <field type="uint16_t" name="estimator_status" enum="ESTIMATOR_STATUS_FLAGS" display="bitmask">Bitmap indicating which estimator outputs are valid.</field>
       <field type="uint8_t" name="landed_state" enum="MAV_LANDED_STATE">The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown.</field>
     </message>
+    <message id="287" name="GIMBAL_MANAGER_SET_TILTPAN">
+      <wip/>
+      <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+      <description>High level message to control a gimbal's tilt and pan angles. This message is to be sent to the gimbal manager (e.g. from a ground station). Angles and rates can be set to NaN according to use case.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="uint32_t" name="flags" enum="GIMBAL_MANAGER_FLAGS">High level gimbal manager flags to use.</field>
+      <field type="uint8_t" name="gimbal_device_id">Component ID of gimbal device to address (or 1-6 for non-MAVLink gimbal), 0 for all gimbal device components. (Send command multiple times for more than one but not all gimbals.)</field>
+      <field type="float" name="tilt" units="rad">Tilt/pitch angle (positive: up, negative: down, NaN to be ignored).</field>
+      <field type="float" name="pan" units="rad">Pan/yaw angle (positive: to the right, negative: to the left, NaN to be ignored).</field>
+      <field type="float" name="tilt_rate" units="rad/s">Tilt/pitch angular rate (positive: up, negative: down, NaN to be ignored).</field>
+      <field type="float" name="pan_rate" units="rad/s">Pan/yaw angular rate (positive: to the right, negative: to the left, NaN to be ignored).</field>
+    </message>
     <message id="299" name="WIFI_CONFIG_AP">
       <description>Configure WiFi AP SSID, password, and mode. This message is re-emitted as an acknowledgement by the AP. The message may also be explicitly requested using MAV_CMD_REQUEST_MESSAGE</description>
       <field type="char[32]" name="ssid">Name of Wi-Fi network (SSID). Blank to leave it unchanged when setting. Current SSID when sent back as a response.</field>
@@ -6668,7 +6705,7 @@
       <wip/>
       <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
       <description>Telemetry of power generation system. Alternator or mechanical generator.</description>
-      <field type="uint64_t" name="status" display="bitmask" enum="GENERATOR_STATUS_FLAG">Status flags.</field>
+      <field type="uint64_t" name="status" display="bitmask" enum="MAV_GENERATOR_STATUS_FLAG">Status flags.</field>
       <field type="uint16_t" name="generator_speed" units="rpm">Speed of electrical generator or alternator. UINT16_MAX: field not provided.</field>
       <field type="float" name="battery_current" units="A">Current into/out of battery. Positive for out. Negative for in. NaN: field not provided.</field>
       <field type="float" name="load_current" units="A">Current going to the UAV. If battery current not available this is the DC current from the generator. Positive for out. Negative for in. NaN: field not provided</field>
