@@ -1,6 +1,6 @@
-## MAVLink Light##
+## MAVLink Light ##
 
-This is my fork of the MAVlink repository. I use it for submitting PRs, but my main use is the mavlink-light branch.
+This is my fork of the MAVlink repository. I use it for submitting PRs, but my main use is the mavlink-light branch (https://github.com/olliw42/mavlink/tree/light).
 
 This branch provides a modified C code generator (call mavgenerate_light.py instead of mavgenerate.py) which generates code which is MUCH more efficient in terms of flash, ram, and computation time than the original (details were described here: https://github.com/mavlink/mavlink/pull/1127). This better efficiency in all disciplines is of much benefit especially for embeeded, source constraint systems, such as Arduino and STM32 platforms. 
 
