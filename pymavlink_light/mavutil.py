@@ -50,9 +50,9 @@ def mavlink20():
     '''return True if using MAVLink 2.0'''
     return 'MAVLINK20' in os.environ
 
-def evaluate_expression(expression, vars):
+def evaluate_expression(expression, vars, nocondition=False):
     '''evaluation an expression'''
-    return mavexpression.evaluate_expression(expression, vars)
+    return mavexpression.evaluate_expression(expression, vars, nocondition)
 
 def evaluate_condition(condition, vars):
     '''evaluation a conditional (boolean) statement'''
@@ -643,9 +643,17 @@ class mavfile(object):
                 return
             mode = mode_map[mode]
         # set mode by integer mode number for ArduPilot
-        self.mav.set_mode_send(self.target_system,
-                               mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
-                               mode)
+        self.mav.command_long_send(self.target_system,
+                                   self.target_component,
+                                   mavlink.MAV_CMD_DO_SET_MODE,
+                                   0,
+                                   mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
+                                   mode,
+                                   0,
+                                   0,
+                                   0,
+                                   0,
+                                   0)
 
     def set_mode_px4(self, mode, custom_mode, custom_sub_mode):
         '''enter arbitrary mode'''
@@ -758,11 +766,6 @@ class mavfile(object):
             self.mav.command_long_send(self.target_system, self.target_component,
                                        mavlink.MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, 0,
                                        param1, 0, 0, 0, 0, 0, 0)
-            # send an old style reboot immediately afterwards in case it is an older firmware
-            # that doesn't understand the new convention
-            self.mav.command_long_send(self.target_system, self.target_component,
-                                       mavlink.MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN, 0,
-                                       1, 0, 0, 0, 0, 0, 0)
 
     def wait_gps_fix(self):
         self.recv_match(type='VFR_HUD', blocking=True)
@@ -1927,6 +1930,7 @@ mode_mapping_tracker = {
     0 : 'MANUAL',
     1 : 'STOP',
     2 : 'SCAN',
+    4 : 'GUIDED',
     10 : 'AUTO',
     16 : 'INITIALISING'
     }
@@ -2333,40 +2337,47 @@ def dump_message_verbose(f, m):
         try:
             units = m.fieldunits_by_name[fieldname]
             # perform simple unit conversions:
+            divisor = None
             if units == "d%":
-                value = value / 10.0
+                divisor = 10.0
                 units = "%"
             if units == "c%":
-                value = value / 100.0
+                divisor = 100.0
                 units = "%"
 
             if units == "cA":
-                value = value / 100.0
+                divisor = 100.0
                 units = "A"
 
             elif units == "cdegC":
-                value = value / 100.0
+                divisor = 100.0
                 units = "degC"
 
             elif units == "cdeg":
-                value = value / 100.0
+                divisor = 100.0
                 units = "deg"
 
             elif units == "degE7":
-                value = value / 10000000.0
+                divisor = 10000000.0
                 units = "deg"
 
             elif units == "mG":
-                value = value / 1000.0
+                divisor = 1000.0
                 units = "G"
 
             elif units == "mrad/s":
-                value = value / 1000.0
+                divisor = 1000.0
                 units = "rad/s"
 
             elif units == "mV":
-                value = value / 1000.0
+                divisor = 1000.0
                 units = "V"
+
+            if divisor is not None:
+                if type(value) == list:
+                    value = [x/divisor for x in value]
+                else:
+                    value = value / divisor
 
             # and give radians in degrees too:
             if units == "rad":
