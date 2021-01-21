@@ -658,13 +658,7 @@ def generate_one(basename, xml):
     # work out the included headers
     xml.include_list = []
     for i in xml.include:
-##OW this is too crude, assumes .xml, do better by 
-#        base = i[:-4]  
-#https://stackoverflow.com/questions/8384737/extract-file-name-from-path-no-matter-what-the-os-path-format
-#        import ntpath
-#        base = ntpath.basename(i)[:-4]
         base = os.path.basename(i)[:-4]
-##OWEND        
         xml.include_list.append(mav_include(base))
 
     # form message lengths array
